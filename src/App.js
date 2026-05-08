@@ -1,37 +1,49 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+// Layouts
+import PosLayout from './components/layout/pos/PosLayout';
+
+// Pages
+import LandingPage from './pages/LandingPage';
+import PosScreen from './pages/pos/PosScreen';
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-bodyCustomer text-textMain">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <main className="p-8">
-                <h1 className="text-3xl font-semibold">POS</h1>
-              </main>
-            }
-          />
-          <Route
-            path="/admin"
-            element={
-              <main className="p-8">
-                <h1 className="text-3xl font-semibold">Admin</h1>
-              </main>
-            }
-          />
-          <Route
-            path="/forum"
-            element={
-              <main className="p-8">
-                <h1 className="text-3xl font-semibold">Forum</h1>
-              </main>
-            }
-          />
-        </Routes>
-      </div>
-    </Router>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route element={<PosLayout />}>
+          <Route path="/pos" element={<PosScreen />} />
+        </Route>
+
+        <Route
+          path="/inventory"
+          element={
+            <div className="flex min-h-screen items-center justify-center bg-white text-2xl font-bold uppercase tracking-widest text-placeholder">
+              Inventory Module - Coming Soon
+            </div>
+          }
+        />
+        <Route
+          path="/forum"
+          element={
+            <div className="flex min-h-screen items-center justify-center bg-white text-2xl font-bold uppercase tracking-widest text-placeholder">
+              Forum Module - Coming Soon
+            </div>
+          }
+        />
+
+        <Route
+          path="/admin"
+          element={
+            <div className="flex min-h-screen items-center justify-center bg-gray-100 text-2xl font-bold uppercase tracking-widest text-placeholder">
+              Admin Module - Coming Soon
+            </div>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
