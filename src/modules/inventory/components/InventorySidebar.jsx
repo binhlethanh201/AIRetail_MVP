@@ -5,7 +5,7 @@ const menuGroups = [
   {
     title: 'QUẢN LÝ VẬN HÀNH',
     items: [
-      { label: 'Tổng quan', icon: 'dashboard', active: true },
+      { label: 'Tổng quan', icon: 'dashboard', active: true, path: '/inventory/dashboard' },
       { label: 'Hàng hóa', icon: 'inventory_2' },
       { label: 'Nhập kho', icon: 'move_to_inbox' },
       { label: 'Xuất kho', icon: 'outbox' },
@@ -22,7 +22,7 @@ const menuGroups = [
   },
   {
     title: 'KẾT NỐI & DỮ LIỆU',
-    items: [{ label: 'Diễn đàn B2B', icon: 'forum' }],
+    items: [{ label: 'Diễn đàn B2B', icon: 'forum', path: '/forum' }],
   },
 ];
 
@@ -49,10 +49,15 @@ const InventorySidebar = () => {
             </p>
             <div className="space-y-1">
               {group.items.map((item) => (
-                <a
+                <button
                   key={item.label}
-                  href="#"
-                  className={`flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors duration-200 ${
+                  type="button"
+                  onClick={() => {
+                    if (!item.path) return;
+                    window.history.pushState({}, '', item.path);
+                    window.dispatchEvent(new Event('popstate'));
+                  }}
+                  className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors duration-200 ${
                     item.active
                       ? 'bg-blue-50 font-semibold text-blue-900'
                       : 'text-slate-600 hover:bg-slate-100'
@@ -60,7 +65,7 @@ const InventorySidebar = () => {
                 >
                   <MaterialIcon name={item.icon} />
                   <span>{item.label}</span>
-                </a>
+                </button>
               ))}
             </div>
           </div>
