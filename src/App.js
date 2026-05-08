@@ -6,7 +6,10 @@ import PosLayout from './components/layout/pos/PosLayout';
 
 // Pages
 import LandingPage from './pages/LandingPage';
+import NotFound from './pages/errors/NotFound';
 import PosScreen from './pages/pos/PosScreen';
+import AccessDenied from './pages/errors/AccessDenied';
+import ServerError from './pages/errors/ServerError';
 
 function App() {
   return (
@@ -42,6 +45,10 @@ function App() {
             </div>
           }
         />
+
+        <Route path="/403" element={<AccessDenied />} />
+        <Route path="/500" element={<ServerError />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
