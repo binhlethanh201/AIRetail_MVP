@@ -77,9 +77,7 @@ const InventorySidebar = () => {
           <MaterialIcon name="bolt" className="text-sm" />
           <span>Hỗ trợ AI</span>
         </button>
-        <button
-          className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-slate-600 hover:bg-slate-100"
-        >
+        <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-slate-600 hover:bg-slate-100">
           <MaterialIcon name="settings" />
           <span>Cài đặt</span>
         </button>

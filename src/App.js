@@ -29,6 +29,7 @@ const ForumHome = lazy(() => import('./modules/forum/pages/ForumHome'));
 const PostDetail = lazy(() => import('./modules/forum/pages/PostDetail'));
 const CreatePost = lazy(() => import('./modules/forum/pages/CreatePost'));
 const ForumCategory = lazy(() => import('./modules/forum/pages/ForumCategory'));
+const ForumTrends = lazy(() => import('./modules/forum/pages/ForumTrends'));
 
 function App() {
   // Giao diện loading lúc chuyển trang
@@ -62,6 +63,7 @@ function App() {
             <Route path="post/:id" element={<PostDetail />} />
             <Route path="create" element={<CreatePost />} />
             <Route path="category/:id" element={<ForumCategory />} />
+            <Route path="trends" element={<ForumTrends />} />
           </Route>
 
           {/* NHÓM 3: QUẢN TRỊ KHO & ADMIN - Nằm trong khung MainLayout (có Sidebar + Header) */}
