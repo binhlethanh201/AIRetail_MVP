@@ -5,12 +5,11 @@
 import { useState } from 'react';
 import { Card } from '../../../shared/components/Card';
 import { Button } from '../../../shared/components/Button';
-import { Input } from '../../../shared/components/Input';
 import { Badge } from '../../../shared/components/Badge';
 import { formatCurrency } from '../../../shared/utils/formatCurrency';
 
 export const ShiftManagement = () => {
-  const [shifts, setShifts] = useState([
+  const [shifts] = useState([
     {
       id: 1,
       date: '2024-05-08',

@@ -28,4 +28,6 @@ export const formatDateTime = (date) => formatDate(date, 'DD/MM/YYYY HH:mm:ss');
 
 export const formatTime = (date) => formatDate(date, 'HH:mm:ss');
 
-export default { formatDate, formatDateTime, formatTime };
+const dateUtils = { formatDate, formatDateTime, formatTime };
+
+export default dateUtils;

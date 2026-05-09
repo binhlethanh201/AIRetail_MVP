@@ -4,7 +4,6 @@
 
 import { useState } from 'react';
 import { Button } from '../../../shared/components/Button';
-import { Input } from '../../../shared/components/Input';
 import { formatDate } from '../../../shared/utils/formatDate';
 
 export const CommentBox = ({ comments = [], onAddComment }) => {

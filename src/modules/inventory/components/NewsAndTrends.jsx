@@ -29,9 +29,9 @@ const NewsAndTrends = () => {
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-xs font-bold text-slate-900">{product.name}</p>
-                  <a className="cursor-pointer text-[10px] font-bold text-[#004785] hover:underline">
+                  <button className="cursor-pointer text-[10px] font-bold text-[#004785] hover:underline">
                     Xem chi tiết
-                  </a>
+                  </button>
                 </div>
               </div>
             ))}

@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 
-const PRIMARY = '#00315e';
 const WAREHOUSE = '/inventory/dashboard';
 
 const categories = [

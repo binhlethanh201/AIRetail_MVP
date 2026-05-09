@@ -2,8 +2,6 @@
  * VoteButton Component - Nút vote
  */
 
-import { Button } from '../../../shared/components/Button';
-
 export const VoteButton = ({ isVoted = false, voteCount = 0, onClick }) => {
   return (
     <button

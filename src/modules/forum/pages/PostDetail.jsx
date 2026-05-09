@@ -7,7 +7,6 @@ import { Card } from '../../../shared/components/Card';
 import { Button } from '../../../shared/components/Button';
 import { CommentBox } from '../components/CommentBox';
 import { VoteButton } from '../components/VoteButton';
-import { PostCard } from '../components/PostCard';
 import { Badge } from '../../../shared/components/Badge';
 import { formatDate } from '../../../shared/utils/formatDate';
 import { mockPosts, mockComments } from '../data/forumMockData';

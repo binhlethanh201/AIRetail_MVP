@@ -68,9 +68,11 @@ export const mockOrders = [
   },
 ];
 
-export default {
+const mockPosData = {
   mockPosProducts,
   mockCategories,
   mockPaymentMethods,
   mockOrders,
 };
+
+export default mockPosData;

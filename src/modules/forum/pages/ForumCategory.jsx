@@ -7,7 +7,6 @@ import { Card } from '../../../shared/components/Card';
 import { Button } from '../../../shared/components/Button';
 import { PostCard } from '../components/PostCard';
 import { TrendInsightCard } from '../components/TrendInsightCard';
-import { Badge } from '../../../shared/components/Badge';
 import { mockCategories, mockPosts, mockSuggestions } from '../data/forumMockData';
 
 export const ForumCategory = ({ categoryId = 1 }) => {

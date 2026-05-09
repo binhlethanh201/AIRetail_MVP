@@ -90,10 +90,12 @@ export const mockSuggestions = [
   },
 ];
 
-export default {
+const mockData = {
   mockCategories,
   mockPosts,
   mockComments,
   mockTrends,
   mockSuggestions,
 };
+
+export default mockData;

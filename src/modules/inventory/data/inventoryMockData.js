@@ -201,7 +201,7 @@ export const mockCategories = [
 ];
 export const mockImportSuggestions = [];
 
-export default {
+const mockData = {
   dashboardKpis,
   financeKpis,
   inventoryTrend,
@@ -214,3 +214,5 @@ export default {
   mockCategories,
   mockImportSuggestions,
 };
+
+export default mockData;

@@ -11,12 +11,7 @@ import { Table } from '../../../shared/components/Table';
 
 export const StockExport = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [exports, setExports] = useState([]);
-
-  const handleCreateExport = (data) => {
-    console.log('Create export:', data);
-    setIsModalOpen(false);
-  };
+  const [exports] = useState([]);
 
   const exportColumns = [
     { key: 'id', header: 'ID', width: '10%' },

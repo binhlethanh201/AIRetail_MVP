@@ -1,7 +1,5 @@
 import { useMemo, useState } from 'react';
 
-const PRIMARY = '#1E6BB8';
-
 const navigateTo = (path) => {
   window.history.pushState({}, '', path);
   window.dispatchEvent(new Event('popstate'));

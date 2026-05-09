@@ -31,7 +31,7 @@ export const ProductManagement = () => {
       setProducts(filtered);
       setLoading(false);
     }, 300);
-  }, [debouncedSearch]);
+  }, [debouncedSearch, products]);
 
   useEffect(() => {
     setProducts(mockProducts);
