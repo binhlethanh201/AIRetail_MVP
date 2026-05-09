@@ -11,28 +11,28 @@ const LandingPage = () => {
       path: '/pos',
       description: 'Giao diện tính tiền, quản lý giỏ hàng và thanh toán nhanh.',
       icon: ShoppingCart,
-      color: 'bg-primary',
+      color: 'bg-primary text-surface', 
     },
     {
       title: 'Màn hình Tổng Kho',
-      path: '/inventory',
+      path: '/inventory', 
       description: 'Quản lý danh mục hàng hóa, nhập kho và kiểm kê tồn kho tổng.',
       icon: Package,
-      color: 'bg-blue-500',
+      color: 'bg-blue-100 text-blue-600', 
     },
     {
       title: 'Diễn đàn B2B (Forum)',
       path: '/forum',
       description: 'Nơi kết nối giữa các đại lý và nhà cung cấp (Coming soon).',
       icon: Users2,
-      color: 'bg-success',
+      color: 'bg-primary text-surface',
     },
     {
       title: 'Quản trị (Admin)',
       path: '/admin',
       description: 'Hệ thống quản lý kho, nhân viên và báo cáo doanh thu.',
       icon: LayoutGrid,
-      color: 'bg-admin',
+      color: 'bg-admin text-surface',
     },
   ];
 
@@ -59,7 +59,7 @@ const LandingPage = () => {
               className="group cursor-pointer rounded-customer border border-borderLight bg-surface p-6 shadow-sm transition-all hover:border-primary hover:shadow-xl"
             >
               <div
-                className={`h-12 w-12 ${module.color} mb-4 flex items-center justify-center rounded-customer text-surface transition-transform group-hover:scale-110`}
+                className={`h-12 w-12 ${module.color} mb-4 flex items-center justify-center rounded-customer transition-transform group-hover:scale-110`}
               >
                 <module.icon size={24} />
               </div>

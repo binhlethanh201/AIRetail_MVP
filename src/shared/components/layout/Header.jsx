@@ -2,7 +2,7 @@
  * Header Component - Header chung cho tất cả pages
  */
 
-import { useAuth } from '../../shared/hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 
 export const Header = () => {
   const { user, logout } = useAuth();

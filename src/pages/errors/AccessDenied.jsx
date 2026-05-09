@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShieldAlert, Lock, Home, ArrowLeft } from 'lucide-react';
-import Button from '../../components/ui/Button';
+import Button from '../../shared/components/Button';
 
 const AccessDenied = () => {
   const navigate = useNavigate();

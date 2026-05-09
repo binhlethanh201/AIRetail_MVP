@@ -1,23 +1,14 @@
-/**
- * MainLayout - Layout chính cho ứng dụng
- */
-
 import { Suspense } from 'react';
+import { Outlet } from 'react-router-dom'; // 1. Thêm Outlet
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 
-export const MainLayout = ({ children, onNavigate = () => {} }) => {
+export const MainLayout = ({ onNavigate = () => {} }) => {
   return (
     <div className="flex h-screen bg-gray-50">
-      {/* Sidebar */}
       <Sidebar onNavigate={onNavigate} />
-
-      {/* Main Content */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Header */}
         <Header />
-
-        {/* Content */}
         <main className="flex-1 overflow-auto">
           <div className="mx-auto max-w-7xl px-6 py-8">
             <Suspense
@@ -27,7 +18,8 @@ export const MainLayout = ({ children, onNavigate = () => {} }) => {
                 </div>
               }
             >
-              {children}
+              {/* 2. Thay {children} bằng <Outlet /> */}
+              <Outlet /> 
             </Suspense>
           </div>
         </main>

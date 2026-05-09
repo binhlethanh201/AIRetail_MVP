@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Home, AlertTriangle, ArrowLeft } from 'lucide-react';
-import Button from '../../components/ui/Button';
+import Button from '../../shared/components/Button';
 
 const NotFound = () => {
   const navigate = useNavigate();
