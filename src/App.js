@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 // Layouts
 import MainLayout from './shared/components/layout/MainLayout';
+import PrivateRoute from './shared/components/layout/PrivateRoute';
 
 // Static Pages
 import LandingPage from './pages/LandingPage';
@@ -10,7 +11,10 @@ import NotFound from './pages/errors/NotFound';
 import AccessDenied from './pages/errors/AccessDenied';
 import ServerError from './pages/errors/ServerError';
 
-// === LAZY LOAD MODULES ===
+// Auth Pages
+const LoginPage = lazy(() => import('./pages/auth/LoginPage'));
+const RegisterPage = lazy(() => import('./pages/auth/RegisterPage'));
+
 // Inventory Module
 const InventoryDashboard = lazy(() => import('./modules/inventory/pages/InventoryDashboard'));
 const ProductManagement = lazy(() => import('./modules/inventory/pages/ProductManagement'));
@@ -18,13 +22,13 @@ const StockImport = lazy(() => import('./modules/inventory/pages/StockImport'));
 const StockExport = lazy(() => import('./modules/inventory/pages/StockExport'));
 const InventoryReports = lazy(() => import('./modules/inventory/pages/InventoryReports'));
 
-// 2. POS Module
+// POS Module
 const PosScreen = lazy(() => import('./modules/pos/pages/POSScreen'));
 const CheckoutPage = lazy(() => import('./modules/pos/pages/CheckoutPage'));
 const OrderHistory = lazy(() => import('./modules/pos/pages/OrderHistory'));
 const ShiftManagement = lazy(() => import('./modules/pos/pages/ShiftManagement'));
 
-// 3. Forum Module
+// Forum Module
 const ForumHome = lazy(() => import('./modules/forum/pages/ForumHome'));
 const PostDetail = lazy(() => import('./modules/forum/pages/PostDetail'));
 const CreatePost = lazy(() => import('./modules/forum/pages/CreatePost'));
@@ -32,7 +36,7 @@ const ForumCategory = lazy(() => import('./modules/forum/pages/ForumCategory'));
 const ForumTrends = lazy(() => import('./modules/forum/pages/ForumTrends'));
 
 function App() {
-  // Giao diện loading lúc chuyển trang
+
   const LoadingSpinner = (
     <div className="flex min-h-screen items-center justify-center bg-slate-50">
       <div className="text-center">
@@ -48,8 +52,12 @@ function App() {
         <Routes>
           {/* TRANG CHỦ */}
           <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
 
-          {/* NHÓM 1: POS - Đứng độc lập không dính MainLayout */}
+          <Route element={<PrivateRoute />}>
+
+          {/* POS */}
           <Route path="/pos">
             <Route index element={<PosScreen />} />
             <Route path="checkout" element={<CheckoutPage />} />
@@ -57,7 +65,7 @@ function App() {
             <Route path="shift" element={<ShiftManagement />} />
           </Route>
 
-          {/* NHÓM 2: DIỄN ĐÀN (FORUM) - Đứng độc lập không dính MainLayout */}
+          {/* FORUM */}
           <Route path="/forum">
             <Route index element={<ForumHome />} />
             <Route path="post/:id" element={<PostDetail />} />
@@ -66,34 +74,31 @@ function App() {
             <Route path="trends" element={<ForumTrends />} />
           </Route>
 
-          {/* NHÓM 3: QUẢN TRỊ KHO & ADMIN - Nằm trong khung MainLayout (có Sidebar + Header) */}
+          {/* INVENTORY */}
           <Route element={<MainLayout />}>
-            
-            {/* Tổng Kho */}
             <Route path="/inventory" element={<Navigate to="/inventory/dashboard" replace />} />
             <Route path="/inventory/dashboard" element={<InventoryDashboard />} />
             <Route path="/inventory/products" element={<ProductManagement />} />
             <Route path="/inventory/import" element={<StockImport />} />
             <Route path="/inventory/export" element={<StockExport />} />
             <Route path="/inventory/reports" element={<InventoryReports />} />
-
           </Route>
 
-           {/* Admin */}
-            <Route
-              path="/admin"
-              element={
-                <div className="flex h-[50vh] items-center justify-center text-2xl font-bold uppercase tracking-widest text-slate-400">
-                  Admin Module - Đang được phát triển
-                </div>
-              }
-            />
+          {/* ADMIN */}
+          <Route
+            path="/admin"
+            element={
+              <div className="flex h-[50vh] items-center justify-center text-2xl font-bold uppercase tracking-widest text-slate-400">
+                Admin Module - Đang được phát triển
+              </div>
+            }
+          />
+          </Route>
 
-          {/* NHÓM 4: XỬ LÝ LỖI */}
+          {/* ERROR */}
           <Route path="/403" element={<AccessDenied />} />
           <Route path="/500" element={<ServerError />} />
           <Route path="*" element={<NotFound />} />
-
         </Routes>
       </Suspense>
     </BrowserRouter>
