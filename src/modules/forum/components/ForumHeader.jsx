@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 const MaterialIcon = ({ name, className = '', fill = false }) => (
   <span
     className={`material-symbols-outlined ${className}`}
@@ -8,44 +10,47 @@ const MaterialIcon = ({ name, className = '', fill = false }) => (
 );
 
 const ForumHeader = () => {
+  const navigate = useNavigate();
+
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-6">
-      <div className="flex h-full w-56 items-center gap-2">
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white font-['Be_Vietnam_Pro'] antialiased dark:border-slate-800 dark:bg-slate-900">
+      <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-6 py-2">
+        <div className="flex items-center gap-6">
         <button
           type="button"
           onClick={() => window.location.assign('/forum')}
-          className="text-xl font-bold tracking-tight text-primary transition-colors hover:text-primary/90"
+          className="text-lg font-extrabold tracking-tight text-[#1E6BB8] transition-colors hover:text-[#005296] dark:text-blue-400"
         >
           HardBuild B2B
         </button>
-      </div>
 
-      <div className="mx-8 flex-1 max-w-2xl">
-        <div className="relative group">
-          <MaterialIcon
-            name="search"
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-[18px] text-slate-400"
-          />
-          <input
-            className="w-full rounded-full border-none bg-[#F1F5F9] py-2 pl-10 pr-4 text-xs transition-all focus:ring-1 focus:ring-primary"
-            placeholder="Tìm kiếm thảo luận, sản phẩm..."
-            type="text"
-          />
+          <div className="hidden w-64 items-center rounded-full border border-slate-100 bg-[#F8FAFC] px-3 py-1 md:flex">
+            <MaterialIcon name="search" className="mr-2 text-sm text-[#1E6BB8]" />
+            <input
+              className="w-full border-none bg-transparent p-0 text-xs outline-none focus:ring-0"
+              placeholder="Tìm kiếm tài liệu, sản phẩm..."
+              type="text"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="flex items-center gap-4">
-        <button className="hidden rounded-full bg-primary px-5 py-1.5 text-xs font-bold text-white transition-all hover:bg-primary/90 md:flex md:items-center md:gap-2">
-          <MaterialIcon name="add" className="text-[18px]" /> Đăng bài viết
-        </button>
         <div className="flex items-center gap-3">
-          <button className="relative rounded-full p-1.5 text-slate-500 transition-colors hover:bg-slate-100">
-            <MaterialIcon name="notifications" className="text-[20px]" />
+          <button
+            type="button"
+            onClick={() => navigate('/forum/create')}
+            className="rounded-full bg-[#1E6BB8] px-4 py-1.5 text-[13px] font-medium text-white transition-all hover:opacity-90 active:scale-[0.98]"
+          >
+            + Đăng bài viết
+          </button>
+          <button className="relative rounded-full p-1.5 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800">
+            <MaterialIcon name="notifications" className="text-xl text-slate-600 dark:text-slate-400" />
             <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-red-500" />
           </button>
-          <div className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-slate-900 text-[11px] font-bold text-white">
-            HB
-          </div>
+          <img
+            alt="User Profile Avatar"
+            className="h-8 w-8 rounded-full border border-slate-200 object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjYqYBGkR_Iadb7O3sIeQNtpWqJ9ThFzKm9BOnEoOjeAE90A3wKJFFf_2bunkuTYMCqxG-rZhI2sPranFao-yWEOh0ApqhjfAAZbuje4uAJVypcId7wA_hljomIOwQcSCCah1Fy-OvCW8q4Fu_GOKEK8rcUHnVgFEuCEYDJGKLI7qI0pVrjInnAhtDOJTjOxgm3_qIjxQV1OQT-PS9-tSwqZFR6TBj4W3czn_RYk-psKet5iM85xrN2qNW9iI1H_BG-KYPwDIYPCHf"
+          />
         </div>
       </div>
     </header>

@@ -79,13 +79,13 @@ const trendToneStyles = {
 
 const ForumTrends = () => {
   return (
-    <div className="min-h-screen bg-background text-on-surface antialiased">
+    <div className="min-h-screen bg-background font-sans text-on-surface antialiased">
       <ForumHeader />
 
-      <div className="flex pt-16">
+      <div className="mx-auto flex max-w-[1200px] gap-4 relative">
         <ForumLeftSidebar activeKey="trend" />
 
-        <main className="min-h-screen flex-1 bg-[#F8FAFC] lg:ml-64">
+        <main className="min-w-0 flex-1 bg-surface py-4">
           <div className="flex flex-col gap-8 p-6 lg:flex-row lg:p-8">
             <div className="flex-1 space-y-8">
               <section className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">

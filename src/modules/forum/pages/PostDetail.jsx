@@ -3,6 +3,7 @@
  */
 
 import { useMemo, useState } from 'react';
+import ForumLeftSidebar from '../components/ForumLeftSidebar';
 import postDetailMockData from '../data/postDetailMockData';
 
 const MaterialIcon = ({ name, className = '', fill = false }) => (
@@ -94,7 +95,7 @@ export const PostDetail = ({ postId = 1 }) => {
   const ghostButtonClass = 'text-[#005296] hover:bg-[#EFF4FF]';
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-background font-sans text-on-surface antialiased">
       {/* Top NavBar */}
       <header className="fixed top-0 w-full flex items-center justify-between px-6 h-16 bg-white border-b border-slate-200 z-50">
         <div className="flex items-center gap-8">
@@ -122,115 +123,12 @@ export const PostDetail = ({ postId = 1 }) => {
         </div>
       </header>
 
-      <div className="flex pt-16 max-w-[1440px] mx-auto">
-        {/* Left Sidebar */}
-        <aside className="hidden lg:flex fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-[#F8FAFC] border-r border-slate-200 flex-col pt-4 overflow-y-auto px-4 gap-6">
-          {/* Forum Section */}
-          <div>
-            <h3 className="px-4 text-xs font-bold uppercase tracking-wider text-outline mb-2">DIỄN ĐÀN</h3>
-            <nav className="space-y-1">
-              <button
-                type="button"
-                onClick={() => window.location.assign('/forum')}
-                className="flex w-full items-center gap-3 px-4 py-2.5 bg-white text-[#1E6BB8] border-r-4 border-[#1E6BB8] font-bold shadow-sm rounded-sm text-left"
-              >
-                <MaterialIcon name="forum" />
-                <span className="text-sm">Trang chủ diễn đàn</span>
-              </button>
-              <button
-                type="button"
-                className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left"
-              >
-                <MaterialIcon name="category" />
-                <span className="text-sm">Chuyên mục</span>
-              </button>
-              <button
-                type="button"
-                className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left"
-              >
-                <MaterialIcon name="chat" />
-                <span className="text-sm">Thảo luận</span>
-              </button>
-              <button
-                type="button"
-                className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left"
-              >
-                <MaterialIcon name="article" />
-                <span className="text-sm">Bài viết của tôi</span>
-              </button>
-              <button
-                type="button"
-                className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left"
-              >
-                <MaterialIcon name="bookmark" />
-                <span className="text-sm">Bài đã lưu</span>
-              </button>
-            </nav>
-          </div>
-
-          {/* Trends Section */}
-          <div>
-            <h3 className="px-4 text-xs font-bold uppercase tracking-wider text-outline mb-2">XU HƯỚNG & DỮ LIỆU</h3>
-            <nav className="space-y-1">
-              <button type="button" className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left">
-                <MaterialIcon name="trending_up" />
-                <span className="text-sm">Xu hướng kim khí</span>
-              </button>
-              <button type="button" className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left">
-                <MaterialIcon name="leaderboard" />
-                <span className="text-sm">Top sản phẩm bán chạy</span>
-              </button>
-              <button type="button" className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left">
-                <MaterialIcon name="new_releases" />
-                <span className="text-sm">Sản phẩm mới</span>
-              </button>
-              <button type="button" className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left">
-                <MaterialIcon name="monitoring" />
-                <span className="text-sm">Biến động giá</span>
-              </button>
-            </nav>
-          </div>
-
-          {/* Business Connection Section */}
-          <div>
-            <h3 className="px-4 text-xs font-bold uppercase tracking-wider text-outline mb-2">KẾT NỐI KINH DOANH</h3>
-            <nav className="space-y-1">
-              <button type="button" className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left">
-                <MaterialIcon name="handshake" />
-                <span className="text-sm">Nguồn hàng</span>
-              </button>
-              <button type="button" className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left">
-                <MaterialIcon name="sell" />
-                <span className="text-sm">Đăng bán giá sỉ</span>
-              </button>
-            </nav>
-          </div>
-
-          {/* Management Section */}
-          <div className="mb-8">
-            <h3 className="px-4 text-xs font-bold uppercase tracking-wider text-outline mb-2">QUẢN LÝ</h3>
-            <nav className="space-y-1">
-              <button type="button" className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left">
-                <MaterialIcon name="inventory_2" />
-                <span className="text-sm">Gợi ý nhập hàng</span>
-              </button>
-            </nav>
-          </div>
-
-          {/* Bottom Settings / Help (match ForumHome) */}
-          <div className="mt-auto border-t border-slate-100 px-2 pt-4">
-            <button className="flex items-center gap-3 px-3 py-1.5 text-[13px] text-[#7C8B9A] transition-all hover:text-[#1E6BB8]">
-              <MaterialIcon name="settings" className="text-[20px]" /> Cài đặt
-            </button>
-            <button className="flex items-center gap-3 px-3 py-1.5 text-[13px] text-[#7C8B9A] transition-all hover:text-[#1E6BB8]">
-              <MaterialIcon name="help_outline" className="text-[20px]" /> Trợ giúp
-            </button>
-          </div>
-        </aside>
+      <div className="mx-auto flex max-w-[1200px] gap-4 relative pt-20">
+        <ForumLeftSidebar activeKey="detail" />
 
         {/* Main Content */}
-        <main className="flex-1 lg:ml-64 px-4 py-8 max-w-[calc(1440px-256px)]">
-          <div className="max-w-[1000px] mx-auto flex flex-col gap-6">
+        <main className="min-w-0 flex-1 px-4 py-8">
+          <div className="mx-auto flex max-w-[1000px] flex-col gap-6">
             {/* Post Card */}
             <article className="bg-white border border-slate-200 rounded-xl overflow-hidden">
               {/* Post Header */}
@@ -507,7 +405,7 @@ export const PostDetail = ({ postId = 1 }) => {
               <h4 className="font-bold text-[#0B1C30] text-h3 leading-tight">Quy định cộng đồng</h4>
             </div>
             <p className="text-body-md leading-relaxed text-[#4B5563] font-medium max-w-[470px]">
-              Vui lòng tuân thủ quy tắc ứng xử văn minh. Không đăng tin rác, quảng cáo không đúng chuyên mục. Các bài viết sai quy định sẽ bị gỡ bỏ không báo trước.
+              Vui lòng tuân thủ quy tắc ứng xử văn minh. Không đăng tin rác, quảng cáo không đúng tin tức ngành. Các bài viết sai quy định sẽ bị gỡ bỏ không báo trước.
             </p>
             <button type="button" className="text-[#005296] font-bold text-body-md mt-4 inline-block text-left">
               Xem chi tiết

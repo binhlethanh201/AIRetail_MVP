@@ -1,5 +1,5 @@
 /**
- * CategoryTabs Component - Tabs danh mục
+ * CategoryTabs Component - Tabs tin tức ngành
  */
 
 export const CategoryTabs = ({ categories = [], selectedCategory, onSelectCategory }) => {

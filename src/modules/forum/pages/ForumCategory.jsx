@@ -1,8 +1,10 @@
 /**
- * ForumCategory Page - Xem tất cả bài viết trong danh mục
+ * ForumCategory Page - Xem tất cả bài viết trong tin tức ngành
  */
 
 import { useState, useEffect } from 'react';
+import ForumHeader from '../components/ForumHeader';
+import ForumLeftSidebar from '../components/ForumLeftSidebar';
 import { Card } from '../../../shared/components/Card';
 import { Button } from '../../../shared/components/Button';
 import { PostCard } from '../components/PostCard';
@@ -14,7 +16,7 @@ export const ForumCategory = ({ categoryId = 1 }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    // Lọc bài viết theo danh mục
+    // Lọc bài viết theo tin tức ngành
     const filtered = mockPosts.filter((p) => p.category === category?.name);
     setPosts(filtered);
   }, [category]);
@@ -28,11 +30,18 @@ export const ForumCategory = ({ categoryId = 1 }) => {
   };
 
   if (!category) {
-    return <div className="py-8 text-center text-gray-500">Danh mục không tìm thấy</div>;
+    return <div className="py-8 text-center text-gray-500">Tin tức ngành không tìm thấy</div>;
   }
 
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen bg-background font-sans text-on-surface antialiased">
+      <ForumHeader />
+
+      <div className="flex pt-20">
+        <ForumLeftSidebar activeKey="category" />
+
+        <main className="min-h-screen flex-1 bg-surface lg:ml-64">
+          <div className="mx-auto max-w-7xl space-y-6 p-6 lg:p-10">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -50,8 +59,8 @@ export const ForumCategory = ({ categoryId = 1 }) => {
       {/* Description */}
       <Card className="border-blue-200 bg-blue-50">
         <p className="text-gray-700">
-          Danh mục {category.name.toLowerCase()} là nơi chia sẻ những kinh nghiệm, mẹo vặt, xu hướng
-          mới trong lĩnh vực này. Hãy tham gia thảo luận và học hỏi từ cộng đồng.
+          Tin tức ngành {category.name.toLowerCase()} là nơi chia sẻ những kinh nghiệm, mẹo vặt,
+          xu hướng mới trong lĩnh vực này. Hãy tham gia thảo luận và học hỏi từ cộng đồng.
         </p>
       </Card>
 
@@ -67,11 +76,11 @@ export const ForumCategory = ({ categoryId = 1 }) => {
       )}
 
       {/* Posts */}
-      <Card header={`Bài viết trong danh mục (${posts.length})`}>
+      <Card header={`Bài viết trong tin tức ngành (${posts.length})`}>
         <div className="space-y-4">
           {posts.length === 0 ? (
             <div className="py-12 text-center">
-              <p className="text-lg text-gray-500">Chưa có bài viết trong danh mục này</p>
+              <p className="text-lg text-gray-500">Chưa có bài viết trong tin tức ngành này</p>
               <Button variant="primary" className="mt-4">
                 Đăng bài đầu tiên
               </Button>
@@ -90,7 +99,7 @@ export const ForumCategory = ({ categoryId = 1 }) => {
       </Card>
 
       {/* Related Categories */}
-      <Card header="Danh mục liên quan">
+      <Card header="Tin tức ngành liên quan">
         <div className="flex flex-wrap gap-2">
           {mockCategories
             .filter((c) => c.id !== categoryId)
@@ -105,6 +114,9 @@ export const ForumCategory = ({ categoryId = 1 }) => {
             ))}
         </div>
       </Card>
+          </div>
+        </main>
+      </div>
     </div>
   );
 };

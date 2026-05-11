@@ -1,10 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const navigateTo = (path) => {
-  window.history.pushState({}, '', path);
-  window.dispatchEvent(new Event('popstate'));
-};
+import ForumHeader from '../components/ForumHeader';
+import ForumLeftSidebar from '../components/ForumLeftSidebar';
 
 const iconStyle = (fill = false) => ({
   fontVariationSettings: `'FILL' ${fill ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 20`,
@@ -140,147 +137,13 @@ const ForumHome = () => {
 
   return (
     <div className="min-h-screen bg-[#f8f9ff] font-['Be_Vietnam_Pro','Inter',sans-serif] text-[#0b1c30]">
-      <header className="sticky top-0 z-50 border-b border-slate-200 bg-white">
-        <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-6 py-2">
-          <div className="flex items-center gap-6">
-            <button
-              onClick={() => navigateTo('/inventory/dashboard')}
-              className="text-lg font-extrabold tracking-tight text-[#1E6BB8] transition-colors hover:text-[#005296]"
-            >
-              HardBuild B2B
-            </button>
-            <div className="hidden w-64 items-center rounded-full border border-slate-100 bg-[#F8FAFC] px-3 py-1 md:flex">
-              <MaterialIcon name="search" className="mr-2 text-sm text-[#1E6BB8]" />
-              <input
-                className="w-full border-none bg-transparent p-0 text-xs outline-none focus:ring-0"
-                placeholder="Tìm kiếm tài liệu, sản phẩm..."
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => alert('Demo: mở form đăng bài viết')}
-              className="rounded-full bg-[#1E6BB8] px-4 py-1.5 text-[13px] font-medium text-white transition-all hover:opacity-90 active:scale-[0.98]"
-            >
-              + Đăng bài viết
-            </button>
-            <button className="relative rounded-full p-1.5 transition-colors hover:bg-slate-50">
-              <MaterialIcon name="notifications" className="text-xl text-slate-600" />
-              <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full border border-white bg-red-500" />
-            </button>
-            <img
-              alt="User Profile Avatar"
-              className="h-8 w-8 rounded-full border border-slate-200 object-cover"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjYqYBGkR_Iadb7O3sIeQNtpWqJ9ThFzKm9BOnEoOjeAE90A3wKJFFf_2bunkuTYMCqxG-rZhI2sPranFao-yWEOh0ApqhjfAAZbuje4uAJVypcId7wA_hljomIOwQcSCCah1Fy-OvCW8q4Fu_GOKEK8rcUHnVgFEuCEYDJGKLI7qI0pVrjInnAhtDOJTjOxgm3_qIjxQV1OQT-PS9-tSwqZFR6TBj4W3czn_RYk-psKet5iM85xrN2qNW9iI1H_BG-KYPwDIYPCHf"
-            />
-          </div>
-        </div>
-      </header>
+      <ForumHeader />
 
-      <div className="relative mx-auto flex max-w-[1200px] gap-4">
-        <aside className="sticky top-12 hidden h-[calc(100vh-48px)] w-[200px] flex-col overflow-y-auto border-r border-slate-200 bg-[#f8f9ff] py-4 lg:flex">
-          <div>
-            <h3 className="px-4 text-xs font-bold uppercase tracking-wider text-outline mb-2">DIỄN ĐÀN</h3>
-            <nav className="space-y-1">
-              <button
-                type="button"
-                className="flex w-full items-center gap-3 px-4 py-2.5 bg-white text-[#1E6BB8] border-r-4 border-[#1E6BB8] font-bold shadow-sm rounded-sm text-left"
-              >
-                <MaterialIcon name="forum" />
-                <span className="text-sm">Trang chủ</span>
-              </button>
-              <button
-                type="button"
-                className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left"
-              >
-                <MaterialIcon name="category" />
-                <span className="text-sm">Chuyên mục</span>
-              </button>
-              <button
-                type="button"
-                className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left"
-              >
-                <MaterialIcon name="chat_bubble" />
-                <span className="text-sm">Thảo luận</span>
-              </button>
-              <button
-                type="button"
-                className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left"
-              >
-                <MaterialIcon name="article" />
-                <span className="text-sm">Bài viết của tôi</span>
-              </button>
-              <button
-                type="button"
-                className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left"
-              >
-                <MaterialIcon name="bookmark" />
-                <span className="text-sm">Bài đã lưu</span>
-              </button>
-            </nav>
-          </div>
+      <div className="mx-auto flex max-w-[1200px] gap-4 relative">
+        <ForumLeftSidebar activeKey="home" />
 
-          <div className="mt-6">
-            <h3 className="px-4 text-xs font-bold uppercase tracking-wider text-outline mb-2">XU HƯỚNG & DỮ LIỆU</h3>
-            <nav className="space-y-1">
-              <button type="button" onClick={() => window.location.assign('/forum/trends')} className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left">
-                <MaterialIcon name="trending_up" />
-                <span className="text-sm">Xu hướng kim khí</span>
-              </button>
-              <button type="button" className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left">
-                <MaterialIcon name="leaderboard" />
-                <span className="text-sm">Top sản phẩm bán chạy</span>
-              </button>
-              <button type="button" className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left">
-                <MaterialIcon name="new_releases" />
-                <span className="text-sm">Sản phẩm mới</span>
-              </button>
-              <button type="button" className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left">
-                <MaterialIcon name="monitoring" />
-                <span className="text-sm">Biến động giá</span>
-              </button>
-            </nav>
-          </div>
-
-          <div className="mt-6">
-            <h3 className="px-4 text-xs font-bold uppercase tracking-wider text-outline mb-2">KẾT NỐI KINH DOANH</h3>
-            <nav className="space-y-1">
-              <button type="button" className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left">
-                <MaterialIcon name="handshake" />
-                <span className="text-sm">Nguồn hàng</span>
-              </button>
-              <button type="button" className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left">
-                <MaterialIcon name="sell" />
-                <span className="text-sm">Đăng bán giá sỉ</span>
-              </button>
-            </nav>
-          </div>
-
-          <div className="mb-8 mt-6">
-            <h3 className="px-4 text-xs font-bold uppercase tracking-wider text-outline mb-2">QUẢN LÝ</h3>
-            <nav className="space-y-1">
-              <button type="button" className="flex w-full items-center gap-3 px-4 py-2.5 text-slate-500 hover:bg-slate-100 transition-all rounded-lg text-left">
-                <MaterialIcon name="inventory_2" />
-                <span className="text-sm">Gợi ý nhập hàng</span>
-              </button>
-            </nav>
-          </div>
-
-          <div className="mt-auto border-t border-slate-100 px-2 pt-4">
-            <button className="flex items-center gap-3 px-3 py-1.5 text-[13px] text-[#7C8B9A] transition-all hover:text-[#1E6BB8]">
-              <MaterialIcon name="settings" className="text-[20px]" /> Cài đặt
-            </button>
-            <button className="flex items-center gap-3 px-3 py-1.5 text-[13px] text-[#7C8B9A] transition-all hover:text-[#1E6BB8]">
-              <MaterialIcon name="help_outline" className="text-[20px]" /> Trợ giúp
-            </button>
-          </div>
-        </aside>
-
-        <main className="mx-auto min-w-0 max-w-[760px] flex-1 px-2 py-4">
-          <section className="relative mb-6 overflow-hidden rounded-xl bg-gradient-to-br from-[#1E6BB8] to-[#005296] p-6 text-white shadow-lg shadow-blue-900/10">
+        <main className="flex-1 min-w-0 max-w-[760px] mx-auto px-2 py-4">
+          <section className="relative mb-6 overflow-hidden rounded-xl bg-gradient-to-br from-[#1E6BB8] to-[#005296] p-6 text-white shadow-lg shadow-primary/10">
             <div className="relative z-10 max-w-lg">
               <h1 className="mb-2 text-2xl font-bold leading-tight">
                 Cộng đồng kinh doanh kim khí & vật tư xây dựng
