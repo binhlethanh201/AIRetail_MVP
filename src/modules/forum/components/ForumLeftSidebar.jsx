@@ -105,8 +105,8 @@ const ForumLeftSidebar = ({ activeKey = 'trend' }) => {
             <SidebarButton
               icon="inventory_2"
               label="Nguồn hàng"
-              active={activeKey === 'supply'}
-              onClick={() => window.location.assign('/forum/supply')}
+              active={activeKey === 'source' || activeKey === 'supply'}
+              onClick={() => window.location.assign('/forum/source')}
             />
             <SidebarButton
               icon="sell"

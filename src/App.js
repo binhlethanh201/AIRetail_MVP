@@ -35,6 +35,7 @@ const CreatePost = lazy(() => import('./modules/forum/pages/CreatePost'));
 const ForumCategory = lazy(() => import('./modules/forum/pages/ForumCategory'));
 const ForumNews = lazy(() => import('./modules/forum/pages/ForumNews'));
 const ForumTrends = lazy(() => import('./modules/forum/pages/ForumTrends'));
+const ForumSupply = lazy(() => import('./modules/forum/pages/ForumSupply'));
 
 function App() {
   const LoadingSpinner = (
@@ -72,6 +73,7 @@ function App() {
               <Route path="category/:id" element={<ForumCategory />} />
               <Route path="news" element={<ForumNews />} />
               <Route path="trends" element={<ForumTrends />} />
+              <Route path="source" element={<ForumSupply />} />
             </Route>
 
             {/* INVENTORY */}
