@@ -16,13 +16,13 @@ const ForumHeader = () => {
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white font-['Be_Vietnam_Pro'] antialiased dark:border-slate-800 dark:bg-slate-900">
       <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-6 py-2">
         <div className="flex items-center gap-6">
-        <button
-          type="button"
-          onClick={() => window.location.assign('/forum')}
-          className="text-lg font-extrabold tracking-tight text-[#1E6BB8] transition-colors hover:text-[#005296] dark:text-blue-400"
-        >
-          HardBuild B2B
-        </button>
+          <button
+            type="button"
+            onClick={() => window.location.assign('/forum')}
+            className="text-lg font-extrabold tracking-tight text-[#1E6BB8] transition-colors hover:text-[#005296] dark:text-blue-400"
+          >
+            HardBuild B2B
+          </button>
 
           <div className="hidden w-64 items-center rounded-full border border-slate-100 bg-[#F8FAFC] px-3 py-1 md:flex">
             <MaterialIcon name="search" className="mr-2 text-sm text-[#1E6BB8]" />
@@ -43,7 +43,10 @@ const ForumHeader = () => {
             + Đăng bài viết
           </button>
           <button className="relative rounded-full p-1.5 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800">
-            <MaterialIcon name="notifications" className="text-xl text-slate-600 dark:text-slate-400" />
+            <MaterialIcon
+              name="notifications"
+              className="text-xl text-slate-600 dark:text-slate-400"
+            />
             <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-red-500" />
           </button>
           <img

@@ -139,10 +139,10 @@ const ForumHome = () => {
     <div className="min-h-screen bg-[#f8f9ff] font-['Be_Vietnam_Pro','Inter',sans-serif] text-[#0b1c30]">
       <ForumHeader />
 
-      <div className="mx-auto flex max-w-[1200px] gap-4 relative">
+      <div className="relative mx-auto flex max-w-[1200px] gap-4">
         <ForumLeftSidebar activeKey="home" />
 
-        <main className="flex-1 min-w-0 max-w-[760px] mx-auto px-2 py-4">
+        <main className="mx-auto min-w-0 max-w-[760px] flex-1 px-2 py-4">
           <section className="relative mb-6 overflow-hidden rounded-xl bg-gradient-to-br from-[#1E6BB8] to-[#005296] p-6 text-white shadow-lg shadow-primary/10">
             <div className="relative z-10 max-w-lg">
               <h1 className="mb-2 text-2xl font-bold leading-tight">

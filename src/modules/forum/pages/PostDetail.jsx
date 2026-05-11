@@ -43,9 +43,9 @@ const Avatar = ({ name, className = '', size = 'md' }) => {
 };
 
 const ProductThumbnail = ({ name }) => (
-  <div className="w-24 h-24 rounded-lg bg-gradient-to-br from-[#EFF4FF] to-[#C7DBFF] border border-[#D9E6FF] flex flex-col items-center justify-center px-2 text-center">
-    <MaterialIcon name="ink_pen" className="text-[#005296] text-2xl mb-1" fill />
-    <span className="text-[10px] font-bold text-[#005296] leading-tight line-clamp-3">{name}</span>
+  <div className="flex h-24 w-24 flex-col items-center justify-center rounded-lg border border-[#D9E6FF] bg-gradient-to-br from-[#EFF4FF] to-[#C7DBFF] px-2 text-center">
+    <MaterialIcon name="ink_pen" className="mb-1 text-2xl text-[#005296]" fill />
+    <span className="line-clamp-3 text-[10px] font-bold leading-tight text-[#005296]">{name}</span>
   </div>
 );
 
@@ -97,57 +97,69 @@ export const PostDetail = ({ postId = 1 }) => {
   return (
     <div className="min-h-screen bg-background font-sans text-on-surface antialiased">
       {/* Top NavBar */}
-      <header className="fixed top-0 w-full flex items-center justify-between px-6 h-16 bg-white border-b border-slate-200 z-50">
+      <header className="fixed top-0 z-50 flex h-16 w-full items-center justify-between border-b border-slate-200 bg-white px-6">
         <div className="flex items-center gap-8">
-          <span className="text-xl font-bold text-[#1E6BB8] tracking-tight">B2B Hardware Retail</span>
-          <div className="hidden md:flex relative group">
-            <MaterialIcon name="search" className="absolute left-3 top-1/2 -translate-y-1/2 text-primary" />
+          <span className="text-xl font-bold tracking-tight text-[#1E6BB8]">
+            B2B Hardware Retail
+          </span>
+          <div className="group relative hidden md:flex">
+            <MaterialIcon
+              name="search"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary"
+            />
             <input
-              className="pl-10 pr-4 py-2 bg-[#F8FAFC] border-none rounded-full w-80 text-sm focus:ring-2 focus:ring-[#1E6BB8] transition-all"
+              className="w-80 rounded-full border-none bg-[#F8FAFC] py-2 pl-10 pr-4 text-sm transition-all focus:ring-2 focus:ring-[#1E6BB8]"
               placeholder="Tìm kiếm thảo luận, sản phẩm..."
               type="text"
             />
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <button className={`px-5 py-2 rounded-full font-medium transition-colors ${primaryButtonClass}`}>
+          <button
+            className={`rounded-full px-5 py-2 font-medium transition-colors ${primaryButtonClass}`}
+          >
             Đăng bài
           </button>
-          <button className="p-2 hover:bg-slate-50 rounded-full transition-colors relative">
+          <button className="relative rounded-full p-2 transition-colors hover:bg-slate-50">
             <MaterialIcon name="notifications" className="text-on-surface-variant" />
-            <span className="absolute top-2 right-2 w-2 h-2 bg-[#ba1a1a] rounded-full"></span>
+            <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[#ba1a1a]"></span>
           </button>
-          <button className="p-1 border-2 border-slate-100 rounded-full">
+          <button className="rounded-full border-2 border-slate-100 p-1">
             <MaterialIcon name="account_circle" className="text-3xl text-on-surface-variant" />
           </button>
         </div>
       </header>
 
-      <div className="mx-auto flex max-w-[1200px] gap-4 relative pt-20">
+      <div className="relative mx-auto flex max-w-[1200px] gap-4 pt-20">
         <ForumLeftSidebar activeKey="detail" />
 
         {/* Main Content */}
         <main className="min-w-0 flex-1 px-4 py-8">
           <div className="mx-auto flex max-w-[1000px] flex-col gap-6">
             {/* Post Card */}
-            <article className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+            <article className="overflow-hidden rounded-xl border border-slate-200 bg-white">
               {/* Post Header */}
-              <header className="bg-[#F1F5F9] px-6 py-4 flex justify-between items-center border-b border-slate-200">
+              <header className="flex items-center justify-between border-b border-slate-200 bg-[#F1F5F9] px-6 py-4">
                 <div className="flex items-center gap-3">
                   <Avatar name={post.author} size="lg" />
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-on-surface">{post.author}</span>
-                      <span className="bg-secondary-container text-on-secondary-container text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">
+                      <span className="rounded-full bg-secondary-container px-2 py-0.5 text-[10px] font-bold uppercase text-on-secondary-container">
                         {post.authorRole}
                       </span>
                     </div>
-                    <span className="text-xs text-outline">Đã đăng {post.date} • {post.views.toLocaleString()} lượt xem</span>
+                    <span className="text-xs text-outline">
+                      Đã đăng {post.date} • {post.views.toLocaleString()} lượt xem
+                    </span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   {post.tags.map((tag, idx) => (
-                    <span key={idx} className="bg-[#E5EEFF] text-[#005296] px-3 py-1 rounded-full text-xs font-bold">
+                    <span
+                      key={idx}
+                      className="rounded-full bg-[#E5EEFF] px-3 py-1 text-xs font-bold text-[#005296]"
+                    >
                       {tag}
                     </span>
                   ))}
@@ -156,41 +168,43 @@ export const PostDetail = ({ postId = 1 }) => {
 
               {/* Post Content */}
               <div className="p-6">
-                <h1 className="font-bold text-2xl mb-4 text-on-surface">{post.title}</h1>
+                <h1 className="mb-4 text-2xl font-bold text-on-surface">{post.title}</h1>
 
                 {/* Trend Info */}
-                <div className="flex items-center gap-4 mb-6 bg-surface-container-low p-3 rounded-lg border border-primary-fixed">
-                  <div className="flex items-center gap-1 text-[#005296] font-bold text-sm">
+                <div className="mb-6 flex items-center gap-4 rounded-lg border border-primary-fixed bg-surface-container-low p-3">
+                  <div className="flex items-center gap-1 text-sm font-bold text-[#005296]">
                     <MaterialIcon name="trending_up" className="text-base" />
                     📊 {post.trend}
                   </div>
                   <div className="h-4 w-[1px] bg-outline-variant"></div>
-                  <div className="flex items-center gap-1 text-on-surface-variant text-sm">
+                  <div className="flex items-center gap-1 text-sm text-on-surface-variant">
                     <MaterialIcon name="location_on" className="text-base" />
                     {post.location}
                   </div>
                 </div>
 
                 {/* Post Text */}
-                <div className="text-body-md text-on-surface-variant leading-relaxed space-y-4 mb-8">
+                <div className="text-body-md mb-8 space-y-4 leading-relaxed text-on-surface-variant">
                   <p>{post.content}</p>
                   <p>{post.content2}</p>
                 </div>
 
                 {/* Product Card */}
-                <div className="p-4 border border-slate-200 rounded-xl bg-surface-container-lowest flex items-center gap-6 group hover:border-primary-container transition-colors mb-8">
+                <div className="group mb-8 flex items-center gap-6 rounded-xl border border-slate-200 bg-surface-container-lowest p-4 transition-colors hover:border-primary-container">
                   <ProductThumbnail name={post.product.name} />
                   <div className="flex-1">
-                    <h4 className="font-bold text-lg text-on-surface">{post.product.name}</h4>
-                    <div className="flex items-center gap-4 mt-1">
+                    <h4 className="text-lg font-bold text-on-surface">{post.product.name}</h4>
+                    <div className="mt-1 flex items-center gap-4">
                       <span className="text-xl font-bold text-primary">{post.product.price}</span>
-                      <span className="text-[#1F8A4C] text-sm font-bold flex items-center">
+                      <span className="flex items-center text-sm font-bold text-[#1F8A4C]">
                         <MaterialIcon name="arrow_upward" className="text-base" />
                         {post.product.trend}
                       </span>
                     </div>
                   </div>
-                  <button className={`px-6 py-2 rounded-full font-medium flex items-center gap-2 transition-colors ${primaryButtonClass}`}>
+                  <button
+                    className={`flex items-center gap-2 rounded-full px-6 py-2 font-medium transition-colors ${primaryButtonClass}`}
+                  >
                     <MaterialIcon name="add_shopping_cart" fill />
                     Thêm vào kho
                   </button>
@@ -198,37 +212,39 @@ export const PostDetail = ({ postId = 1 }) => {
               </div>
 
               {/* Post Footer */}
-              <footer className="px-6 py-4 border-t border-slate-100 flex items-center justify-between">
+              <footer className="flex items-center justify-between border-t border-slate-100 px-6 py-4">
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center bg-slate-100 rounded-full p-1">
+                  <div className="flex items-center rounded-full bg-slate-100 p-1">
                     <button
                       onClick={() => {
                         setIsVoted(!isVoted);
                         setVoteCount(isVoted ? voteCount - 1 : voteCount + 1);
                       }}
-                      className="flex items-center gap-1 px-3 py-1 hover:bg-white rounded-full transition-all text-on-surface-variant"
+                      className="flex items-center gap-1 rounded-full px-3 py-1 text-on-surface-variant transition-all hover:bg-white"
                     >
                       <MaterialIcon name="thumb_up" fill={isVoted} />
                       <span className="text-xs font-bold">{voteCount}</span>
                     </button>
-                    <div className="w-[1px] h-4 bg-slate-300"></div>
-                    <button className="flex items-center px-3 py-1 hover:bg-white rounded-full transition-all text-on-surface-variant">
+                    <div className="h-4 w-[1px] bg-slate-300"></div>
+                    <button className="flex items-center rounded-full px-3 py-1 text-on-surface-variant transition-all hover:bg-white">
                       <MaterialIcon name="thumb_down" />
                     </button>
                   </div>
                   <button
                     onClick={() => setIsSaved(!isSaved)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${ghostButtonClass}`}
+                    className={`flex items-center gap-2 rounded-full px-4 py-2 transition-colors ${ghostButtonClass}`}
                   >
                     <MaterialIcon name="bookmark" fill={isSaved} />
                     <span className="text-xs font-bold">Lưu</span>
                   </button>
-                  <button className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${ghostButtonClass}`}>
+                  <button
+                    className={`flex items-center gap-2 rounded-full px-4 py-2 transition-colors ${ghostButtonClass}`}
+                  >
                     <MaterialIcon name="share" />
                     <span className="text-xs font-bold">Chia sẻ</span>
                   </button>
                 </div>
-                <button className="text-error text-xs font-bold flex items-center gap-1 hover:bg-error-container/20 px-3 py-2 rounded-full transition-all">
+                <button className="flex items-center gap-1 rounded-full px-3 py-2 text-xs font-bold text-error transition-all hover:bg-error-container/20">
                   <MaterialIcon name="report" />
                   Báo cáo
                 </button>
@@ -236,14 +252,14 @@ export const PostDetail = ({ postId = 1 }) => {
             </article>
 
             {/* Comments Section */}
-            <section className="bg-white border border-slate-200 rounded-xl p-6">
-              <div className="flex items-center justify-between mb-8">
-                <h3 className="font-bold text-2xl text-on-surface">Bình luận ({commentCount})</h3>
+            <section className="rounded-xl border border-slate-200 bg-white p-6">
+              <div className="mb-8 flex items-center justify-between">
+                <h3 className="text-2xl font-bold text-on-surface">Bình luận ({commentCount})</h3>
                 <div className="flex items-center gap-2 text-outline">
                   <span className="text-xs">Sắp xếp theo:</span>
                   <button
                     onClick={() => setSortBy(sortBy === 'newest' ? 'oldest' : 'newest')}
-                    className={`px-3 py-1.5 rounded-full font-bold text-xs flex items-center gap-1 transition-colors ${secondaryButtonClass}`}
+                    className={`flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold transition-colors ${secondaryButtonClass}`}
                   >
                     {sortBy === 'newest' ? 'Mới nhất' : 'Cũ nhất'}
                     <MaterialIcon name="expand_more" className="text-base" />
@@ -252,19 +268,19 @@ export const PostDetail = ({ postId = 1 }) => {
               </div>
 
               {/* Comment Input */}
-              <div className="flex gap-4 mb-8 items-start">
+              <div className="mb-8 flex items-start gap-4">
                 <Avatar name="Current user" size="md" />
                 <div className="flex-1 rounded-2xl border border-[#D9E6FF] bg-white p-0 shadow-[0_1px_0_rgba(0,69,127,0.04)]">
                   <textarea
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
-                    className="w-full border-none bg-white rounded-2xl p-4 focus:ring-2 focus:ring-[#1E6BB8] focus:border-transparent resize-none min-h-[112px] text-sm text-on-surface-variant placeholder:text-outline"
+                    className="min-h-[112px] w-full resize-none rounded-2xl border-none bg-white p-4 text-sm text-on-surface-variant placeholder:text-outline focus:border-transparent focus:ring-2 focus:ring-[#1E6BB8]"
                     placeholder="Chia sẻ ý kiến của bạn..."
                   />
-                  <div className="flex justify-end mt-2">
+                  <div className="mt-2 flex justify-end">
                     <button
                       onClick={handleAddComment}
-                      className={`px-6 py-2 rounded-full font-medium transition-colors ${primaryButtonClass}`}
+                      className={`rounded-full px-6 py-2 font-medium transition-colors ${primaryButtonClass}`}
                     >
                       Gửi bình luận
                     </button>
@@ -277,9 +293,11 @@ export const PostDetail = ({ postId = 1 }) => {
                 {sortedComments.map((comment) => (
                   <div key={comment.id}>
                     {/* Best Answer Highlight */}
-                    <div className={`relative rounded-2xl p-6 ${comment.isBest ? 'border border-[#B9D7FF] bg-[#F4F8FF]' : 'border border-[#E5EAF2] bg-white'}`}>
+                    <div
+                      className={`relative rounded-2xl p-6 ${comment.isBest ? 'border border-[#B9D7FF] bg-[#F4F8FF]' : 'border border-[#E5EAF2] bg-white'}`}
+                    >
                       {comment.isBest && (
-                        <div className="absolute -top-3 left-6 bg-[#1E6BB8] text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase flex items-center gap-1 shadow-sm">
+                        <div className="absolute -top-3 left-6 flex items-center gap-1 rounded-full bg-[#1E6BB8] px-3 py-1 text-[10px] font-bold uppercase text-white shadow-sm">
                           <MaterialIcon name="verified" className="text-xs" fill />
                           Câu trả lời hữu ích nhất
                         </div>
@@ -287,44 +305,50 @@ export const PostDetail = ({ postId = 1 }) => {
                       <div className="flex gap-4">
                         <Avatar name={comment.author} size="md" />
                         <div className="flex-1">
-                          <div className="flex flex-wrap items-center gap-2 mb-1">
-                            <span className="font-bold text-sm">{comment.author}</span>
+                          <div className="mb-1 flex flex-wrap items-center gap-2">
+                            <span className="text-sm font-bold">{comment.author}</span>
                             {comment.role && (
-                              <span className="bg-[#E5EEFF] text-[#005296] text-[8px] px-1.5 py-0.5 rounded-full font-bold uppercase">
+                              <span className="rounded-full bg-[#E5EEFF] px-1.5 py-0.5 text-[8px] font-bold uppercase text-[#005296]">
                                 {comment.role}
                               </span>
                             )}
                             <span className="text-xs text-outline">{comment.time}</span>
                           </div>
-                          <p className="text-body-md text-on-surface-variant mb-3 leading-relaxed">{comment.content}</p>
+                          <p className="text-body-md mb-3 leading-relaxed text-on-surface-variant">
+                            {comment.content}
+                          </p>
                           <div className="flex items-center gap-6">
-                            <button className={`flex items-center gap-1 font-bold text-xs px-3 py-1 rounded-full ${secondaryButtonClass}`}>
+                            <button
+                              className={`flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold ${secondaryButtonClass}`}
+                            >
                               <MaterialIcon name="thumb_up" />
                               {comment.likes}
                             </button>
-                            <button className="text-[#005296] font-bold text-xs hover:underline transition-colors">
+                            <button className="text-xs font-bold text-[#005296] transition-colors hover:underline">
                               Trả lời
                             </button>
                           </div>
 
                           {/* Replies */}
                           {comment.replies && (
-                            <div className="space-y-4 mt-6 pl-6 border-l-2 border-[#E5EEFF]">
+                            <div className="mt-6 space-y-4 border-l-2 border-[#E5EEFF] pl-6">
                               {comment.replies.map((reply) => (
                                 <div key={reply.id} className="flex gap-4">
                                   <Avatar name={reply.author} size="sm" />
                                   <div className="flex-1">
-                                    <div className="flex flex-wrap items-center gap-2 mb-1">
-                                      <span className="font-bold text-sm">{reply.author}</span>
+                                    <div className="mb-1 flex flex-wrap items-center gap-2">
+                                      <span className="text-sm font-bold">{reply.author}</span>
                                       {reply.role && (
-                                        <span className="bg-[#E5EEFF] text-[#005296] text-[8px] px-1.5 py-0.5 rounded-full font-bold uppercase">
+                                        <span className="rounded-full bg-[#E5EEFF] px-1.5 py-0.5 text-[8px] font-bold uppercase text-[#005296]">
                                           {reply.role}
                                         </span>
                                       )}
                                       <span className="text-xs text-outline">{reply.time}</span>
                                     </div>
-                                    <p className="text-body-md text-on-surface-variant mb-2 leading-relaxed">{reply.content}</p>
-                                    <button className="text-[#005296] font-bold text-xs hover:underline transition-colors">
+                                    <p className="text-body-md mb-2 leading-relaxed text-on-surface-variant">
+                                      {reply.content}
+                                    </p>
+                                    <button className="text-xs font-bold text-[#005296] transition-colors hover:underline">
                                       Trả lời
                                     </button>
                                   </div>
@@ -337,7 +361,9 @@ export const PostDetail = ({ postId = 1 }) => {
                     </div>
                   </div>
                 ))}
-                <button className={`w-full mt-6 py-3 font-bold border rounded-xl transition-colors ${secondaryButtonClass} border-[#B9D7FF]`}>
+                <button
+                  className={`mt-6 w-full rounded-xl border py-3 font-bold transition-colors ${secondaryButtonClass} border-[#B9D7FF]`}
+                >
                   Xem thêm bình luận
                 </button>
               </div>
@@ -346,20 +372,22 @@ export const PostDetail = ({ postId = 1 }) => {
         </main>
 
         {/* Right Sidebar */}
-        <aside className="hidden xl:flex w-80 flex-col gap-6 py-8 pr-6 sticky top-16 h-fit">
+        <aside className="sticky top-16 hidden h-fit w-80 flex-col gap-6 py-8 pr-6 xl:flex">
           {/* Product Trends */}
-          <section className="bg-white rounded-xl border border-slate-200 p-4">
-            <h4 className="font-bold text-on-surface flex items-center gap-2 mb-4 text-sm">
+          <section className="rounded-xl border border-slate-200 bg-white p-4">
+            <h4 className="mb-4 flex items-center gap-2 text-sm font-bold text-on-surface">
               <MaterialIcon name="trending_up" className="text-primary" />
               Xu hướng sản phẩm
             </h4>
             <ul className="space-y-4">
               {trends.map((trend, idx) => (
-                <li key={idx} className="flex items-center justify-between group">
-                  <span className="text-sm text-on-surface-variant group-hover:text-primary transition-colors cursor-pointer">
+                <li key={idx} className="group flex items-center justify-between">
+                  <span className="cursor-pointer text-sm text-on-surface-variant transition-colors group-hover:text-primary">
                     {trend.name}
                   </span>
-                  <span className={`${trend.isPositive ? 'text-green-600' : 'text-error'} text-xs font-bold`}>
+                  <span
+                    className={`${trend.isPositive ? 'text-green-600' : 'text-error'} text-xs font-bold`}
+                  >
                     {trend.change}
                   </span>
                 </li>
@@ -368,15 +396,19 @@ export const PostDetail = ({ postId = 1 }) => {
           </section>
 
           {/* Related Posts */}
-          <section className="bg-white rounded-xl border border-slate-200 p-4">
-            <h4 className="font-bold text-on-surface mb-4 text-sm">Bài viết liên quan</h4>
+          <section className="rounded-xl border border-slate-200 bg-white p-4">
+            <h4 className="mb-4 text-sm font-bold text-on-surface">Bài viết liên quan</h4>
             <div className="space-y-4">
               {relatedPosts.map((relPost) => (
-                <button key={relPost.id} type="button" className="block w-full text-left group cursor-pointer">
-                  <p className="text-sm font-medium text-on-surface line-clamp-2 group-hover:text-primary-container transition-colors">
+                <button
+                  key={relPost.id}
+                  type="button"
+                  className="group block w-full cursor-pointer text-left"
+                >
+                  <p className="line-clamp-2 text-sm font-medium text-on-surface transition-colors group-hover:text-primary-container">
                     {relPost.title}
                   </p>
-                  <span className="text-[10px] text-outline mt-1 block">
+                  <span className="mt-1 block text-[10px] text-outline">
                     {relPost.comments} bình luận • {relPost.date}
                   </span>
                 </button>
@@ -385,13 +417,13 @@ export const PostDetail = ({ postId = 1 }) => {
           </section>
 
           {/* Tags */}
-          <section className="bg-white rounded-xl border border-slate-200 p-4">
-            <h4 className="font-bold text-on-surface mb-4 text-sm">Tags liên quan</h4>
+          <section className="rounded-xl border border-slate-200 bg-white p-4">
+            <h4 className="mb-4 text-sm font-bold text-on-surface">Tags liên quan</h4>
             <div className="flex flex-wrap gap-2">
               {postDetailMockData.tags.map((tag, idx) => (
                 <span
                   key={idx}
-                  className="px-3 py-1 bg-[#F1F5F9] rounded-full text-xs text-[#475569] cursor-pointer hover:bg-[#E5EEFF] hover:text-[#005296] transition-all"
+                  className="cursor-pointer rounded-full bg-[#F1F5F9] px-3 py-1 text-xs text-[#475569] transition-all hover:bg-[#E5EEFF] hover:text-[#005296]"
                 >
                   {tag}
                 </span>
@@ -400,14 +432,18 @@ export const PostDetail = ({ postId = 1 }) => {
           </section>
 
           {/* Guidelines */}
-          <section className="p-6 bg-[#EFF4FF] rounded-2xl border border-transparent">
-            <div className="flex items-center gap-2 mb-3">
-              <h4 className="font-bold text-[#0B1C30] text-h3 leading-tight">Quy định cộng đồng</h4>
+          <section className="rounded-2xl border border-transparent bg-[#EFF4FF] p-6">
+            <div className="mb-3 flex items-center gap-2">
+              <h4 className="text-h3 font-bold leading-tight text-[#0B1C30]">Quy định cộng đồng</h4>
             </div>
-            <p className="text-body-md leading-relaxed text-[#4B5563] font-medium max-w-[470px]">
-              Vui lòng tuân thủ quy tắc ứng xử văn minh. Không đăng tin rác, quảng cáo không đúng tin tức ngành. Các bài viết sai quy định sẽ bị gỡ bỏ không báo trước.
+            <p className="text-body-md max-w-[470px] font-medium leading-relaxed text-[#4B5563]">
+              Vui lòng tuân thủ quy tắc ứng xử văn minh. Không đăng tin rác, quảng cáo không đúng
+              tin tức ngành. Các bài viết sai quy định sẽ bị gỡ bỏ không báo trước.
             </p>
-            <button type="button" className="text-[#005296] font-bold text-body-md mt-4 inline-block text-left">
+            <button
+              type="button"
+              className="text-body-md mt-4 inline-block text-left font-bold text-[#005296]"
+            >
               Xem chi tiết
             </button>
           </section>

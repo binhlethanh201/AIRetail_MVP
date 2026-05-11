@@ -37,7 +37,7 @@ const ForumNews = () => {
     <div className="min-h-screen bg-background font-sans text-on-surface antialiased">
       <ForumHeader />
 
-      <div className="mx-auto flex max-w-[1200px] gap-4 relative">
+      <div className="relative mx-auto flex max-w-[1200px] gap-4">
         <ForumLeftSidebar activeKey="news" />
 
         <main className="min-w-0 flex-1 bg-surface py-4">
@@ -149,7 +149,9 @@ const ForumNews = () => {
 
               {/* Newsletter Widget */}
               <section className="space-y-4 rounded-2xl bg-secondary/10 p-6 text-center">
-                <h4 className="font-bold text-on-secondary-container">Đăng ký nhận bản tin ngành</h4>
+                <h4 className="font-bold text-on-secondary-container">
+                  Đăng ký nhận bản tin ngành
+                </h4>
                 <p className="text-xs text-on-surface-variant">
                   Nhận tóm tắt tin tức quan trọng vào 8:00 sáng mỗi ngày qua Zalo/Email
                 </p>

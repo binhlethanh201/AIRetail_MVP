@@ -82,7 +82,7 @@ const ForumTrends = () => {
     <div className="min-h-screen bg-background font-sans text-on-surface antialiased">
       <ForumHeader />
 
-      <div className="mx-auto flex max-w-[1200px] gap-4 relative">
+      <div className="relative mx-auto flex max-w-[1200px] gap-4">
         <ForumLeftSidebar activeKey="trend" />
 
         <main className="min-w-0 flex-1 bg-surface py-4">
@@ -120,7 +120,9 @@ const ForumTrends = () => {
                   <h2 className="flex items-center gap-2 text-lg font-bold">
                     <span className="h-6 w-2 rounded bg-secondary" /> Top sản phẩm tăng trưởng nóng
                   </h2>
-                  <button className="text-xs font-bold text-primary hover:underline">Xem tất cả</button>
+                  <button className="text-xs font-bold text-primary hover:underline">
+                    Xem tất cả
+                  </button>
                 </div>
 
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -146,7 +148,7 @@ const ForumTrends = () => {
                       </div>
 
                       <div className="mb-6 space-y-3">
-                          <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                        <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
                           <span>Nhu cầu {item.demand}%</span>
                           <span>Mùa vụ {item.season}%</span>
                           <span>Giá {item.priceShare}%</span>
@@ -200,8 +202,13 @@ const ForumTrends = () => {
                       { value: '85%', height: 'h-40', label: 'Tuần 3', active: true },
                       { value: '72%', height: 'h-36', label: 'Tuần hiện tại', active: false },
                     ].map((bar) => (
-                      <div key={bar.label} className="group relative flex w-1/4 flex-col items-center gap-2">
-                        <div className={`mb-1 text-[10px] font-black ${bar.active ? 'text-primary' : 'text-slate-400'}`}>
+                      <div
+                        key={bar.label}
+                        className="group relative flex w-1/4 flex-col items-center gap-2"
+                      >
+                        <div
+                          className={`mb-1 text-[10px] font-black ${bar.active ? 'text-primary' : 'text-slate-400'}`}
+                        >
                           {bar.value}
                         </div>
                         <div
@@ -209,7 +216,9 @@ const ForumTrends = () => {
                         />
                         <span
                           className={`mt-1 text-[10px] font-bold ${
-                            bar.active ? 'uppercase tracking-tighter text-primary' : 'text-on-surface-variant'
+                            bar.active
+                              ? 'uppercase tracking-tighter text-primary'
+                              : 'text-on-surface-variant'
                           }`}
                         >
                           {bar.label}
@@ -242,7 +251,8 @@ const ForumTrends = () => {
 
                   <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4">
                     <p className="text-xs leading-relaxed">
-                      <span className="font-bold text-secondary-fixed">CẢNH BÁO:</span> Sắp hết hàng.
+                      <span className="font-bold text-secondary-fixed">CẢNH BÁO:</span> Sắp hết
+                      hàng.
                       <span className="mt-1 block font-medium italic text-on-tertiary-container">
                         Khuyến nghị: Nhập thêm 20 sản phẩm
                       </span>
@@ -253,8 +263,12 @@ const ForumTrends = () => {
 
               <section>
                 <div className="mb-6 flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-on-surface">Danh sách sản phẩm xu hướng</h2>
-                  <button className="text-sm font-bold text-primary hover:underline">Xem tất cả</button>
+                  <h2 className="text-2xl font-bold text-on-surface">
+                    Danh sách sản phẩm xu hướng
+                  </h2>
+                  <button className="text-sm font-bold text-primary hover:underline">
+                    Xem tất cả
+                  </button>
                 </div>
 
                 <div className="space-y-6">
@@ -268,17 +282,27 @@ const ForumTrends = () => {
                       />
                       <div className="flex w-full flex-col gap-6 p-6 md:flex-row">
                         <div className="flex h-40 w-full flex-shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-slate-50 md:w-40">
-                          <img alt={product.title} className="h-full w-full object-cover" src={product.image} />
+                          <img
+                            alt={product.title}
+                            className="h-full w-full object-cover"
+                            src={product.image}
+                          />
                         </div>
 
                         <div className="flex-1">
                           <div className="mb-2 flex flex-wrap items-center gap-3">
-                            <span className={`rounded px-2 py-1 text-[10px] font-black uppercase ${index === 0 ? 'bg-tertiary-fixed text-on-tertiary-fixed' : 'bg-secondary-fixed text-on-secondary-fixed'}`}>
+                            <span
+                              className={`rounded px-2 py-1 text-[10px] font-black uppercase ${index === 0 ? 'bg-tertiary-fixed text-on-tertiary-fixed' : 'bg-secondary-fixed text-on-secondary-fixed'}`}
+                            >
                               {product.badge}
                             </span>
-                            <span className="text-[10px] font-medium text-on-surface-variant">{product.area}</span>
+                            <span className="text-[10px] font-medium text-on-surface-variant">
+                              {product.area}
+                            </span>
                           </div>
-                          <h3 className="mb-1 text-xl font-extrabold text-on-surface">{product.title}</h3>
+                          <h3 className="mb-1 text-xl font-extrabold text-on-surface">
+                            {product.title}
+                          </h3>
                           <div className="mb-4 flex flex-wrap gap-2">
                             {product.tags.map((tag) => (
                               <span key={tag} className="text-xs font-bold text-primary">
@@ -371,7 +395,7 @@ const ForumTrends = () => {
                 </div>
               </section>
 
-              <section className="relative h-44 overflow-hidden rounded-3xl shadow-sm group">
+              <section className="group relative h-44 overflow-hidden rounded-3xl shadow-sm">
                 <img
                   alt="Industrial hardware shelf"
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -391,11 +415,13 @@ const ForumTrends = () => {
               <section className="rounded-3xl border border-primary-container bg-primary p-6 text-white shadow-lg">
                 <div className="mb-3 flex items-center gap-2">
                   <MaterialIcon name="verified_user" className="text-[24px] text-white" fill />
-                  <h3 className="text-sm font-black uppercase tracking-widest">Quy định cộng đồng</h3>
+                  <h3 className="text-sm font-black uppercase tracking-widest">
+                    Quy định cộng đồng
+                  </h3>
                 </div>
                 <p className="text-[12px] font-semibold leading-relaxed text-white/90">
-                  Đảm bảo thông tin trung thực về giá và nguồn hàng để bảo vệ quyền lợi chung của cộng
-                  đồng đại lý Kim Khí Hub.
+                  Đảm bảo thông tin trung thực về giá và nguồn hàng để bảo vệ quyền lợi chung của
+                  cộng đồng đại lý Kim Khí Hub.
                 </p>
                 <div className="mt-4 flex items-center justify-between border-t border-white/20 pt-4">
                   <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">

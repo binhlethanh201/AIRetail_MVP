@@ -14,10 +14,10 @@ const MaterialIcon = ({ name, className = '', fill = false }) => (
 
 const POST_TYPES = [
   { key: 'wholesale', icon: 'storefront', label: 'Đăng bán sỉ' },
-  { key: 'supply', icon: 'search_insights', label: 'Nguồn hàng' },
+  { key: 'supply', icon: 'search_insights', label: 'Tìm nguồn hàng' },
   { key: 'quote', icon: 'request_quote', label: 'Hỏi giá' },
-  { key: 'trend', icon: 'trending_up', label: 'Chia sẻ xu hướng' },
-  { key: 'trusted', icon: 'verified', label: 'Chia sẻ uy tín' },
+  { key: 'trend', icon: 'trending_up', label: 'Thanh lý kho' },
+  { key: 'trusted', icon: 'verified', label: 'Mua chung' },
 ];
 
 const CATEGORY_OPTIONS = ['Vật liệu xây dựng', 'Thiết bị điện', 'Kim khí', 'Máy móc công nghiệp'];
@@ -35,8 +35,7 @@ const quoteProduct = {
   image:
     'https://lh3.googleusercontent.com/aida-public/AB6AXuCnlusiF-0mwfqkYdH0Ya89uKwxkBZX147xtpYw71fYXzOy4qptu-Sm8CDlIJoUfGn_lWw7dqO_7nzMjOe_6YDEB-bGW8uxp0jaq5vOSQuBzLoBeO2qlG3z3MjrSH_d8VxQUmWjdJU68n6X4v8cYeHZEgYpqXXO3dElv2VkAdoGWLFiDk49dQT0e2UknM-al4qT43Ltyr7dkrvUscsva9PYy0ZCaN43LCSlf-qMrS3-VSY4twU07U2fVEikvrsLQSq-7HO1rlhkLG4W',
   name: 'Máy khoan động lực Bosch GSB 13 RE',
-  description:
-    'Máy khoan chuyên dụng công suất cao, thiết kế nhỏ gọn phù hợp thi công công trình.',
+  description: 'Máy khoan chuyên dụng công suất cao, thiết kế nhỏ gọn phù hợp thi công công trình.',
   sku: 'BOS-GSB-13',
   supplier: 'Bosch Vietnam',
 };
@@ -149,7 +148,11 @@ export const CreatePost = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      alert(isQuotePost ? 'Đăng bài hỏi giá thành công (demo).' : 'Đăng bài nguồn hàng thành công (demo).');
+      alert(
+        isQuotePost
+          ? 'Đăng bài hỏi giá thành công (demo).'
+          : 'Đăng bài nguồn hàng thành công (demo).'
+      );
     }, 1000);
   };
 
@@ -157,10 +160,10 @@ export const CreatePost = () => {
     <div className="min-h-screen bg-background font-sans text-on-surface antialiased">
       <ForumHeader />
 
-      <div className="mx-auto flex max-w-[1200px] gap-4 relative">
+      <div className="relative mx-auto flex max-w-[1200px] gap-4">
         <ForumLeftSidebar activeKey="" />
 
-        <main className="min-w-0 flex-1 bg-surface pb-24 py-4 lg:pb-10">
+        <main className="min-w-0 flex-1 bg-surface py-4 pb-24 lg:pb-10">
           <div className="mx-auto w-full max-w-[1280px] px-4 pb-12 pt-8 md:px-8">
             <header className="mb-6">
               <h1 className="mb-2 text-3xl font-bold leading-tight text-on-surface md:text-4xl">
@@ -176,7 +179,7 @@ export const CreatePost = () => {
             <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-12">
               <section className="space-y-6 xl:col-span-8">
                 <div className="rounded-xl border border-outline-variant bg-white p-4 md:p-6">
-                    <h3 className="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-primary">
+                  <h3 className="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-primary">
                     1. Chọn loại bài đăng
                   </h3>
                   <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
@@ -194,7 +197,11 @@ export const CreatePost = () => {
                               : 'border-outline-variant text-on-surface-variant hover:border-primary-container hover:text-primary'
                           }`}
                         >
-                          <MaterialIcon name={item.icon} className="mb-2 text-[24px]" fill={active} />
+                          <MaterialIcon
+                            name={item.icon}
+                            className="mb-2 text-[24px]"
+                            fill={active}
+                          />
                           <span className="text-xs font-medium md:text-sm">{item.label}</span>
                         </button>
                       );
@@ -257,16 +264,28 @@ export const CreatePost = () => {
                     </label>
                     <div className="overflow-hidden rounded-xl border border-outline-variant">
                       <div className="flex gap-2 border-b border-outline-variant bg-slate-100 p-2">
-                        <button type="button" className="rounded p-1 text-on-surface-variant hover:bg-white">
+                        <button
+                          type="button"
+                          className="rounded p-1 text-on-surface-variant hover:bg-white"
+                        >
                           <MaterialIcon name="format_bold" className="text-[18px]" />
                         </button>
-                        <button type="button" className="rounded p-1 text-on-surface-variant hover:bg-white">
+                        <button
+                          type="button"
+                          className="rounded p-1 text-on-surface-variant hover:bg-white"
+                        >
                           <MaterialIcon name="format_italic" className="text-[18px]" />
                         </button>
-                        <button type="button" className="rounded p-1 text-on-surface-variant hover:bg-white">
+                        <button
+                          type="button"
+                          className="rounded p-1 text-on-surface-variant hover:bg-white"
+                        >
                           <MaterialIcon name="format_list_bulleted" className="text-[18px]" />
                         </button>
-                        <button type="button" className="rounded p-1 text-on-surface-variant hover:bg-white">
+                        <button
+                          type="button"
+                          className="rounded p-1 text-on-surface-variant hover:bg-white"
+                        >
                           <MaterialIcon name="link" className="text-[18px]" />
                         </button>
                       </div>
@@ -285,7 +304,9 @@ export const CreatePost = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-on-surface">Gắn thẻ bài viết (Tags)</label>
+                    <label className="text-sm font-medium text-on-surface">
+                      Gắn thẻ bài viết (Tags)
+                    </label>
                     <div className="flex flex-wrap items-center gap-2 rounded-xl border border-outline-variant bg-surface-bright p-3">
                       {formData.tags.map((tag) => (
                         <span
@@ -321,7 +342,13 @@ export const CreatePost = () => {
                     <label className="text-sm font-medium text-on-surface">
                       {isQuotePost ? 'Ảnh minh hoạ' : 'Ảnh sản phẩm'}
                     </label>
-                    <div className={isQuotePost ? 'grid grid-cols-2 gap-3 md:grid-cols-4' : 'grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5'}>
+                    <div
+                      className={
+                        isQuotePost
+                          ? 'grid grid-cols-2 gap-3 md:grid-cols-4'
+                          : 'grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5'
+                      }
+                    >
                       <button
                         type="button"
                         className="aspect-square rounded-xl border-2 border-dashed border-outline-variant text-on-surface-variant transition-all hover:border-primary-container hover:text-primary"
@@ -337,7 +364,11 @@ export const CreatePost = () => {
                           key={`${src}-${index}`}
                           className="group relative aspect-square overflow-hidden rounded-xl border border-outline-variant bg-slate-100"
                         >
-                          <img src={src} alt="Ảnh sản phẩm" className="h-full w-full object-cover" />
+                          <img
+                            src={src}
+                            alt="Ảnh sản phẩm"
+                            className="h-full w-full object-cover"
+                          />
                           <button
                             type="button"
                             onClick={() => handleRemoveImage(index)}
@@ -355,20 +386,29 @@ export const CreatePost = () => {
                   <div className="space-y-5 rounded-xl border border-outline-variant bg-white p-4 md:p-6">
                     <div className="mb-1 flex items-center justify-between gap-4">
                       <div className="flex items-center gap-2">
-                        <MaterialIcon name="inventory_2" className="text-[20px] text-primary" fill />
+                        <MaterialIcon
+                          name="inventory_2"
+                          className="text-[20px] text-primary"
+                          fill
+                        />
                         <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
                           3. Gắn sản phẩm từ kho (tuỳ chọn)
                         </h3>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-xs text-on-surface-variant">Gắn sản phẩm vào bài viết</span>
+                        <span className="text-xs text-on-surface-variant">
+                          Gắn sản phẩm vào bài viết
+                        </span>
                         <label className="relative inline-flex cursor-pointer items-center">
                           <input
                             className="peer sr-only"
                             type="checkbox"
                             checked={quoteOptions.attachProduct}
                             onChange={(event) =>
-                              setQuoteOptions((prev) => ({ ...prev, attachProduct: event.target.checked }))
+                              setQuoteOptions((prev) => ({
+                                ...prev,
+                                attachProduct: event.target.checked,
+                              }))
                             }
                           />
                           <span className="h-6 w-11 rounded-full bg-slate-200 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
@@ -403,7 +443,9 @@ export const CreatePost = () => {
                             <h4 className="mb-1 text-base font-semibold text-on-surface">
                               {quoteProduct.name}
                             </h4>
-                            <p className="mb-2 text-xs text-on-surface-variant">{quoteProduct.description}</p>
+                            <p className="mb-2 text-xs text-on-surface-variant">
+                              {quoteProduct.description}
+                            </p>
                             <div className="flex flex-wrap gap-4 text-[10px] font-bold uppercase text-slate-400">
                               <span>SKU: {quoteProduct.sku}</span>
                               <span>NSX: {quoteProduct.supplier}</span>
@@ -418,44 +460,57 @@ export const CreatePost = () => {
                         <div className="grid grid-cols-1 gap-3 border-t border-slate-100 pt-4 md:grid-cols-3">
                           <div className="flex items-center justify-between rounded-lg bg-slate-50 p-2">
                             <span className="text-sm text-on-surface-variant">Hiển thị giá</span>
-                            <label className="relative inline-flex cursor-pointer scale-75 items-center">
+                            <label className="relative inline-flex scale-75 cursor-pointer items-center">
                               <input
                                 className="peer sr-only"
                                 type="checkbox"
                                 checked={quoteOptions.showPrice}
                                 onChange={(event) =>
-                                  setQuoteOptions((prev) => ({ ...prev, showPrice: event.target.checked }))
+                                  setQuoteOptions((prev) => ({
+                                    ...prev,
+                                    showPrice: event.target.checked,
+                                  }))
                                 }
                               />
-                              <span className="after:content-[''] peer h-6 w-11 rounded-full bg-slate-300 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-transform peer-checked:bg-primary peer-checked:after:translate-x-full" />
+                              <span className="peer h-6 w-11 rounded-full bg-slate-300 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
                             </label>
                           </div>
                           <div className="flex items-center justify-between rounded-lg bg-slate-50 p-2">
-                            <span className="text-sm text-on-surface-variant">Hiển thị tồn kho</span>
-                            <label className="relative inline-flex cursor-pointer scale-75 items-center">
+                            <span className="text-sm text-on-surface-variant">
+                              Hiển thị tồn kho
+                            </span>
+                            <label className="relative inline-flex scale-75 cursor-pointer items-center">
                               <input
                                 className="peer sr-only"
                                 type="checkbox"
                                 checked={quoteOptions.showStock}
                                 onChange={(event) =>
-                                  setQuoteOptions((prev) => ({ ...prev, showStock: event.target.checked }))
+                                  setQuoteOptions((prev) => ({
+                                    ...prev,
+                                    showStock: event.target.checked,
+                                  }))
                                 }
                               />
-                              <span className="after:content-[''] peer h-6 w-11 rounded-full bg-slate-300 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-transform peer-checked:bg-primary peer-checked:after:translate-x-full" />
+                              <span className="peer h-6 w-11 rounded-full bg-slate-300 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
                             </label>
                           </div>
                           <div className="flex items-center justify-between rounded-lg bg-slate-50 p-2">
-                            <span className="text-sm text-on-surface-variant">Hiển thị nhà cung cấp</span>
-                            <label className="relative inline-flex cursor-pointer scale-75 items-center">
+                            <span className="text-sm text-on-surface-variant">
+                              Hiển thị nhà cung cấp
+                            </span>
+                            <label className="relative inline-flex scale-75 cursor-pointer items-center">
                               <input
                                 className="peer sr-only"
                                 type="checkbox"
                                 checked={quoteOptions.showSupplier}
                                 onChange={(event) =>
-                                  setQuoteOptions((prev) => ({ ...prev, showSupplier: event.target.checked }))
+                                  setQuoteOptions((prev) => ({
+                                    ...prev,
+                                    showSupplier: event.target.checked,
+                                  }))
                                 }
                               />
-                              <span className="after:content-[''] peer h-6 w-11 rounded-full bg-slate-300 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-transform peer-checked:bg-primary peer-checked:after:translate-x-full" />
+                              <span className="peer h-6 w-11 rounded-full bg-slate-300 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
                             </label>
                           </div>
                         </div>
@@ -470,13 +525,17 @@ export const CreatePost = () => {
                           3. Thông tin giao thương
                         </h3>
                         <div className="flex items-center gap-3">
-                          <span className="text-xs text-on-surface-variant">Hiển thị thông tin</span>
+                          <span className="text-xs text-on-surface-variant">
+                            Hiển thị thông tin
+                          </span>
                           <label className="relative inline-flex cursor-pointer items-center">
                             <input
                               className="peer sr-only"
                               type="checkbox"
                               checked={formData.showTradeInfo}
-                              onChange={(event) => handleFormField('showTradeInfo', event.target.checked)}
+                              onChange={(event) =>
+                                handleFormField('showTradeInfo', event.target.checked)
+                              }
                             />
                             <span className="h-6 w-11 rounded-full bg-slate-200 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
                           </label>
@@ -487,13 +546,17 @@ export const CreatePost = () => {
                         <>
                           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                             <div className="space-y-2 md:col-span-2">
-                              <label className="text-sm font-medium text-on-surface">Tên sản phẩm đại diện</label>
+                              <label className="text-sm font-medium text-on-surface">
+                                Tên sản phẩm đại diện
+                              </label>
                               <input
                                 className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm"
                                 placeholder="Thép cuộn CB300-V"
                                 type="text"
                                 value={formData.productName}
-                                onChange={(event) => handleFormField('productName', event.target.value)}
+                                onChange={(event) =>
+                                  handleFormField('productName', event.target.value)
+                                }
                               />
                             </div>
                             <div className="space-y-2">
@@ -510,27 +573,37 @@ export const CreatePost = () => {
 
                           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                             <div className="space-y-2">
-                              <label className="text-sm font-medium text-on-surface">Giá sỉ (VNĐ)</label>
+                              <label className="text-sm font-medium text-on-surface">
+                                Giá sỉ (VNĐ)
+                              </label>
                               <input
                                 className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm"
                                 placeholder="Thỏa thuận"
                                 type="text"
                                 value={formData.wholesalePrice}
-                                onChange={(event) => handleFormField('wholesalePrice', event.target.value)}
+                                onChange={(event) =>
+                                  handleFormField('wholesalePrice', event.target.value)
+                                }
                               />
                             </div>
                             <div className="space-y-2">
-                              <label className="text-sm font-medium text-on-surface">Giá lẻ (VNĐ)</label>
+                              <label className="text-sm font-medium text-on-surface">
+                                Giá lẻ (VNĐ)
+                              </label>
                               <input
                                 className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm"
                                 placeholder="Liên hệ"
                                 type="text"
                                 value={formData.retailPrice}
-                                onChange={(event) => handleFormField('retailPrice', event.target.value)}
+                                onChange={(event) =>
+                                  handleFormField('retailPrice', event.target.value)
+                                }
                               />
                             </div>
                             <div className="space-y-2">
-                              <label className="text-sm font-medium text-on-surface">MOQ (Tối thiểu)</label>
+                              <label className="text-sm font-medium text-on-surface">
+                                MOQ (Tối thiểu)
+                              </label>
                               <input
                                 className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm"
                                 placeholder="100 đơn vị"
@@ -542,7 +615,9 @@ export const CreatePost = () => {
                           </div>
 
                           <div className="flex flex-col gap-3 py-1 md:flex-row md:items-center md:gap-6">
-                            <span className="text-sm font-medium text-on-surface">Trạng thái hàng:</span>
+                            <span className="text-sm font-medium text-on-surface">
+                              Trạng thái hàng:
+                            </span>
                             <label className="flex items-center gap-2 text-sm">
                               <input
                                 type="radio"
@@ -584,13 +659,17 @@ export const CreatePost = () => {
                           4. Thông số kỹ thuật
                         </h3>
                         <div className="flex items-center gap-3">
-                          <span className="text-xs text-on-surface-variant">Hiển thị thông tin</span>
+                          <span className="text-xs text-on-surface-variant">
+                            Hiển thị thông tin
+                          </span>
                           <label className="relative inline-flex cursor-pointer items-center">
                             <input
                               className="peer sr-only"
                               type="checkbox"
                               checked={formData.showSpecInfo}
-                              onChange={(event) => handleFormField('showSpecInfo', event.target.checked)}
+                              onChange={(event) =>
+                                handleFormField('showSpecInfo', event.target.checked)
+                              }
                             />
                             <span className="h-6 w-11 rounded-full bg-slate-200 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
                           </label>
@@ -606,14 +685,19 @@ export const CreatePost = () => {
 
                           <div className="space-y-3">
                             {specRows.map((row) => (
-                              <div key={row.id} className="flex flex-col gap-3 md:flex-row md:items-center">
+                              <div
+                                key={row.id}
+                                className="flex flex-col gap-3 md:flex-row md:items-center"
+                              >
                                 <div className="flex-1">
                                   <input
                                     className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm"
                                     placeholder="Ví dụ: Độ phủ lý thuyết"
                                     type="text"
                                     value={row.name}
-                                    onChange={(event) => handleSpecChange(row.id, 'name', event.target.value)}
+                                    onChange={(event) =>
+                                      handleSpecChange(row.id, 'name', event.target.value)
+                                    }
                                   />
                                 </div>
                                 <div className="flex-1">
@@ -622,7 +706,9 @@ export const CreatePost = () => {
                                     placeholder="Ví dụ: 10-12 m²/lít"
                                     type="text"
                                     value={row.value}
-                                    onChange={(event) => handleSpecChange(row.id, 'value', event.target.value)}
+                                    onChange={(event) =>
+                                      handleSpecChange(row.id, 'value', event.target.value)
+                                    }
                                   />
                                 </div>
                                 <button
@@ -672,7 +758,11 @@ export const CreatePost = () => {
                     onClick={handlePublish}
                     className="rounded-full bg-primary px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-container disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    {loading ? 'Đang đăng...' : isQuotePost ? 'Đăng bài hỏi giá' : 'Đăng bài nguồn hàng'}
+                    {loading
+                      ? 'Đang đăng...'
+                      : isQuotePost
+                        ? 'Đăng bài hỏi giá'
+                        : 'Đăng bài nguồn hàng'}
                   </button>
                 </div>
               </section>
@@ -708,7 +798,9 @@ export const CreatePost = () => {
                         />
                       </svg>
                       <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <span className="text-2xl font-bold text-on-surface">{completionPercent}%</span>
+                        <span className="text-2xl font-bold text-on-surface">
+                          {completionPercent}%
+                        </span>
                         <span className="text-[10px] font-medium uppercase tracking-wider text-on-surface-variant">
                           Hoàn thiện
                         </span>
@@ -722,23 +814,34 @@ export const CreatePost = () => {
                   <div className="rounded-xl border border-[#b7cae9] bg-[#c9dbf4] p-4 md:p-6">
                     <div className="mb-4 flex items-center gap-2 text-[#005ea4]">
                       <MaterialIcon name="lightbulb" className="text-[18px]" />
-                      <h3 className="text-xs font-bold uppercase tracking-[0.12em]">Mẹo đăng bài</h3>
+                      <h3 className="text-xs font-bold uppercase tracking-[0.12em]">
+                        Mẹo đăng bài
+                      </h3>
                     </div>
                     <ul className="space-y-4 text-left">
                       <li className="flex gap-3">
-                        <MaterialIcon name="radio_button_unchecked" className="text-[14px] text-[#005ea4]" />
+                        <MaterialIcon
+                          name="radio_button_unchecked"
+                          className="text-[14px] text-[#005ea4]"
+                        />
                         <p className="text-sm leading-5 text-[#123457]">
                           Tiêu đề chứa tên thương hiệu và địa phương giúp tăng 40% lượt xem.
                         </p>
                       </li>
                       <li className="flex gap-3">
-                        <MaterialIcon name="radio_button_unchecked" className="text-[14px] text-[#005ea4]" />
+                        <MaterialIcon
+                          name="radio_button_unchecked"
+                          className="text-[14px] text-[#005ea4]"
+                        />
                         <p className="text-sm leading-5 text-[#123457]">
                           Sử dụng hình ảnh thực tế từ kho bãi để tạo niềm tin với khách hàng B2B.
                         </p>
                       </li>
                       <li className="flex gap-3">
-                        <MaterialIcon name="radio_button_unchecked" className="text-[14px] text-[#005ea4]" />
+                        <MaterialIcon
+                          name="radio_button_unchecked"
+                          className="text-[14px] text-[#005ea4]"
+                        />
                         <p className="text-sm leading-5 text-[#123457]">
                           Mô tả chi tiết năng lực cung ứng để thu hút đối tác mua số lượng lớn.
                         </p>
@@ -753,7 +856,11 @@ export const CreatePost = () => {
       </div>
 
       <footer className="fixed bottom-0 left-0 right-0 z-50 flex h-16 items-center justify-around border-t border-outline-variant bg-white px-4 md:hidden">
-        <button type="button" onClick={() => navigate('/forum')} className="flex flex-col items-center gap-1 text-slate-500">
+        <button
+          type="button"
+          onClick={() => navigate('/forum')}
+          className="flex flex-col items-center gap-1 text-slate-500"
+        >
           <MaterialIcon name="dashboard" className="text-[20px]" />
           <span className="text-[10px]">Tổng quan</span>
         </button>
