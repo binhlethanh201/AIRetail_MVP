@@ -2,7 +2,7 @@ export const MOCK_USERS = [
   {
     id: 1,
     email: 'admin@gmail.com',
-    password: '123', 
+    password: '123',
     name: 'Quản trị viên',
     role: 'admin',
     avatar: 'https://ui-avatars.com/api/?name=Admin&background=004881&color=fff',
@@ -30,5 +30,5 @@ export const MOCK_USERS = [
     name: 'Khách hàng',
     role: 'guest',
     avatar: 'https://ui-avatars.com/api/?name=Guest&background=707783&color=fff',
-  }
+  },
 ];

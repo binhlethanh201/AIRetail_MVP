@@ -36,7 +36,6 @@ const ForumCategory = lazy(() => import('./modules/forum/pages/ForumCategory'));
 const ForumTrends = lazy(() => import('./modules/forum/pages/ForumTrends'));
 
 function App() {
-
   const LoadingSpinner = (
     <div className="flex min-h-screen items-center justify-center bg-slate-50">
       <div className="text-center">
@@ -56,43 +55,42 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
 
           <Route element={<PrivateRoute />}>
+            {/* POS */}
+            <Route path="/pos">
+              <Route index element={<PosScreen />} />
+              <Route path="checkout" element={<CheckoutPage />} />
+              <Route path="orders" element={<OrderHistory />} />
+              <Route path="shift" element={<ShiftManagement />} />
+            </Route>
 
-          {/* POS */}
-          <Route path="/pos">
-            <Route index element={<PosScreen />} />
-            <Route path="checkout" element={<CheckoutPage />} />
-            <Route path="orders" element={<OrderHistory />} />
-            <Route path="shift" element={<ShiftManagement />} />
-          </Route>
+            {/* FORUM */}
+            <Route path="/forum">
+              <Route index element={<ForumHome />} />
+              <Route path="post/:id" element={<PostDetail />} />
+              <Route path="create" element={<CreatePost />} />
+              <Route path="category/:id" element={<ForumCategory />} />
+              <Route path="trends" element={<ForumTrends />} />
+            </Route>
 
-          {/* FORUM */}
-          <Route path="/forum">
-            <Route index element={<ForumHome />} />
-            <Route path="post/:id" element={<PostDetail />} />
-            <Route path="create" element={<CreatePost />} />
-            <Route path="category/:id" element={<ForumCategory />} />
-            <Route path="trends" element={<ForumTrends />} />
-          </Route>
+            {/* INVENTORY */}
+            <Route element={<MainLayout />}>
+              <Route path="/inventory" element={<Navigate to="/inventory/dashboard" replace />} />
+              <Route path="/inventory/dashboard" element={<InventoryDashboard />} />
+              <Route path="/inventory/products" element={<ProductManagement />} />
+              <Route path="/inventory/import" element={<StockImport />} />
+              <Route path="/inventory/export" element={<StockExport />} />
+              <Route path="/inventory/reports" element={<InventoryReports />} />
+            </Route>
 
-          {/* INVENTORY */}
-          <Route element={<MainLayout />}>
-            <Route path="/inventory" element={<Navigate to="/inventory/dashboard" replace />} />
-            <Route path="/inventory/dashboard" element={<InventoryDashboard />} />
-            <Route path="/inventory/products" element={<ProductManagement />} />
-            <Route path="/inventory/import" element={<StockImport />} />
-            <Route path="/inventory/export" element={<StockExport />} />
-            <Route path="/inventory/reports" element={<InventoryReports />} />
-          </Route>
-
-          {/* ADMIN */}
-          <Route
-            path="/admin"
-            element={
-              <div className="flex h-[50vh] items-center justify-center text-2xl font-bold uppercase tracking-widest text-slate-400">
-                Admin Module - Đang được phát triển
-              </div>
-            }
-          />
+            {/* ADMIN */}
+            <Route
+              path="/admin"
+              element={
+                <div className="flex h-[50vh] items-center justify-center text-2xl font-bold uppercase tracking-widest text-slate-400">
+                  Admin Module - Đang được phát triển
+                </div>
+              }
+            />
           </Route>
 
           {/* ERROR */}

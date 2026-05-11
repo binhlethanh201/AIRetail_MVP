@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Factory, Mail, Lock, User, ArrowRight, Eye, EyeOff } from 'lucide-react'; 
+import { Factory, Mail, Lock, User, ArrowRight, Eye, EyeOff } from 'lucide-react';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const RegisterPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert("Mật khẩu xác nhận không khớp!");
+      alert('Mật khẩu xác nhận không khớp!');
       return;
     }
     console.log('Register attempt:', formData);
@@ -30,7 +30,7 @@ const RegisterPage = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4 font-sans">
-      <div className="w-full max-w-md overflow-hidden rounded-xl bg-surface shadow-xl border border-outline-variant/30">
+      <div className="w-full max-w-md overflow-hidden rounded-xl border border-outline-variant/30 bg-surface shadow-xl">
         <div className="p-8">
           <div className="mb-8 flex flex-col items-center text-center">
             <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-primary text-on-primary shadow-sm">
@@ -66,7 +66,7 @@ const RegisterPage = () => {
 
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-on-surface" htmlFor="email">
-                Email 
+                Email
               </label>
               <div className="relative">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-outline">
@@ -106,7 +106,7 @@ const RegisterPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-outline hover:text-primary transition-colors focus:outline-none"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-outline transition-colors hover:text-primary focus:outline-none"
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
@@ -134,7 +134,7 @@ const RegisterPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-outline hover:text-primary transition-colors focus:outline-none"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-outline transition-colors hover:text-primary focus:outline-none"
                 >
                   {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>

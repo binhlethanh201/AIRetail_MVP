@@ -10,11 +10,11 @@ const getSafeUser = () => {
     const parsedUser = JSON.parse(item);
 
     if (!parsedUser || !parsedUser.role || !parsedUser.email) {
-      sessionStorage.removeItem('user'); 
+      sessionStorage.removeItem('user');
       sessionStorage.removeItem('authToken');
       return null;
     }
-    
+
     return parsedUser;
   } catch (error) {
     sessionStorage.removeItem('user');
@@ -26,7 +26,7 @@ const getSafeUser = () => {
 export const useAuth = () => {
   const [user, setUser] = useState(getSafeUser);
   const [token, setToken] = useState(() => sessionStorage.getItem('authToken'));
-  const [loading] = useState(false); 
+  const [loading] = useState(false);
 
   const login = (userData, authToken) => {
     sessionStorage.setItem('authToken', authToken);
@@ -46,7 +46,7 @@ export const useAuth = () => {
     user,
     token,
     loading,
-    isAuthenticated: !!token && !!user, 
+    isAuthenticated: !!token && !!user,
     login,
     logout,
   };
