@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 // Layouts
 import MainLayout from './shared/components/layout/MainLayout';
 import PrivateRoute from './shared/components/layout/PrivateRoute';
+import AdminLayout from './modules/admin/components/layout/AdminLayout';
 
 // Static Pages
 import LandingPage from './pages/LandingPage';
@@ -36,6 +37,10 @@ const ForumCategory = lazy(() => import('./modules/forum/pages/ForumCategory'));
 const ForumNews = lazy(() => import('./modules/forum/pages/ForumNews'));
 const ForumTrends = lazy(() => import('./modules/forum/pages/ForumTrends'));
 const ForumSupply = lazy(() => import('./modules/forum/pages/ForumSupply'));
+
+// Admin
+const AdminDashboard = lazy(() => import('./modules/admin/pages/AdminDashboard'));
+const UserManagement = lazy(() => import('./modules/admin/pages/UserManagement'));
 
 function App() {
   const LoadingSpinner = (
@@ -87,14 +92,14 @@ function App() {
             </Route>
 
             {/* ADMIN */}
-            <Route
-              path="/admin"
-              element={
-                <div className="flex h-[50vh] items-center justify-center text-2xl font-bold uppercase tracking-widest text-slate-400">
-                  Admin Module - Đang được phát triển
-                </div>
-              }
-            />
+            <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="users" element={<UserManagement />} />
+            <Route path="moderation" element={<div className="p-8 font-bold">Forum Moderation (Coming soon)</div>} />
+            <Route path="billing" element={<div className="p-8 font-bold">Billing & Revenue (Coming soon)</div>} />
+            <Route path="master-data" element={<div className="p-8 font-bold">Master Data (Coming soon)</div>} />
+          </Route>
+          
           </Route>
 
           {/* ERROR */}

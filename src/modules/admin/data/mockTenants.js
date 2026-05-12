@@ -1,0 +1,38 @@
+export const MOCK_TENANTS = [
+  {
+    id: 'T-9921',
+    name: 'Kim Khí Gia Bảo',
+    email: 'giabao@gmail.com',
+    role: 'store_owner',
+    regDate: '12/05/2026',
+    status: 'pending', 
+    isVerified: false,
+  },
+  {
+    id: 'T-8812',
+    name: 'Nhà Cung Cấp Vinsteel',
+    email: 'contact@vinsteel.vn',
+    role: 'ncc',
+    regDate: '10/05/2026',
+    status: 'active',
+    isVerified: true,
+  },
+  {
+    id: 'T-7721',
+    name: 'Đại lý Sắt Thép Miền Tây',
+    email: 'mientaysteel@yahoo.com',
+    role: 'store_owner',
+    regDate: '05/05/2026',
+    status: 'suspended',
+    isVerified: false,
+  },
+  {
+    id: 'T-9901',
+    name: 'Thiết bị Điện Quang Minh',
+    email: 'info@quangminh.com',
+    role: 'ncc',
+    regDate: '14/05/2026',
+    status: 'pending',
+    isVerified: false,
+  }
+];
