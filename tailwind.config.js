@@ -6,7 +6,7 @@ module.exports = {
     extend: {
       colors: {
         // Material Design System Colors
-        "on-primary-fixed-variant": "#004881",
+        "on-primary-fixed-variant": "#004785",
         "on-tertiary-container": "#f7fff1",
         "on-secondary-fixed": "#2e1500",
         "surface-tint": "#0060a8",
@@ -43,7 +43,7 @@ module.exports = {
         "tertiary-container": "#1e862d",
         "tertiary": "#006b1b",
         "on-tertiary-fixed-variant": "#005313",
-        "primary": "#005ea4",
+        "primary": "#004785",
         "on-surface-variant": "#404752",
         "surface-container-low": "#f2f4f7",
         "inverse-on-surface": "#eff1f4",
