@@ -5,7 +5,7 @@ export const MOCK_TENANTS = [
     email: 'giabao@gmail.com',
     role: 'store_owner',
     regDate: '12/05/2026',
-    status: 'pending', 
+    status: 'pending',
     isVerified: false,
   },
   {
@@ -34,5 +34,5 @@ export const MOCK_TENANTS = [
     regDate: '14/05/2026',
     status: 'pending',
     isVerified: false,
-  }
+  },
 ];

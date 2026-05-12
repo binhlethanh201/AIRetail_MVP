@@ -1,16 +1,16 @@
 import React, { useState, useMemo } from 'react';
 import { Search, CheckCircle, ShieldCheck, Ban, ExternalLink } from 'lucide-react';
-import { MOCK_TENANTS } from '../data/mockTenants'; 
+import { MOCK_TENANTS } from '../data/mockTenants';
 
 const UserManagement = () => {
-  const [filterStatus, setFilterStatus] = useState('all'); 
+  const [filterStatus, setFilterStatus] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [tenants] = useState(MOCK_TENANTS);
 
   const filteredTenants = useMemo(() => {
     return tenants.filter((tenant) => {
       const matchesStatus = filterStatus === 'all' || tenant.status === filterStatus;
-      const matchesSearch = 
+      const matchesSearch =
         tenant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         tenant.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
         tenant.id.toLowerCase().includes(searchTerm.toLowerCase());
@@ -24,7 +24,9 @@ const UserManagement = () => {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-black text-textAdmin">Quản lý Tài khoản</h1>
-          <p className="mt-1 text-sm text-placeholder">Duyệt cấp phát, xác minh và xử lý vi phạm Tenant hệ thống</p>
+          <p className="mt-1 text-sm text-placeholder">
+            Duyệt cấp phát, xác minh và xử lý vi phạm Tenant hệ thống
+          </p>
         </div>
         <div className="flex gap-2">
           <button className="rounded-admin border border-borderLight bg-white px-4 py-2 text-sm font-bold text-textAdmin transition-all hover:bg-bodyAdmin">
@@ -43,21 +45,27 @@ const UserManagement = () => {
               key={status}
               onClick={() => setFilterStatus(status)}
               className={`rounded-admin px-4 py-1.5 text-xs font-bold uppercase tracking-wider transition-all ${
-                filterStatus === status 
-                ? 'bg-admin text-white' 
-                : 'bg-bodyAdmin text-placeholder hover:text-textAdmin'
+                filterStatus === status
+                  ? 'bg-admin text-white'
+                  : 'bg-bodyAdmin text-placeholder hover:text-textAdmin'
               }`}
             >
-              {status === 'all' ? 'Tất cả' : status === 'pending' ? 'Chờ duyệt' : status === 'active' ? 'Hoạt động' : 'Đã khóa'}
+              {status === 'all'
+                ? 'Tất cả'
+                : status === 'pending'
+                  ? 'Chờ duyệt'
+                  : status === 'active'
+                    ? 'Hoạt động'
+                    : 'Đã khóa'}
             </button>
           ))}
         </div>
 
         <div className="relative w-full max-w-xs">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-placeholder" size={16} />
-          <input 
-            type="text" 
-            placeholder="Tìm theo tên, email hoặc ID..." 
+          <input
+            type="text"
+            placeholder="Tìm theo tên, email hoặc ID..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full rounded-admin border border-borderLight bg-[#FAFAFA] py-2 pl-10 pr-4 text-sm focus:border-admin focus:bg-white focus:outline-none"
@@ -69,17 +77,30 @@ const UserManagement = () => {
         <table className="w-full border-collapse text-left text-sm">
           <thead>
             <tr className="border-b border-borderLight bg-[#FAFAFA]">
-              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-[1px] text-placeholder">Thông tin Tài khoản</th>
-              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-[1px] text-placeholder">Ngày đăng ký</th>
-              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-[1px] text-placeholder">Xác minh (Verified)</th>
-              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-[1px] text-placeholder">Trạng thái</th>
-              <th className="px-6 py-4 text-right text-[10px] font-bold uppercase tracking-[1px] text-placeholder">Hành động</th>
+              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-[1px] text-placeholder">
+                Thông tin Tài khoản
+              </th>
+              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-[1px] text-placeholder">
+                Ngày đăng ký
+              </th>
+              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-[1px] text-placeholder">
+                Xác minh (Verified)
+              </th>
+              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-[1px] text-placeholder">
+                Trạng thái
+              </th>
+              <th className="px-6 py-4 text-right text-[10px] font-bold uppercase tracking-[1px] text-placeholder">
+                Hành động
+              </th>
             </tr>
           </thead>
           <tbody>
             {filteredTenants.length > 0 ? (
               filteredTenants.map((tenant) => (
-                <tr key={tenant.id} className="border-b border-borderLight transition-colors hover:bg-[#FAFAFA]">
+                <tr
+                  key={tenant.id}
+                  className="border-b border-borderLight transition-colors hover:bg-[#FAFAFA]"
+                >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-admin bg-bodyAdmin font-bold text-admin">
@@ -89,10 +110,17 @@ const UserManagement = () => {
                         <div className="flex items-center gap-1.5 font-bold text-textAdmin">
                           {tenant.name}
                           {tenant.isVerified && (
-                            <ShieldCheck size={14} className="text-[#2E7D32]" fill="#2E7D32" fillOpacity="0.1" />
+                            <ShieldCheck
+                              size={14}
+                              className="text-[#2E7D32]"
+                              fill="#2E7D32"
+                              fillOpacity="0.1"
+                            />
                           )}
                         </div>
-                        <div className="text-xs text-placeholder">{tenant.email} • ID: {tenant.id}</div>
+                        <div className="text-xs text-placeholder">
+                          {tenant.email} • ID: {tenant.id}
+                        </div>
                       </div>
                     </div>
                   </td>
@@ -110,13 +138,19 @@ const UserManagement = () => {
                   </td>
                   <td className="px-6 py-4">
                     {tenant.status === 'active' && (
-                      <div className="inline-flex rounded bg-[#2E7D32]/10 px-2 py-1 text-[10px] font-bold text-[#2E7D32]">HOẠT ĐỘNG</div>
+                      <div className="inline-flex rounded bg-[#2E7D32]/10 px-2 py-1 text-[10px] font-bold text-[#2E7D32]">
+                        HOẠT ĐỘNG
+                      </div>
                     )}
                     {tenant.status === 'pending' && (
-                      <div className="inline-flex rounded bg-[#FBC02D]/20 px-2 py-1 text-[10px] font-bold text-[#8f4e00]">CHỜ DUYỆT</div>
+                      <div className="inline-flex rounded bg-[#FBC02D]/20 px-2 py-1 text-[10px] font-bold text-[#8f4e00]">
+                        CHỜ DUYỆT
+                      </div>
                     )}
                     {tenant.status === 'suspended' && (
-                      <div className="inline-flex rounded bg-[#CC0000]/10 px-2 py-1 text-[10px] font-bold text-[#CC0000]">ĐÃ KHÓA</div>
+                      <div className="inline-flex rounded bg-[#CC0000]/10 px-2 py-1 text-[10px] font-bold text-[#CC0000]">
+                        ĐÃ KHÓA
+                      </div>
                     )}
                   </td>
                   <td className="px-6 py-4 text-right">
@@ -138,21 +172,28 @@ const UserManagement = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="px-6 py-12 text-center text-sm font-medium text-placeholder">
+                <td
+                  colSpan="5"
+                  className="px-6 py-12 text-center text-sm font-medium text-placeholder"
+                >
                   Không tìm thấy kết quả phù hợp với bộ lọc.
                 </td>
               </tr>
             )}
           </tbody>
         </table>
-        
+
         <div className="flex items-center justify-between bg-[#FAFAFA] px-6 py-3">
           <p className="text-xs font-semibold text-placeholder">
             Hiển thị {filteredTenants.length} của {tenants.length} Tenant
           </p>
           <div className="flex gap-1">
-            <button className="rounded-admin border border-borderLight bg-white px-3 py-1 text-xs font-bold text-admin disabled:opacity-50">Trước</button>
-            <button className="rounded-admin border border-borderLight bg-white px-3 py-1 text-xs font-bold text-admin">Sau</button>
+            <button className="rounded-admin border border-borderLight bg-white px-3 py-1 text-xs font-bold text-admin disabled:opacity-50">
+              Trước
+            </button>
+            <button className="rounded-admin border border-borderLight bg-white px-3 py-1 text-xs font-bold text-admin">
+              Sau
+            </button>
           </div>
         </div>
       </div>

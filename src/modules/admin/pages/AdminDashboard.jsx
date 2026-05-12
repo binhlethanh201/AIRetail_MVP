@@ -3,11 +3,12 @@ import React from 'react';
 const AdminDashboard = () => {
   return (
     <div className="mx-auto max-w-6xl space-y-8">
-
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-black text-textAdmin">Doanh thu & Tổng quan</h1>
-          <p className="mt-1 text-sm text-placeholder">Số liệu hoạt động thời gian thực của hệ thống</p>
+          <p className="mt-1 text-sm text-placeholder">
+            Số liệu hoạt động thời gian thực của hệ thống
+          </p>
         </div>
         <button className="rounded-admin bg-admin px-6 py-2.5 text-sm font-bold tracking-btn text-white transition-all hover:bg-black active:scale-95">
           XUẤT BÁO CÁO
@@ -39,7 +40,7 @@ const AdminDashboard = () => {
           <div className="mt-2 text-xs font-semibold text-[#2D6A4F]">Từ 4,200 giao dịch</div>
         </div>
 
-        <div className="rounded-admin border border-borderLight border-l-[3px] border-l-[#CC0000] bg-white p-6 shadow-sm">
+        <div className="rounded-admin border border-l-[3px] border-borderLight border-l-[#CC0000] bg-white p-6 shadow-sm">
           <h3 className="mb-2 text-[10px] font-bold uppercase tracking-widest text-placeholder">
             CẢNH BÁO HỆ THỐNG
           </h3>
@@ -53,10 +54,11 @@ const AdminDashboard = () => {
           TĂNG TRƯỞNG DOANH THU (2026)
         </h3>
         <div className="flex flex-1 items-center justify-center border-2 border-dashed border-borderLight bg-[#FAFAFA]">
-          <span className="text-sm font-semibold text-placeholder">[Khu vực render Biểu đồ Cột]</span>
+          <span className="text-sm font-semibold text-placeholder">
+            [Khu vực render Biểu đồ Cột]
+          </span>
         </div>
       </div>
-
     </div>
   );
 };

@@ -93,13 +93,21 @@ function App() {
 
             {/* ADMIN */}
             <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="users" element={<UserManagement />} />
-            <Route path="moderation" element={<div className="p-8 font-bold">Forum Moderation (Coming soon)</div>} />
-            <Route path="billing" element={<div className="p-8 font-bold">Billing & Revenue (Coming soon)</div>} />
-            <Route path="master-data" element={<div className="p-8 font-bold">Master Data (Coming soon)</div>} />
-          </Route>
-          
+              <Route index element={<AdminDashboard />} />
+              <Route path="users" element={<UserManagement />} />
+              <Route
+                path="moderation"
+                element={<div className="p-8 font-bold">Forum Moderation (Coming soon)</div>}
+              />
+              <Route
+                path="billing"
+                element={<div className="p-8 font-bold">Billing & Revenue (Coming soon)</div>}
+              />
+              <Route
+                path="master-data"
+                element={<div className="p-8 font-bold">Master Data (Coming soon)</div>}
+              />
+            </Route>
           </Route>
 
           {/* ERROR */}
