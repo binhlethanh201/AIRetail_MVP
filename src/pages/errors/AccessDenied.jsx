@@ -19,9 +19,11 @@ const AccessDenied = () => {
         <h1 className="mb-4 text-4xl font-black tracking-tight text-on-surface md:text-5xl lg:text-6xl">
           Truy cập <br className="hidden sm:block" /> bị từ chối.
         </h1>
-        
+
         <p className="mb-10 text-lg leading-relaxed text-on-surface-variant md:text-xl">
-          Rất tiếc, tài khoản của bạn không được cấp quyền để xem trang này. Vui lòng liên hệ <span className="font-bold text-primary">Quản trị viên hệ thống</span> nếu bạn cho rằng đây là một sự nhầm lẫn.
+          Rất tiếc, tài khoản của bạn không được cấp quyền để xem trang này. Vui lòng liên hệ{' '}
+          <span className="font-bold text-primary">Quản trị viên hệ thống</span> nếu bạn cho rằng
+          đây là một sự nhầm lẫn.
         </p>
 
         <div className="flex flex-col gap-4 sm:flex-row">
@@ -32,7 +34,7 @@ const AccessDenied = () => {
             <ArrowLeft size={18} />
             Quay lại trang trước
           </button>
-          
+
           <button
             onClick={() => navigate('/')}
             className="flex items-center justify-center gap-2 rounded-2xl bg-primary px-8 py-4 text-sm font-bold tracking-btn text-on-primary shadow-lg shadow-primary/20 transition-all duration-300 hover:-translate-y-1 hover:bg-on-primary-fixed hover:shadow-xl active:translate-y-0"

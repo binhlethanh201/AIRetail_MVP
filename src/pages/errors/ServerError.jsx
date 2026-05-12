@@ -23,9 +23,11 @@ const ServerError = () => {
         <h1 className="mb-4 text-4xl font-black tracking-tight text-on-surface md:text-5xl lg:text-6xl">
           Lỗi máy chủ <br className="hidden sm:block" /> hệ thống.
         </h1>
-        
+
         <p className="mb-10 text-lg leading-relaxed text-on-surface-variant md:text-xl">
-          Có vẻ như máy chủ đang gặp sự cố kỹ thuật hoặc đang quá tải. Đội ngũ kỹ thuật của <span className="font-bold text-primary">AI RETAIL ERP</span> đã được thông báo. Vui lòng thử lại sau ít phút.
+          Có vẻ như máy chủ đang gặp sự cố kỹ thuật hoặc đang quá tải. Đội ngũ kỹ thuật của{' '}
+          <span className="font-bold text-primary">AI RETAIL ERP</span> đã được thông báo. Vui lòng
+          thử lại sau ít phút.
         </p>
 
         <div className="flex flex-col gap-4 sm:flex-row">
@@ -36,7 +38,7 @@ const ServerError = () => {
             <ArrowLeft size={18} />
             Quay lại trang trước
           </button>
-          
+
           <button
             onClick={handleReload}
             className="flex items-center justify-center gap-2 rounded-2xl bg-error px-8 py-4 text-sm font-bold tracking-btn text-on-error shadow-lg shadow-error/20 transition-all duration-300 hover:-translate-y-1 hover:bg-on-error-container hover:shadow-xl active:translate-y-0"

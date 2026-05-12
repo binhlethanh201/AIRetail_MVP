@@ -19,9 +19,10 @@ const NotFound = () => {
         <h1 className="mb-4 text-4xl font-black tracking-tight text-on-surface md:text-5xl lg:text-6xl">
           Không tìm thấy <br className="hidden sm:block" /> trang yêu cầu.
         </h1>
-        
+
         <p className="mb-10 text-lg leading-relaxed text-on-surface-variant md:text-xl">
-          Đường dẫn bạn truy cập không tồn tại hoặc tính năng này đang được đội ngũ DEV phát triển. Vui lòng kiểm tra lại địa chỉ URL.
+          Đường dẫn bạn truy cập không tồn tại hoặc tính năng này đang được đội ngũ DEV phát triển.
+          Vui lòng kiểm tra lại địa chỉ URL.
         </p>
 
         <div className="flex flex-col gap-4 sm:flex-row">
@@ -32,7 +33,7 @@ const NotFound = () => {
             <ArrowLeft size={18} />
             Quay lại trang trước
           </button>
-          
+
           <button
             onClick={() => navigate('/')}
             className="flex items-center justify-center gap-2 rounded-2xl bg-primary px-8 py-4 text-sm font-bold tracking-btn text-on-primary shadow-lg shadow-primary/20 transition-all duration-300 hover:-translate-y-1 hover:bg-on-primary-fixed hover:shadow-xl active:translate-y-0"
