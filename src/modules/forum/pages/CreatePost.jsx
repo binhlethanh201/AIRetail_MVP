@@ -934,11 +934,7 @@ export const CreatePost = () => {
                     <div className="space-y-5 rounded-xl border border-outline-variant bg-white p-4 md:p-6">
                       <div className="mb-4 flex items-center justify-between gap-4">
                         <div className="flex items-center gap-2">
-                          <MaterialIcon
-                            name="settings"
-                            className="text-[20px] text-primary"
-                            fill
-                          />
+                          <MaterialIcon name="settings" className="text-[20px] text-primary" fill />
                           <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
                             {isTrustedPost
                               ? '4. Thông tin & Thông số kỹ thuật sản phẩm'
@@ -1015,7 +1011,8 @@ export const CreatePost = () => {
                                     Ảnh SP
                                   </label>
                                   {supplyProducts[currentProductIndex].image &&
-                                  supplyProducts[currentProductIndex].image !== quoteProduct.image ? (
+                                  supplyProducts[currentProductIndex].image !==
+                                    quoteProduct.image ? (
                                     <div className="group relative aspect-square h-32 w-32 overflow-hidden rounded-xl bg-gray-200">
                                       <img
                                         src={supplyProducts[currentProductIndex].image}
@@ -1074,7 +1071,9 @@ export const CreatePost = () => {
                                     placeholder="Ví dụ: Máy khoan bê tông chuyên dụng"
                                     type="text"
                                     value={supplyProducts[currentProductIndex].title}
-                                    onChange={(e) => handleSupplyProductChange('title', e.target.value)}
+                                    onChange={(e) =>
+                                      handleSupplyProductChange('title', e.target.value)
+                                    }
                                   />
                                   <p className="text-[11px] text-slate-400">
                                     Tên sản phẩm cụ thể giúp khách hàng dễ dàng tra cứu kỹ thuật.
@@ -1107,7 +1106,9 @@ export const CreatePost = () => {
                                       placeholder="Liên hệ"
                                       type="text"
                                       value={productRetailPrice}
-                                      onChange={(event) => setProductRetailPrice(event.target.value)}
+                                      onChange={(event) =>
+                                        setProductRetailPrice(event.target.value)
+                                      }
                                     />
                                   </div>
                                 </div>
@@ -1131,7 +1132,10 @@ export const CreatePost = () => {
 
                                 <div className="space-y-3">
                                   {supplyProducts[currentProductIndex].specs.map((spec) => (
-                                    <div key={spec.id} className="grid grid-cols-12 items-center gap-4">
+                                    <div
+                                      key={spec.id}
+                                      className="grid grid-cols-12 items-center gap-4"
+                                    >
                                       <div className="col-span-5">
                                         <input
                                           className="w-full rounded-lg border border-outline-variant bg-white px-4 py-2.5 text-sm outline-none transition-all focus:ring-2 focus:ring-primary/20"
