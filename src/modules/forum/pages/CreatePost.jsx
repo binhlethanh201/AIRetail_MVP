@@ -56,13 +56,18 @@ export const CreatePost = () => {
   const [specRows, setSpecRows] = useState(INITIAL_SPECS);
   const [images, setImages] = useState([sampleImage]);
   const [quoteOptions, setQuoteOptions] = useState({
-    attachProduct: true,
+    attachProduct: false,
     showPrice: false,
     showStock: false,
     showSupplier: false,
   });
   const [retailPrice, setRetailPrice] = useState('1.250.000');
   const [clearancePrice, setClearancePrice] = useState('850.000');
+  const [attachedWholesalePrice, setAttachedWholesalePrice] = useState('1.250.000');
+  const [attachedRetailPrice, setAttachedRetailPrice] = useState('850.000');
+  const [productWholesalePrice, setProductWholesalePrice] = useState('15.500.000');
+  const [productRetailPrice, setProductRetailPrice] = useState('Liên hệ');
+  const [showTrustedSpecs, setShowTrustedSpecs] = useState(false);
   // Trạng thái cho form Tìm nguồn hàng (Supply)
   const [supplyProducts, setSupplyProducts] = useState([
     {
@@ -78,17 +83,13 @@ export const CreatePost = () => {
       id: 2,
       title: 'Thép cuộn xây dựng',
       image: sampleImage,
-      specs: [
-        { id: 1, name: 'Tỷ lệ dãn suất', value: '' },
-      ],
+      specs: [{ id: 1, name: 'Tỷ lệ dãn suất', value: '' }],
     },
     {
       id: 3,
       title: 'Xi măng Portland',
       image: sampleImage,
-      specs: [
-        { id: 1, name: 'Độ mềm', value: '' },
-      ],
+      specs: [{ id: 1, name: 'Độ mềm', value: '' }],
     },
   ]);
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
@@ -169,13 +170,12 @@ export const CreatePost = () => {
   const isQuotePost = postType === 'quote';
   const isClearancePost = postType === 'trend';
   const isSupplyPost = postType === 'supply';
+  const isTrustedPost = postType === 'trusted';
 
   // Xử lý sự kiện form Tìm nguồn hàng
   const handleSupplyProductChange = (field, value) => {
     setSupplyProducts((prev) =>
-      prev.map((p, idx) =>
-        idx === currentProductIndex ? { ...p, [field]: value } : p
-      )
+      prev.map((p, idx) => (idx === currentProductIndex ? { ...p, [field]: value } : p))
     );
   };
 
@@ -185,9 +185,7 @@ export const CreatePost = () => {
         idx === currentProductIndex
           ? {
               ...p,
-              specs: p.specs.map((s) =>
-                s.id === specId ? { ...s, [field]: value } : s
-              ),
+              specs: p.specs.map((s) => (s.id === specId ? { ...s, [field]: value } : s)),
             }
           : p
       )
@@ -246,9 +244,7 @@ export const CreatePost = () => {
   };
 
   const handleSupplyNextProduct = () => {
-    setCurrentProductIndex((prev) =>
-      prev < supplyProducts.length - 1 ? prev + 1 : prev
-    );
+    setCurrentProductIndex((prev) => (prev < supplyProducts.length - 1 ? prev + 1 : prev));
   };
 
   const handlePublish = async () => {
@@ -267,7 +263,9 @@ export const CreatePost = () => {
             ? 'Đăng bài thanh lý kho thành công (demo).'
             : isSupplyPost
               ? 'Đăng nguồn hàng thành công (demo).'
-              : 'Đăng bài nguồn hàng thành công (demo).'
+              : isTrustedPost
+                ? 'Đăng bài mua chung thành công (demo).'
+                : 'Đăng bài thành công (demo).'
       );
     }, 1000);
   };
@@ -289,7 +287,9 @@ export const CreatePost = () => {
                     ? 'Đăng Thanh lý kho'
                     : isSupplyPost
                       ? 'Đăng nguồn hàng'
-                      : 'Đăng bài nguồn hàng mới'}
+                      : isTrustedPost
+                        ? 'Đăng Mua chung'
+                        : 'Đăng bài nguồn hàng mới'}
               </h1>
               <p className="text-sm text-on-surface-variant md:text-base">
                 {isQuotePost
@@ -298,7 +298,9 @@ export const CreatePost = () => {
                     ? 'Điền đầy đủ thông tin để thu hút đối tác và khách hàng B2B tiềm năng.'
                     : isSupplyPost
                       ? 'Điền đầy đủ thông tin để nhà cung cấp phù hợp liên hệ với bạn.'
-                      : 'Điền đầy đủ thông tin để thu hút đối tác và khách hàng B2B tiềm năng.'}
+                      : isTrustedPost
+                        ? 'Điền đầy đủ thông tin để thu hút đối tác và khách hàng B2B tiềm năng.'
+                        : 'Điền đầy đủ thông tin để thu hút đối tác và khách hàng B2B tiềm năng.'}
               </p>
             </header>
 
@@ -472,8 +474,13 @@ export const CreatePost = () => {
                       <div className="flex gap-4">
                         {/* Upload Area */}
                         <label className="flex h-32 w-32 flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-outline-variant bg-surface-bright transition-all hover:border-primary hover:bg-primary-container/5">
-                          <MaterialIcon name="add_a_photo" className="text-2xl text-on-surface-variant" />
-                          <span className="text-center text-xs font-medium text-on-surface-variant">Tải ảnh</span>
+                          <MaterialIcon
+                            name="add_a_photo"
+                            className="text-2xl text-on-surface-variant"
+                          />
+                          <span className="text-center text-xs font-medium text-on-surface-variant">
+                            Tải ảnh
+                          </span>
                           <input
                             type="file"
                             multiple
@@ -592,11 +599,43 @@ export const CreatePost = () => {
                                   <span>SKU: {quoteProduct.sku}</span>
                                   <span>NSX: {quoteProduct.supplier}</span>
                                 </div>
+                                {isTrustedPost && (
+                                  <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                    <div className="space-y-1.5">
+                                      <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
+                                        Giá sỉ (VNĐ)
+                                      </label>
+                                      <input
+                                        className="w-full rounded-lg border border-outline-variant bg-surface-bright px-3 py-2 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                                        placeholder="Nhập giá..."
+                                        type="text"
+                                        value={attachedWholesalePrice}
+                                        onChange={(event) =>
+                                          setAttachedWholesalePrice(event.target.value)
+                                        }
+                                      />
+                                    </div>
+                                    <div className="space-y-1.5">
+                                      <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
+                                        Giá lẻ (VNĐ)
+                                      </label>
+                                      <input
+                                        className="w-full rounded-lg border border-outline-variant bg-surface-bright px-3 py-2 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                                        placeholder="Liên hệ"
+                                        type="text"
+                                        value={attachedRetailPrice}
+                                        onChange={(event) =>
+                                          setAttachedRetailPrice(event.target.value)
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                )}
                                 {isClearancePost && (
                                   <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:gap-6">
                                     <div className="flex flex-col gap-1.5">
                                       <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
-                                        Giá bán lẻ
+                                        Giá bán sỉ (VNĐ)
                                       </label>
                                       <div className="relative max-w-[180px]">
                                         <input
@@ -621,7 +660,9 @@ export const CreatePost = () => {
                                           placeholder="Nhập giá..."
                                           type="text"
                                           value={clearancePrice}
-                                          onChange={(event) => setClearancePrice(event.target.value)}
+                                          onChange={(event) =>
+                                            setClearancePrice(event.target.value)
+                                          }
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-error/60">
                                           VNĐ
@@ -631,7 +672,10 @@ export const CreatePost = () => {
                                   </div>
                                 )}
                               </div>
-                              <button type="button" className="flex flex-col items-center text-error">
+                              <button
+                                type="button"
+                                className="flex flex-col items-center text-error"
+                              >
                                 <MaterialIcon name="delete" />
                                 <span className="text-[10px] font-bold">Xóa khỏi bài</span>
                               </button>
@@ -639,7 +683,9 @@ export const CreatePost = () => {
 
                             <div className="grid grid-cols-1 gap-3 border-t border-slate-100 pt-4 md:grid-cols-3">
                               <div className="flex items-center justify-between rounded-lg bg-slate-50 p-2">
-                                <span className="text-sm text-on-surface-variant">Hiển thị giá</span>
+                                <span className="text-sm text-on-surface-variant">
+                                  Hiển thị giá
+                                </span>
                                 <label className="relative inline-flex scale-75 cursor-pointer items-center">
                                   <input
                                     className="peer sr-only"
@@ -699,7 +745,7 @@ export const CreatePost = () => {
                       </div>
                     )}
                   </div>
-                ) : isSupplyPost ? (
+                ) : isSupplyPost || isTrustedPost ? (
                   <>
                     {/* Phần 3: Gắn sản phẩm từ kho */}
                     <div className="space-y-5 rounded-xl border border-outline-variant bg-white p-4 md:p-6">
@@ -771,8 +817,40 @@ export const CreatePost = () => {
                                   </p>
                                   <div className="flex gap-4 text-[10px] font-bold uppercase text-slate-400">
                                     <span>SKU: {quoteProduct.sku}</span>
-                                    <span>NSX: {quoteProduct.manufacturer}</span>
+                                    <span>NSX: {quoteProduct.supplier}</span>
                                   </div>
+                                  {isTrustedPost && (
+                                    <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                      <div className="space-y-1.5">
+                                        <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
+                                          Giá sỉ (VNĐ)
+                                        </label>
+                                        <input
+                                          className="w-full rounded-lg border border-outline-variant bg-surface-bright px-3 py-2 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                                          placeholder="Nhập giá..."
+                                          type="text"
+                                          value={attachedWholesalePrice}
+                                          onChange={(event) =>
+                                            setAttachedWholesalePrice(event.target.value)
+                                          }
+                                        />
+                                      </div>
+                                      <div className="space-y-1.5">
+                                        <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
+                                          Giá lẻ (VNĐ)
+                                        </label>
+                                        <input
+                                          className="w-full rounded-lg border border-outline-variant bg-surface-bright px-3 py-2 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                                          placeholder="Liên hệ"
+                                          type="text"
+                                          value={attachedRetailPrice}
+                                          onChange={(event) =>
+                                            setAttachedRetailPrice(event.target.value)
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                  )}
                                 </div>
                                 <button
                                   type="button"
@@ -791,7 +869,7 @@ export const CreatePost = () => {
                                     <span className="text-sm text-on-surface-variant">
                                       Hiển thị giá
                                     </span>
-                                    <label className="relative inline-flex cursor-pointer items-center scale-75">
+                                    <label className="relative inline-flex scale-75 cursor-pointer items-center">
                                       <input
                                         type="checkbox"
                                         checked={quoteOptions.showPrice}
@@ -810,7 +888,7 @@ export const CreatePost = () => {
                                     <span className="text-sm text-on-surface-variant">
                                       Hiển thị tồn kho
                                     </span>
-                                    <label className="relative inline-flex cursor-pointer items-center scale-75">
+                                    <label className="relative inline-flex scale-75 cursor-pointer items-center">
                                       <input
                                         type="checkbox"
                                         checked={quoteOptions.showStock}
@@ -829,7 +907,7 @@ export const CreatePost = () => {
                                     <span className="text-sm text-on-surface-variant">
                                       Hiển thị nhà cung cấp
                                     </span>
-                                    <label className="relative inline-flex cursor-pointer items-center scale-75">
+                                    <label className="relative inline-flex scale-75 cursor-pointer items-center">
                                       <input
                                         type="checkbox"
                                         checked={quoteOptions.showSupplier}
@@ -857,12 +935,14 @@ export const CreatePost = () => {
                       <div className="mb-4 flex items-center justify-between gap-4">
                         <div className="flex items-center gap-2">
                           <MaterialIcon
-                            name="settings_suggest"
+                            name="settings"
                             className="text-[20px] text-primary"
                             fill
                           />
                           <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
-                            4. Thông số kỹ thuật sản phẩm
+                            {isTrustedPost
+                              ? '4. Thông tin & Thông số kỹ thuật sản phẩm'
+                              : '4. Thông số kỹ thuật sản phẩm'}
                           </h3>
                         </div>
                         <div className="flex items-center gap-3">
@@ -873,199 +953,234 @@ export const CreatePost = () => {
                             <input
                               className="peer sr-only"
                               type="checkbox"
-                              defaultChecked
+                              checked={showTrustedSpecs}
+                              onChange={(event) => setShowTrustedSpecs(event.target.checked)}
                             />
                             <span className="h-6 w-11 rounded-full bg-slate-200 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
                           </label>
                         </div>
                       </div>
 
-                      {/* Điều hướng sản phẩm */}
-                      <div className="mb-6 flex items-center justify-between rounded-lg border border-outline-variant bg-surface-container-low p-4">
-                        <div className="flex items-center gap-4">
-                          <button
-                            type="button"
-                            onClick={handleSupplyRemoveProduct}
-                            className="flex items-center gap-1 rounded-lg border border-error/20 px-3 py-1.5 text-sm font-medium text-error transition-all hover:bg-error/10"
-                          >
-                            <MaterialIcon name="remove" className="text-[20px]" />
-                            <span>Giảm sản phẩm</span>
-                          </button>
-                          <div className="flex items-center">
-                            <button
-                              type="button"
-                              onClick={handleSupplyPrevProduct}
-                              className="rounded-full p-1 text-primary transition-colors hover:bg-primary/10"
-                            >
-                              <MaterialIcon name="chevron_left" className="text-[20px]" />
-                            </button>
-                            <span className="min-w-[100px] text-center font-medium text-on-surface">
-                              Sản phẩm {currentProductIndex + 1} / {supplyProducts.length}
-                            </span>
-                            <button
-                              type="button"
-                              onClick={handleSupplyNextProduct}
-                              className="rounded-full p-1 text-primary transition-colors hover:bg-primary/10"
-                            >
-                              <MaterialIcon name="chevron_right" className="text-[20px]" />
-                            </button>
-                          </div>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={handleSupplyAddProduct}
-                          className="flex items-center gap-1 rounded-lg border border-primary/20 px-3 py-1.5 text-sm font-medium text-primary transition-all hover:bg-primary-container/10"
-                        >
-                          <MaterialIcon name="add" className="text-[20px]" />
-                          <span>Thêm sản phẩm</span>
-                        </button>
-                      </div>
-
-                      {/* Form sản phẩm hiện tại */}
-                      {supplyProducts[currentProductIndex] && (
-                        <div className="space-y-6">
-                          {/* Hàng: Ảnh + Tiêu đề */}
-                          <div className="flex flex-col gap-6 md:flex-row">
-                          {/* Upload ảnh */}
-                          <div className="w-full md:w-auto md:flex-shrink-0">
-                            <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-on-surface-variant">
-                              Ảnh SP
-                            </label>
-                            {supplyProducts[currentProductIndex].image && supplyProducts[currentProductIndex].image !== quoteProduct.image ? (
-                              <div className="group relative aspect-square h-32 w-32 overflow-hidden rounded-xl bg-gray-200">
-                                <img
-                                  src={supplyProducts[currentProductIndex].image}
-                                  alt="Product"
-                                  className="h-full w-full object-cover"
-                                />
+                      {showTrustedSpecs && (
+                        <>
+                          {/* Điều hướng sản phẩm */}
+                          <div className="mb-6 flex items-center justify-between rounded-lg border border-outline-variant bg-surface-container-low p-4">
+                            <div className="flex items-center gap-4">
+                              <button
+                                type="button"
+                                onClick={handleSupplyRemoveProduct}
+                                className="flex items-center gap-1 rounded-lg border border-error/20 px-3 py-1.5 text-sm font-medium text-error transition-all hover:bg-error/10"
+                              >
+                                <MaterialIcon name="remove" className="text-[20px]" />
+                                <span>Giảm sản phẩm</span>
+                              </button>
+                              <div className="flex items-center">
                                 <button
                                   type="button"
-                                  onClick={() => {
-                                    setSupplyProducts((prev) => {
-                                      const updated = [...prev];
-                                      updated[currentProductIndex].image = quoteProduct.image;
-                                      return updated;
-                                    });
-                                  }}
-                                  className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100"
+                                  onClick={handleSupplyPrevProduct}
+                                  className="rounded-full p-1 text-primary transition-colors hover:bg-primary/10"
                                 >
-                                  <MaterialIcon name="close" className="text-[16px]" />
+                                  <MaterialIcon name="chevron_left" className="text-[20px]" />
+                                </button>
+                                <span className="min-w-[100px] text-center font-medium text-on-surface">
+                                  Sản phẩm {currentProductIndex + 1} / {supplyProducts.length}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={handleSupplyNextProduct}
+                                  className="rounded-full p-1 text-primary transition-colors hover:bg-primary/10"
+                                >
+                                  <MaterialIcon name="chevron_right" className="text-[20px]" />
                                 </button>
                               </div>
-                            ) : (
-                              <label className="flex aspect-square h-32 w-32 flex-col items-center justify-center rounded-xl border-2 border-dashed border-outline-variant bg-surface-bright text-on-surface-variant transition-all hover:border-primary hover:bg-primary-container/5">
-                                <MaterialIcon name="add_a_photo" className="text-2xl" />
-                                <span className="mt-1 text-[10px]">Tải ảnh</span>
-                                <input
-                                  type="file"
-                                  accept="image/*"
-                                  className="hidden"
-                                  onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                      const reader = new FileReader();
-                                      reader.onload = (event) => {
-                                        setSupplyProducts((prev) => {
-                                          const updated = [...prev];
-                                          updated[currentProductIndex].image = event.target.result;
-                                          return updated;
-                                        });
-                                      };
-                                      reader.readAsDataURL(file);
-                                    }
-                                  }}
-                                />
-                              </label>
-                            )}
-                          </div>
-
-                          {/* Tiêu đề sản phẩm */}
-                          <div className="flex-1 space-y-2">
-                            <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant">
-                              Tiêu đề sản phẩm
-                            </label>
-                            <input
-                              className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
-                              placeholder="Ví dụ: Máy khoan bê tông chuyên dụng"
-                              type="text"
-                              value={supplyProducts[currentProductIndex].title}
-                              onChange={(e) => handleSupplyProductChange('title', e.target.value)}
-                            />
-                            <p className="text-[11px] text-slate-400">
-                              Tên sản phẩm cụ thể giúp khách hàng dễ dàng tra cứu kỹ thuật.
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Bảng thông số kỹ thuật */}
-                        <div className="space-y-4">
-                          <div className="grid grid-cols-12 gap-4 px-2">
-                            <div className="col-span-5">
-                              <label className="block text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">
-                                Tên thông số
-                              </label>
                             </div>
-                            <div className="col-span-6">
-                              <label className="block text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">
-                                Giá trị / Nội dung
-                              </label>
-                            </div>
-                            <div className="col-span-1" />
+                            <button
+                              type="button"
+                              onClick={handleSupplyAddProduct}
+                              className="flex items-center gap-1 rounded-lg border border-primary/20 px-3 py-1.5 text-sm font-medium text-primary transition-all hover:bg-primary-container/10"
+                            >
+                              <MaterialIcon name="add" className="text-[20px]" />
+                              <span>Thêm sản phẩm</span>
+                            </button>
                           </div>
 
-                          <div className="space-y-3">
-                            {supplyProducts[currentProductIndex].specs.map((spec) => (
-                              <div
-                                key={spec.id}
-                                className="grid grid-cols-12 gap-4 items-center"
-                              >
-                                <div className="col-span-5">
-                                  <input
-                                    className="w-full rounded-lg border border-outline-variant bg-white px-4 py-2.5 text-sm outline-none transition-all focus:ring-2 focus:ring-primary/20"
-                                    placeholder="Ví dụ: Độ phủ lý thuyết"
-                                    type="text"
-                                    value={spec.name}
-                                    onChange={(e) =>
-                                      handleSupplySpecChange(spec.id, 'name', e.target.value)
-                                    }
-                                  />
+                          {/* Form sản phẩm hiện tại */}
+                          {supplyProducts[currentProductIndex] && (
+                            <div className="space-y-6">
+                              {/* Hàng: Ảnh + Tiêu đề */}
+                              <div className="flex flex-col gap-6 md:flex-row">
+                                {/* Upload ảnh */}
+                                <div className="w-full md:w-auto md:flex-shrink-0">
+                                  <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-on-surface-variant">
+                                    Ảnh SP
+                                  </label>
+                                  {supplyProducts[currentProductIndex].image &&
+                                  supplyProducts[currentProductIndex].image !== quoteProduct.image ? (
+                                    <div className="group relative aspect-square h-32 w-32 overflow-hidden rounded-xl bg-gray-200">
+                                      <img
+                                        src={supplyProducts[currentProductIndex].image}
+                                        alt="Product"
+                                        className="h-full w-full object-cover"
+                                      />
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          setSupplyProducts((prev) => {
+                                            const updated = [...prev];
+                                            updated[currentProductIndex].image = quoteProduct.image;
+                                            return updated;
+                                          });
+                                        }}
+                                        className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100"
+                                      >
+                                        <MaterialIcon name="close" className="text-[16px]" />
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <label className="flex aspect-square h-32 w-32 flex-col items-center justify-center rounded-xl border-2 border-dashed border-outline-variant bg-surface-bright text-on-surface-variant transition-all hover:border-primary hover:bg-primary-container/5">
+                                      <MaterialIcon name="add_a_photo" className="text-2xl" />
+                                      <span className="mt-1 text-[10px]">Tải ảnh</span>
+                                      <input
+                                        type="file"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={(e) => {
+                                          const file = e.target.files?.[0];
+                                          if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = (event) => {
+                                              setSupplyProducts((prev) => {
+                                                const updated = [...prev];
+                                                updated[currentProductIndex].image =
+                                                  event.target.result;
+                                                return updated;
+                                              });
+                                            };
+                                            reader.readAsDataURL(file);
+                                          }
+                                        }}
+                                      />
+                                    </label>
+                                  )}
                                 </div>
-                                <div className="col-span-6">
+
+                                {/* Tiêu đề sản phẩm */}
+                                <div className="flex-1 space-y-2">
+                                  <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant">
+                                    Tiêu đề sản phẩm
+                                  </label>
                                   <input
-                                    className="w-full rounded-lg border border-outline-variant bg-white px-4 py-2.5 text-sm outline-none transition-all focus:ring-2 focus:ring-primary/20"
-                                    placeholder="Ví dụ: 10-12 m²/lít"
+                                    className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                                    placeholder="Ví dụ: Máy khoan bê tông chuyên dụng"
                                     type="text"
-                                    value={spec.value}
-                                    onChange={(e) =>
-                                      handleSupplySpecChange(spec.id, 'value', e.target.value)
-                                    }
+                                    value={supplyProducts[currentProductIndex].title}
+                                    onChange={(e) => handleSupplyProductChange('title', e.target.value)}
                                   />
-                                </div>
-                                <div className="col-span-1 flex justify-center">
-                                  <button
-                                    type="button"
-                                    onClick={() => handleSupplyRemoveSpec(spec.id)}
-                                    className="rounded p-1 text-slate-300 transition-colors hover:text-error"
-                                  >
-                                    <MaterialIcon name="delete" className="text-[18px]" />
-                                  </button>
+                                  <p className="text-[11px] text-slate-400">
+                                    Tên sản phẩm cụ thể giúp khách hàng dễ dàng tra cứu kỹ thuật.
+                                  </p>
                                 </div>
                               </div>
-                            ))}
-                          </div>
 
-                          <button
-                            type="button"
-                            onClick={handleSupplyAddSpec}
-                            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-primary transition-all hover:bg-primary/5 w-fit"
-                          >
-                            <MaterialIcon name="add_circle" className="text-[20px]" />
-                            <span>Thêm thông số khác</span>
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                              {isTrustedPost && (
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                  <div className="space-y-2">
+                                    <label className="text-sm font-medium text-on-surface">
+                                      Giá sỉ (VNĐ)
+                                    </label>
+                                    <input
+                                      className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                                      placeholder="Thỏa thuận"
+                                      type="text"
+                                      value={productWholesalePrice}
+                                      onChange={(event) =>
+                                        setProductWholesalePrice(event.target.value)
+                                      }
+                                    />
+                                  </div>
+                                  <div className="space-y-2">
+                                    <label className="text-sm font-medium text-on-surface">
+                                      Giá lẻ (VNĐ)
+                                    </label>
+                                    <input
+                                      className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                                      placeholder="Liên hệ"
+                                      type="text"
+                                      value={productRetailPrice}
+                                      onChange={(event) => setProductRetailPrice(event.target.value)}
+                                    />
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Bảng thông số kỹ thuật */}
+                              <div className="space-y-4">
+                                <div className="grid grid-cols-12 gap-4 px-2">
+                                  <div className="col-span-5">
+                                    <label className="block text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">
+                                      Tên thông số
+                                    </label>
+                                  </div>
+                                  <div className="col-span-6">
+                                    <label className="block text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">
+                                      Giá trị / Nội dung
+                                    </label>
+                                  </div>
+                                  <div className="col-span-1" />
+                                </div>
+
+                                <div className="space-y-3">
+                                  {supplyProducts[currentProductIndex].specs.map((spec) => (
+                                    <div key={spec.id} className="grid grid-cols-12 items-center gap-4">
+                                      <div className="col-span-5">
+                                        <input
+                                          className="w-full rounded-lg border border-outline-variant bg-white px-4 py-2.5 text-sm outline-none transition-all focus:ring-2 focus:ring-primary/20"
+                                          placeholder="Ví dụ: Độ phủ lý thuyết"
+                                          type="text"
+                                          value={spec.name}
+                                          onChange={(e) =>
+                                            handleSupplySpecChange(spec.id, 'name', e.target.value)
+                                          }
+                                        />
+                                      </div>
+                                      <div className="col-span-6">
+                                        <input
+                                          className="w-full rounded-lg border border-outline-variant bg-white px-4 py-2.5 text-sm outline-none transition-all focus:ring-2 focus:ring-primary/20"
+                                          placeholder="Ví dụ: 10-12 m²/lít"
+                                          type="text"
+                                          value={spec.value}
+                                          onChange={(e) =>
+                                            handleSupplySpecChange(spec.id, 'value', e.target.value)
+                                          }
+                                        />
+                                      </div>
+                                      <div className="col-span-1 flex justify-center">
+                                        <button
+                                          type="button"
+                                          onClick={() => handleSupplyRemoveSpec(spec.id)}
+                                          className="rounded p-1 text-slate-300 transition-colors hover:text-error"
+                                        >
+                                          <MaterialIcon name="delete" className="text-[18px]" />
+                                        </button>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+
+                                <button
+                                  type="button"
+                                  onClick={handleSupplyAddSpec}
+                                  className="flex w-fit items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-primary transition-all hover:bg-primary/5"
+                                >
+                                  <MaterialIcon name="add_circle" className="text-[20px]" />
+                                  <span>Thêm thông số khác</span>
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
                   </>
                 ) : (
                   <>
@@ -1316,7 +1431,9 @@ export const CreatePost = () => {
                           ? 'Đăng bài thanh lý kho'
                           : isSupplyPost
                             ? 'Đăng nguồn hàng'
-                            : 'Đăng bài'}
+                            : isTrustedPost
+                              ? 'Đăng bài mua chung'
+                              : 'Đăng bài'}
                   </button>
                 </div>
               </section>
