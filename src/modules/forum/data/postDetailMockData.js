@@ -43,7 +43,8 @@ const postDetailMockData = {
           author: 'Nguyễn Văn A',
           role: 'TÁC GIẢ',
           time: '30 phút trước',
-          content: 'Theo tôi biết thì đang có chương trình tích điểm đổi quà cho đơn hàng trên 50 triệu đó bạn.',
+          content:
+            'Theo tôi biết thì đang có chương trình tích điểm đổi quà cho đơn hàng trên 50 triệu đó bạn.',
           likes: 0,
         },
       ],
@@ -63,7 +64,8 @@ const postDetailMockData = {
           author: 'Nguyễn Văn A',
           role: 'TÁC GIẢ',
           time: '30 phút trước',
-          content: 'Theo tôi biết thì đang có chương trình tích điểm đổi quà cho đơn hàng trên 50 triệu đó bạn.',
+          content:
+            'Theo tôi biết thì đang có chương trình tích điểm đổi quà cho đơn hàng trên 50 triệu đó bạn.',
           likes: 0,
         },
       ],

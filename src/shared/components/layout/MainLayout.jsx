@@ -19,7 +19,7 @@ export const MainLayout = ({ onNavigate = () => {} }) => {
               }
             >
               {/* 2. Thay {children} bằng <Outlet /> */}
-              <Outlet /> 
+              <Outlet />
             </Suspense>
           </div>
         </main>

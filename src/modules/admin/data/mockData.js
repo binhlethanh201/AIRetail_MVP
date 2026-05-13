@@ -44,19 +44,21 @@ export const MOCK_REPORTS = [
     reporter: 'Sắt thép Hòa Phát',
     target: 'Cơ khí Nam Định',
     reason: 'Spam nội dung không liên quan (Phá giá thị trường)',
-    content: 'Xả kho cắt lỗ 100 tấn thép cuộn CB240 giá chỉ 10.xxx (giá ảo để câu tương tác), liên hệ ngay để ép giá...',
+    content:
+      'Xả kho cắt lỗ 100 tấn thép cuộn CB240 giá chỉ 10.xxx (giá ảo để câu tương tác), liên hệ ngay để ép giá...',
     date: '13/05/2026',
-    status: 'pending'
+    status: 'pending',
   },
   {
     id: 'REP-202',
-    type: 'dispute', 
+    type: 'dispute',
     reporter: 'Đại lý Kim khí 24h',
     target: 'Tổng kho Inox HN',
     reason: 'Tranh chấp bù trừ: Sai quy cách & Chất lượng',
-    content: 'Thỏa thuận bù trừ 5 tấn Inox 304 tấm ly độ 2.0, nhưng khi nhận hàng thực tế là Inox 201 bị rỉ sét bề mặt và độ dày chỉ 1.8.',
+    content:
+      'Thỏa thuận bù trừ 5 tấn Inox 304 tấm ly độ 2.0, nhưng khi nhận hàng thực tế là Inox 201 bị rỉ sét bề mặt và độ dày chỉ 1.8.',
     date: '12/05/2026',
-    status: 'investigating'
+    status: 'investigating',
   },
   {
     id: 'REP-303',
@@ -64,9 +66,10 @@ export const MOCK_REPORTS = [
     reporter: 'Hệ thống Admin',
     target: 'Thép Miền Nam',
     reason: 'Sai danh mục (Đăng bán máy khoan cũ trong mục Sắt hình)',
-    content: 'Thanh lý lô máy khoan cầm tay Bosch cũ, hàng bãi Nhật còn mới 80%, giá công khai 500k...',
+    content:
+      'Thanh lý lô máy khoan cầm tay Bosch cũ, hàng bãi Nhật còn mới 80%, giá công khai 500k...',
     date: '11/05/2026',
-    status: 'resolved'
+    status: 'resolved',
   },
   {
     id: 'REP-404',
@@ -74,10 +77,11 @@ export const MOCK_REPORTS = [
     reporter: 'Xây dựng An Gia',
     target: 'Đúc Thép Việt',
     reason: 'Báo cáo: NCC không gửi CO/CQ đi kèm hàng hóa',
-    content: 'Lô hàng phôi thép vuông 100x100 giao tới công trình thiếu chứng chỉ xuất xưởng và kiểm định chất lượng, xe đang bị kẹt tại cổng.',
+    content:
+      'Lô hàng phôi thép vuông 100x100 giao tới công trình thiếu chứng chỉ xuất xưởng và kiểm định chất lượng, xe đang bị kẹt tại cổng.',
     date: '13/05/2026',
-    status: 'pending'
-  }
+    status: 'pending',
+  },
 ];
 
 export const MOCK_SUBSCRIPTIONS = [
@@ -87,7 +91,7 @@ export const MOCK_SUBSCRIPTIONS = [
     plan: 'Premium Plan',
     amount: '15,000,000',
     expiryDate: '20/05/2026',
-    status: 'warning', 
+    status: 'warning',
   },
   {
     id: 'SUB-002',
@@ -103,8 +107,8 @@ export const MOCK_SUBSCRIPTIONS = [
     plan: 'Enterprise Plan',
     amount: '50,000,000',
     expiryDate: '15/05/2026',
-    status: 'expired', 
-  }
+    status: 'expired',
+  },
 ];
 
 export const MOCK_TRANSACTION_FEES = [
@@ -113,9 +117,9 @@ export const MOCK_TRANSACTION_FEES = [
     date: '13/05/2026',
     orderId: 'ORD-B2B-771',
     value: '250,000,000',
-    fee: '2,500,000', 
+    fee: '2,500,000',
     parties: 'Vinsteel ➔ Hòa Phát',
-    status: 'collected'
+    status: 'collected',
   },
   {
     id: 'TRX-999',
@@ -124,8 +128,8 @@ export const MOCK_TRANSACTION_FEES = [
     value: '120,000,000',
     fee: '1,200,000',
     parties: 'Inox HN ➔ Cơ khí ND',
-    status: 'pending'
-  }
+    status: 'pending',
+  },
 ];
 
 export const MOCK_CATEGORIES = [
@@ -141,13 +145,13 @@ export const MOCK_BROADCASTS = [
     title: 'Bảo trì hệ thống nâng cấp AI OCR',
     target: 'Tất cả cửa hàng',
     time: '02:00 AM - 17/05/2026',
-    status: 'scheduled'
+    status: 'scheduled',
   },
   {
     id: 'BC-102',
     title: 'Ra mắt tính năng Bù trừ tồn kho tự động',
     target: 'Store Owner & Admin',
     time: '09:00 AM - 10/05/2026',
-    status: 'sent'
-  }
+    status: 'sent',
+  },
 ];
