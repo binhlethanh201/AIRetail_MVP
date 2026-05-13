@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Search, CheckCircle, ShieldCheck, Ban, ExternalLink } from 'lucide-react';
-import { MOCK_TENANTS } from '../data/mockTenants';
+import { MOCK_TENANTS } from '../data/mockData';
 
 const UserManagement = () => {
   const [filterStatus, setFilterStatus] = useState('all');

@@ -41,6 +41,9 @@ const ForumSupply = lazy(() => import('./modules/forum/pages/ForumSupply'));
 // Admin
 const AdminDashboard = lazy(() => import('./modules/admin/pages/AdminDashboard'));
 const UserManagement = lazy(() => import('./modules/admin/pages/UserManagement'));
+const Moderation = lazy(() => import('./modules/admin/pages/Moderation'));
+const Billing = lazy(() => import('./modules/admin/pages/Billing'));
+const MasterData = lazy(() => import('./modules/admin/pages/MasterData'));
 
 function App() {
   const LoadingSpinner = (
@@ -56,7 +59,7 @@ function App() {
     <BrowserRouter>
       <Suspense fallback={LoadingSpinner}>
         <Routes>
-          {/* TRANG CHỦ */}
+          {/* HOMEPAGE */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -95,18 +98,9 @@ function App() {
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
               <Route path="users" element={<UserManagement />} />
-              <Route
-                path="moderation"
-                element={<div className="p-8 font-bold">Forum Moderation (Coming soon)</div>}
-              />
-              <Route
-                path="billing"
-                element={<div className="p-8 font-bold">Billing & Revenue (Coming soon)</div>}
-              />
-              <Route
-                path="master-data"
-                element={<div className="p-8 font-bold">Master Data (Coming soon)</div>}
-              />
+              <Route path="moderation" element={<Moderation />} />
+              <Route path="billing" element={<Billing />} />
+              <Route path="master-data" element={<MasterData />} />
             </Route>
           </Route>
 
