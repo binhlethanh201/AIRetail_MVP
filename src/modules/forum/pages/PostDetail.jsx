@@ -3,6 +3,8 @@
  */
 
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ForumHeader from '../components/ForumHeader';
 import ForumLeftSidebar from '../components/ForumLeftSidebar';
 import postDetailMockData from '../data/postDetailMockData';
 
@@ -50,6 +52,7 @@ const ProductThumbnail = ({ name }) => (
 );
 
 export const PostDetail = ({ postId = 1 }) => {
+  const navigate = useNavigate();
   const [commentText, setCommentText] = useState('');
   const [isSaved, setIsSaved] = useState(false);
   const [isVoted, setIsVoted] = useState(false);
@@ -96,41 +99,9 @@ export const PostDetail = ({ postId = 1 }) => {
 
   return (
     <div className="min-h-screen bg-background font-sans text-on-surface antialiased">
-      {/* Top NavBar */}
-      <header className="fixed top-0 z-50 flex h-16 w-full items-center justify-between border-b border-slate-200 bg-white px-6">
-        <div className="flex items-center gap-8">
-          <span className="text-xl font-bold tracking-tight text-[#1E6BB8]">
-            B2B Hardware Retail
-          </span>
-          <div className="group relative hidden md:flex">
-            <MaterialIcon
-              name="search"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-primary"
-            />
-            <input
-              className="w-80 rounded-full border-none bg-[#F8FAFC] py-2 pl-10 pr-4 text-sm transition-all focus:ring-2 focus:ring-[#1E6BB8]"
-              placeholder="Tìm kiếm thảo luận, sản phẩm..."
-              type="text"
-            />
-          </div>
-        </div>
-        <div className="flex items-center gap-4">
-          <button
-            className={`rounded-full px-5 py-2 font-medium transition-colors ${primaryButtonClass}`}
-          >
-            Đăng bài
-          </button>
-          <button className="relative rounded-full p-2 transition-colors hover:bg-slate-50">
-            <MaterialIcon name="notifications" className="text-on-surface-variant" />
-            <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[#ba1a1a]"></span>
-          </button>
-          <button className="rounded-full border-2 border-slate-100 p-1">
-            <MaterialIcon name="account_circle" className="text-3xl text-on-surface-variant" />
-          </button>
-        </div>
-      </header>
+      <ForumHeader />
 
-      <div className="relative mx-auto flex max-w-[1200px] gap-4 pt-20">
+      <div className="relative mx-auto flex max-w-[1200px] gap-4 pt-0">
         <ForumLeftSidebar activeKey="detail" />
 
         {/* Main Content */}
