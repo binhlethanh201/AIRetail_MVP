@@ -1,57 +1,58 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShieldAlert, Lock, Home, ArrowLeft } from 'lucide-react';
-import Button from '../../shared/components/Button';
+import { ShieldAlert, ArrowLeft, Home } from 'lucide-react';
 
 const AccessDenied = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-bodyAdmin p-6 text-center">
-      <div className="relative mb-8">
-        <div className="absolute inset-0 rounded-full bg-admin/5 blur-3xl"></div>
-        <div className="relative rounded-full border-2 border-admin/10 bg-surface p-6 text-admin shadow-2xl">
-          <ShieldAlert size={64} strokeWidth={1.5} />
-        </div>
-        <div className="absolute -bottom-2 -right-2 rounded-full border-4 border-bodyAdmin bg-admin p-2 text-surface">
-          <Lock size={20} />
-        </div>
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-6 font-sans md:justify-start md:px-24">
+      <div className="pointer-events-none absolute -right-20 top-1/2 -translate-y-1/2 select-none text-[40vw] font-black leading-none text-outline/20 md:right-10 md:text-[30vw]">
+        403
       </div>
 
-      <h1 className="mb-2 text-8xl font-black tracking-tighter text-textMain">403</h1>
-      <h2 className="mb-4 text-xl font-bold uppercase tracking-widest text-textAdmin">
-        Truy cập bị từ chối
-      </h2>
-      <p className="mb-10 max-w-md text-sm leading-relaxed text-placeholder">
-        Tài khoản của bạn không có đủ thẩm quyền để truy cập vào khu vực này. Vui lòng liên hệ{' '}
-        <span className="font-bold text-admin">Quản trị viên hệ thống</span> nếu bạn cho rằng đây là
-        một sự nhầm lẫn.
-      </p>
+      <div className="relative z-10 w-full max-w-2xl">
+        <div className="mb-8 inline-flex h-20 w-20 items-center justify-center rounded-3xl bg-error/10 text-error shadow-sm shadow-error/5">
+          <ShieldAlert size={40} strokeWidth={1.5} />
+        </div>
 
-      <div className="flex flex-col gap-4 sm:flex-row">
-        <Button
-          variant="edit"
-          className="flex items-center gap-x-2 border-admin/20 px-6 py-3 text-admin hover:bg-admin/5"
-          onClick={() => navigate(-1)}
-        >
-          <ArrowLeft size={18} />
-          <span>Quay lại</span>
-        </Button>
+        <h1 className="mb-4 text-4xl font-black tracking-tight text-on-surface md:text-5xl lg:text-6xl">
+          Truy cập <br className="hidden sm:block" /> bị từ chối.
+        </h1>
 
-        <Button
-          variant="add"
-          className="flex items-center gap-x-2 bg-admin px-6 py-3 hover:bg-black"
-          onClick={() => navigate('/')}
-        >
-          <Home size={18} />
-          <span>Về Trang Chủ</span>
-        </Button>
-      </div>
-
-      <div className="mt-16 w-full max-w-xs border-t border-borderLight pt-8">
-        <p className="mb-1 text-[10px] uppercase tracking-[0.2em] text-placeholder">
-          Security Level: HIGH
+        <p className="mb-10 text-lg leading-relaxed text-on-surface-variant md:text-xl">
+          Rất tiếc, tài khoản của bạn không được cấp quyền để xem trang này. Vui lòng liên hệ{' '}
+          <span className="font-bold text-primary">Quản trị viên hệ thống</span> nếu bạn cho rằng
+          đây là một sự nhầm lẫn.
         </p>
+
+        <div className="flex flex-col gap-4 sm:flex-row">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center justify-center gap-2 rounded-2xl border-2 border-outline-variant/50 bg-transparent px-8 py-4 text-sm font-bold text-on-surface transition-all duration-300 hover:border-primary hover:text-primary active:scale-95"
+          >
+            <ArrowLeft size={18} />
+            Quay lại trang trước
+          </button>
+
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center justify-center gap-2 rounded-2xl bg-primary px-8 py-4 text-sm font-bold tracking-btn text-on-primary shadow-lg shadow-primary/20 transition-all duration-300 hover:-translate-y-1 hover:bg-on-primary-fixed hover:shadow-xl active:translate-y-0"
+          >
+            <Home size={18} />
+            Về màn hình chính
+          </button>
+        </div>
+
+        <div className="mt-16 flex items-center gap-3">
+          <span className="flex h-2 w-2">
+            <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-error opacity-75"></span>
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-error"></span>
+          </span>
+          <p className="text-xs font-bold uppercase tracking-widest text-outline">
+            Mã lỗi hệ thống: ERR_ACCESS_DENIED_403
+          </p>
+        </div>
       </div>
     </div>
   );
