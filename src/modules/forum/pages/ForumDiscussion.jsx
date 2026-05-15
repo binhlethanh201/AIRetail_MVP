@@ -278,11 +278,7 @@ const ForumDiscussion = () => {
             </h4>
             <div className="space-y-4">
               {hotTopics.map((topic) => (
-                <button
-                  key={topic.title}
-                  type="button"
-                  className="group block text-left"
-                >
+                <button key={topic.title} type="button" className="group block text-left">
                   <p className="line-clamp-2 text-xs font-bold leading-tight text-slate-700 transition-colors group-hover:text-[#1E6BB8]">
                     {topic.title}
                   </p>
@@ -324,11 +320,19 @@ const ForumDiscussion = () => {
       </div>
 
       <nav className="fixed bottom-0 left-0 z-50 flex h-16 w-full items-center justify-around border-t border-slate-100 bg-white px-4 md:hidden">
-        <button type="button" onClick={() => navigate('/forum')} className="flex flex-col items-center gap-1 text-slate-400">
+        <button
+          type="button"
+          onClick={() => navigate('/forum')}
+          className="flex flex-col items-center gap-1 text-slate-400"
+        >
           <MaterialIcon name="home" />
           <span className="text-[10px] font-medium">Trang chủ</span>
         </button>
-        <button type="button" onClick={() => navigate('/forum/news')} className="flex flex-col items-center gap-1 text-slate-400">
+        <button
+          type="button"
+          onClick={() => navigate('/forum/news')}
+          className="flex flex-col items-center gap-1 text-slate-400"
+        >
           <MaterialIcon name="category" />
           <span className="text-[10px] font-medium">Danh mục</span>
         </button>
@@ -341,7 +345,11 @@ const ForumDiscussion = () => {
             <MaterialIcon name="add" className="text-2xl" />
           </button>
         </div>
-        <button type="button" onClick={() => navigate('/forum/discussion')} className="flex flex-col items-center gap-1 text-[#1E6BB8]">
+        <button
+          type="button"
+          onClick={() => navigate('/forum/discussion')}
+          className="flex flex-col items-center gap-1 text-[#1E6BB8]"
+        >
           <MaterialIcon name="forum" fill />
           <span className="text-[10px] font-bold">Thảo luận</span>
         </button>

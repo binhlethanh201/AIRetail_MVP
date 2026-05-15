@@ -47,7 +47,7 @@ export const ForumCategory = ({ categoryId = 1 }) => {
             {/* Header */}
             <div className="flex items-center justify-between">
               <div>
-                  <div className="mb-2 flex items-center gap-3">
+                <div className="mb-2 flex items-center gap-3">
                   <span className="text-5xl">{category.icon}</span>
                   <div>
                     <h1 className="text-3xl font-bold text-gray-900">{category.name}</h1>
@@ -55,7 +55,9 @@ export const ForumCategory = ({ categoryId = 1 }) => {
                   </div>
                 </div>
               </div>
-              <Button variant="primary" onClick={() => setIsCreatePostModalOpen(true)}>+ Đăng bài</Button>
+              <Button variant="primary" onClick={() => setIsCreatePostModalOpen(true)}>
+                + Đăng bài
+              </Button>
             </div>
 
             {/* Description */}
@@ -86,7 +88,11 @@ export const ForumCategory = ({ categoryId = 1 }) => {
                     <p className="text-lg text-gray-500">
                       Chưa có bài viết trong tin tức ngành này
                     </p>
-                    <Button variant="primary" className="mt-4" onClick={() => setIsCreatePostModalOpen(true)}>
+                    <Button
+                      variant="primary"
+                      className="mt-4"
+                      onClick={() => setIsCreatePostModalOpen(true)}
+                    >
                       Đăng bài đầu tiên
                     </Button>
                   </div>

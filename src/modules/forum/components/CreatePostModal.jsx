@@ -26,7 +26,6 @@ const POST_TYPES = [
 
 const CATEGORY_OPTIONS = ['Vật liệu xây dựng', 'Thiết bị điện', 'Kim khí', 'Máy móc công nghiệp'];
 
-
 const sampleImage =
   'https://lh3.googleusercontent.com/aida-public/AB6AXuAVGxDaomtTUeAkSwJJr9wuZJaUKXCYvUplrHvbQVvfUcLNpkFdXbP7ik9P83z9pr3LRQYDkpBF9qAfxiSF5a64K2dn1ofuPHmpybpIR_sMMyyupGxN8iKxYCFPU4DBIU6_HDe4PvQJIBlFS9Bu5XOSiW_G-Dba0QA-polMr4uIiNEw2_fGY720PpxBiwFw7Y0mgQxDuTuF7MrzilniYC0m2Am_d8g8nqNt1lAjVuDhh_W7_RMDti4e-fzKytKWAsBVjzgRkYMY8gR6';
 
@@ -287,7 +286,12 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
     setPostType(nextType);
 
     // Khi đổi loại bài, giữ các toggle chi tiết ở trạng thái tắt mặc định.
-    setQuoteOptions({ attachProduct: false, showPrice: false, showStock: false, showSupplier: false });
+    setQuoteOptions({
+      attachProduct: false,
+      showPrice: false,
+      showStock: false,
+      showSupplier: false,
+    });
     setShowTrustedSpecs(false);
 
     if (nextType !== 'trusted') {
@@ -553,436 +557,439 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                       )}
                     </div>
                   </div>
-                  )}
+                )}
               </div>
 
               {postType !== 'wholesale' && (
-              <div className="space-y-5 rounded-xl border border-outline-variant bg-white p-4 md:p-6">
-                <div className="mb-1 flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-2">
-                    <MaterialIcon name="inventory_2" className="text-[20px] text-primary" fill />
-                    <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
-                      3. Gắn sản phẩm từ kho (tuỳ chọn)
-                    </h3>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs text-on-surface-variant">
-                      Gắn sản phẩm vào bài viết
-                    </span>
-                    <label className="relative inline-flex cursor-pointer items-center">
-                      <input
-                        className="peer sr-only"
-                        type="checkbox"
-                        checked={quoteOptions.attachProduct}
-                        onChange={(event) =>
-                          setQuoteOptions((prev) => ({
-                            ...prev,
-                            attachProduct: event.target.checked,
-                          }))
-                        }
-                      />
-                      <span className="h-6 w-11 rounded-full bg-slate-200 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
-                    </label>
-                  </div>
-                </div>
-
-                {quoteOptions.attachProduct && activeProduct && (
-                  <div className="space-y-4">
-                    <div className="relative">
-                      <MaterialIcon
-                        name="search"
-                        className="absolute left-4 top-1/2 -translate-y-1/2 text-[18px] text-slate-400"
-                      />
-                      <input
-                        className="w-full rounded-xl border border-outline-variant bg-surface-bright py-3 pl-12 pr-4 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
-                        placeholder="Tìm sản phẩm trong kho..."
-                        type="text"
-                      />
+                <div className="space-y-5 rounded-xl border border-outline-variant bg-white p-4 md:p-6">
+                  <div className="mb-1 flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-2">
+                      <MaterialIcon name="inventory_2" className="text-[20px] text-primary" fill />
+                      <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
+                        3. Gắn sản phẩm từ kho (tuỳ chọn)
+                      </h3>
                     </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-on-surface-variant">
+                        Gắn sản phẩm vào bài viết
+                      </span>
+                      <label className="relative inline-flex cursor-pointer items-center">
+                        <input
+                          className="peer sr-only"
+                          type="checkbox"
+                          checked={quoteOptions.attachProduct}
+                          onChange={(event) =>
+                            setQuoteOptions((prev) => ({
+                              ...prev,
+                              attachProduct: event.target.checked,
+                            }))
+                          }
+                        />
+                        <span className="h-6 w-11 rounded-full bg-slate-200 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
+                      </label>
+                    </div>
+                  </div>
 
-                    <div className="space-y-2">
-                      <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">
-                        SẢN PHẨM ĐÃ CHỌN
-                      </p>
-                      <div className="rounded-xl border border-outline-variant p-4">
-                        <div className="mb-4 flex items-start gap-4">
-                          <img
-                            alt={quoteProduct.name}
-                            className="h-20 w-20 rounded-lg border border-outline-variant object-cover"
-                            src={activeProduct.image || quoteProduct.image}
-                          />
-                          <div className="min-w-0 flex-1">
-                            <h4 className="mb-1 text-base font-semibold text-on-surface">
-                              {activeProduct.title || quoteProduct.name}
-                            </h4>
-                            <p className="mb-2 text-xs text-on-surface-variant">
-                              {quoteProduct.description}
-                            </p>
-                            <div className="flex flex-wrap gap-4 text-[10px] font-bold uppercase text-slate-400">
-                              <span>SKU: {quoteProduct.sku}</span>
-                              <span>NSX: {quoteProduct.supplier}</span>
+                  {quoteOptions.attachProduct && activeProduct && (
+                    <div className="space-y-4">
+                      <div className="relative">
+                        <MaterialIcon
+                          name="search"
+                          className="absolute left-4 top-1/2 -translate-y-1/2 text-[18px] text-slate-400"
+                        />
+                        <input
+                          className="w-full rounded-xl border border-outline-variant bg-surface-bright py-3 pl-12 pr-4 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                          placeholder="Tìm sản phẩm trong kho..."
+                          type="text"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">
+                          SẢN PHẨM ĐÃ CHỌN
+                        </p>
+                        <div className="rounded-xl border border-outline-variant p-4">
+                          <div className="mb-4 flex items-start gap-4">
+                            <img
+                              alt={quoteProduct.name}
+                              className="h-20 w-20 rounded-lg border border-outline-variant object-cover"
+                              src={activeProduct.image || quoteProduct.image}
+                            />
+                            <div className="min-w-0 flex-1">
+                              <h4 className="mb-1 text-base font-semibold text-on-surface">
+                                {activeProduct.title || quoteProduct.name}
+                              </h4>
+                              <p className="mb-2 text-xs text-on-surface-variant">
+                                {quoteProduct.description}
+                              </p>
+                              <div className="flex flex-wrap gap-4 text-[10px] font-bold uppercase text-slate-400">
+                                <span>SKU: {quoteProduct.sku}</span>
+                                <span>NSX: {quoteProduct.supplier}</span>
+                              </div>
+                              {!isSupplyPost && !isQuotePost && !isClearancePost && (
+                                <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                  <div className="space-y-1.5">
+                                    <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
+                                      Giá sỉ (VNĐ)
+                                    </label>
+                                    <input
+                                      className="w-full rounded-lg border border-outline-variant bg-surface-bright px-3 py-2 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                                      placeholder="Nhập giá..."
+                                      type="text"
+                                      value={attachedWholesalePrice}
+                                      onChange={(event) =>
+                                        setAttachedWholesalePrice(event.target.value)
+                                      }
+                                    />
+                                  </div>
+                                  <div className="space-y-1.5">
+                                    <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
+                                      Giá lẻ (VNĐ)
+                                    </label>
+                                    <input
+                                      className="w-full rounded-lg border border-outline-variant bg-surface-bright px-3 py-2 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                                      placeholder="Liên hệ"
+                                      type="text"
+                                      value={attachedRetailPrice}
+                                      onChange={(event) =>
+                                        setAttachedRetailPrice(event.target.value)
+                                      }
+                                    />
+                                  </div>
+                                </div>
+                              )}
+
+                              {isClearancePost && (
+                                <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                  <div className="space-y-1.5">
+                                    <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
+                                      Giá bán lẻ (VNĐ)
+                                    </label>
+                                    <input
+                                      className="w-full rounded-lg border border-outline-variant bg-surface-bright px-3 py-2 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                                      placeholder="Nhập giá..."
+                                      type="text"
+                                      value={retailPrice}
+                                      onChange={(event) => setRetailPrice(event.target.value)}
+                                    />
+                                  </div>
+                                  <div className="space-y-1.5">
+                                    <label className="text-[11px] font-bold uppercase tracking-wider text-red-600">
+                                      Giá thanh lý (VNĐ)
+                                    </label>
+                                    <input
+                                      className="w-full rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600 outline-none transition-all focus:ring-2 focus:ring-red-300"
+                                      placeholder="Liên hệ"
+                                      type="text"
+                                      value={clearancePrice}
+                                      onChange={(event) => setClearancePrice(event.target.value)}
+                                    />
+                                  </div>
+                                </div>
+                              )}
                             </div>
-                            {!isSupplyPost && !isQuotePost && !isClearancePost && (
-                              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                                <div className="space-y-1.5">
-                                  <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
-                                    Giá sỉ (VNĐ)
-                                  </label>
-                                  <input
-                                    className="w-full rounded-lg border border-outline-variant bg-surface-bright px-3 py-2 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
-                                    placeholder="Nhập giá..."
-                                    type="text"
-                                    value={attachedWholesalePrice}
-                                    onChange={(event) =>
-                                      setAttachedWholesalePrice(event.target.value)
-                                    }
-                                  />
-                                </div>
-                                <div className="space-y-1.5">
-                                  <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
-                                    Giá lẻ (VNĐ)
-                                  </label>
-                                  <input
-                                    className="w-full rounded-lg border border-outline-variant bg-surface-bright px-3 py-2 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
-                                    placeholder="Liên hệ"
-                                    type="text"
-                                    value={attachedRetailPrice}
-                                    onChange={(event) => setAttachedRetailPrice(event.target.value)}
-                                  />
-                                </div>
-                              </div>
-                            )}
-
-                            {isClearancePost && (
-                              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                                <div className="space-y-1.5">
-                                  <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
-                                    Giá bán lẻ (VNĐ)
-                                  </label>
-                                  <input
-                                    className="w-full rounded-lg border border-outline-variant bg-surface-bright px-3 py-2 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
-                                    placeholder="Nhập giá..."
-                                    type="text"
-                                    value={retailPrice}
-                                    onChange={(event) =>
-                                      setRetailPrice(event.target.value)
-                                    }
-                                  />
-                                </div>
-                                <div className="space-y-1.5">
-                                  <label className="text-[11px] font-bold uppercase tracking-wider text-red-600">
-                                    Giá thanh lý (VNĐ)
-                                  </label>
-                                  <input
-                                    className="w-full rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600 outline-none transition-all focus:ring-2 focus:ring-red-300"
-                                    placeholder="Liên hệ"
-                                    type="text"
-                                    value={clearancePrice}
-                                    onChange={(event) => setClearancePrice(event.target.value)}
-                                  />
-                                </div>
-                              </div>
-                            )}
-
+                            <button type="button" className="flex flex-col items-center text-error">
+                              <MaterialIcon name="delete" />
+                              <span className="text-[10px] font-bold">Xóa khỏi bài</span>
+                            </button>
                           </div>
-                          <button type="button" className="flex flex-col items-center text-error">
-                            <MaterialIcon name="delete" />
-                            <span className="text-[10px] font-bold">Xóa khỏi bài</span>
-                          </button>
-                        </div>
 
-                        <div className="grid grid-cols-1 gap-3 border-t border-slate-100 pt-4 md:grid-cols-3">
-                          <div className="flex items-center justify-between rounded-lg bg-slate-50 p-2">
-                            <span className="text-sm text-on-surface-variant">Hiển thị giá</span>
-                            <label className="relative inline-flex scale-75 cursor-pointer items-center">
-                              <input
-                                className="peer sr-only"
-                                type="checkbox"
-                                checked={quoteOptions.showPrice}
-                                onChange={(event) =>
-                                  setQuoteOptions((prev) => ({
-                                    ...prev,
-                                    showPrice: event.target.checked,
-                                  }))
-                                }
-                              />
-                              <span className="peer h-6 w-11 rounded-full bg-slate-300 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
-                            </label>
-                          </div>
-                          <div className="flex items-center justify-between rounded-lg bg-slate-50 p-2">
-                            <span className="text-sm text-on-surface-variant">
-                              Hiển thị tồn kho
-                            </span>
-                            <label className="relative inline-flex scale-75 cursor-pointer items-center">
-                              <input
-                                className="peer sr-only"
-                                type="checkbox"
-                                checked={quoteOptions.showStock}
-                                onChange={(event) =>
-                                  setQuoteOptions((prev) => ({
-                                    ...prev,
-                                    showStock: event.target.checked,
-                                  }))
-                                }
-                              />
-                              <span className="peer h-6 w-11 rounded-full bg-slate-300 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
-                            </label>
-                          </div>
-                          <div className="flex items-center justify-between rounded-lg bg-slate-50 p-2">
-                            <span className="text-sm text-on-surface-variant">
-                              Hiển thị nhà cung cấp
-                            </span>
-                            <label className="relative inline-flex scale-75 cursor-pointer items-center">
-                              <input
-                                className="peer sr-only"
-                                type="checkbox"
-                                checked={quoteOptions.showSupplier}
-                                onChange={(event) =>
-                                  setQuoteOptions((prev) => ({
-                                    ...prev,
-                                    showSupplier: event.target.checked,
-                                  }))
-                                }
-                              />
-                              <span className="peer h-6 w-11 rounded-full bg-slate-300 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
-                            </label>
+                          <div className="grid grid-cols-1 gap-3 border-t border-slate-100 pt-4 md:grid-cols-3">
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 p-2">
+                              <span className="text-sm text-on-surface-variant">Hiển thị giá</span>
+                              <label className="relative inline-flex scale-75 cursor-pointer items-center">
+                                <input
+                                  className="peer sr-only"
+                                  type="checkbox"
+                                  checked={quoteOptions.showPrice}
+                                  onChange={(event) =>
+                                    setQuoteOptions((prev) => ({
+                                      ...prev,
+                                      showPrice: event.target.checked,
+                                    }))
+                                  }
+                                />
+                                <span className="peer h-6 w-11 rounded-full bg-slate-300 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
+                              </label>
+                            </div>
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 p-2">
+                              <span className="text-sm text-on-surface-variant">
+                                Hiển thị tồn kho
+                              </span>
+                              <label className="relative inline-flex scale-75 cursor-pointer items-center">
+                                <input
+                                  className="peer sr-only"
+                                  type="checkbox"
+                                  checked={quoteOptions.showStock}
+                                  onChange={(event) =>
+                                    setQuoteOptions((prev) => ({
+                                      ...prev,
+                                      showStock: event.target.checked,
+                                    }))
+                                  }
+                                />
+                                <span className="peer h-6 w-11 rounded-full bg-slate-300 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
+                              </label>
+                            </div>
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 p-2">
+                              <span className="text-sm text-on-surface-variant">
+                                Hiển thị nhà cung cấp
+                              </span>
+                              <label className="relative inline-flex scale-75 cursor-pointer items-center">
+                                <input
+                                  className="peer sr-only"
+                                  type="checkbox"
+                                  checked={quoteOptions.showSupplier}
+                                  onChange={(event) =>
+                                    setQuoteOptions((prev) => ({
+                                      ...prev,
+                                      showSupplier: event.target.checked,
+                                    }))
+                                  }
+                                />
+                                <span className="peer h-6 w-11 rounded-full bg-slate-300 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
+                              </label>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
               )}
 
               {!isQuotePost && !isClearancePost && (
-              <div className="space-y-5 rounded-xl border border-outline-variant bg-white p-4 md:p-6">
-                <div className="flex items-center justify-between gap-4">
-                  <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
-                    4. THÔNG TIN &amp; THÔNG SỐ KỸ THUẬT SẢN PHẨM
-                  </h3>
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs text-on-surface-variant">Hiển thị thông tin</span>
-                    <label className="relative inline-flex cursor-pointer items-center">
-                      <input
-                        className="peer sr-only"
-                        type="checkbox"
-                        checked={showTrustedSpecs}
-                        onChange={(event) => setShowTrustedSpecs(event.target.checked)}
-                      />
-                      <span className="h-6 w-11 rounded-full bg-slate-200 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
-                    </label>
-                  </div>
-                </div>
-
-                {showTrustedSpecs && activeProduct && (
-                  <>
-                    <div className="rounded-lg border border-outline-variant bg-surface-container-low p-2">
-                      <div className="flex items-center justify-between gap-4">
-                        <button
-                          type="button"
-                          onClick={handleSupplyRemoveProduct}
-                          className="flex items-center gap-2 rounded-lg border border-error/20 bg-white px-4 py-1.5 text-sm font-medium text-error transition-all hover:bg-error/5"
-                        >
-                          <MaterialIcon name="remove" className="text-sm" />
-                          Giảm sản phẩm
-                        </button>
-                        <div className="flex items-center gap-4 text-sm font-semibold text-on-surface">
-                          <button
-                            type="button"
-                            onClick={handleSupplyPrevProduct}
-                            className="material-symbols-outlined text-primary"
-                          >
-                            chevron_left
-                          </button>
-                          <span>
-                            Sản phẩm {currentProductIndex + 1} / {supplyProducts.length}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={handleSupplyNextProduct}
-                            className="material-symbols-outlined text-primary"
-                          >
-                            chevron_right
-                          </button>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={handleSupplyAddProduct}
-                          className="flex items-center gap-2 rounded-lg border border-primary px-4 py-1.5 text-sm font-medium text-primary transition-all hover:bg-primary/5"
-                        >
-                          <MaterialIcon name="add" className="text-sm" />
-                          Thêm sản phẩm
-                        </button>
-                      </div>
+                <div className="space-y-5 rounded-xl border border-outline-variant bg-white p-4 md:p-6">
+                  <div className="flex items-center justify-between gap-4">
+                    <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
+                      4. THÔNG TIN &amp; THÔNG SỐ KỸ THUẬT SẢN PHẨM
+                    </h3>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-on-surface-variant">Hiển thị thông tin</span>
+                      <label className="relative inline-flex cursor-pointer items-center">
+                        <input
+                          className="peer sr-only"
+                          type="checkbox"
+                          checked={showTrustedSpecs}
+                          onChange={(event) => setShowTrustedSpecs(event.target.checked)}
+                        />
+                        <span className="h-6 w-11 rounded-full bg-slate-200 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full" />
+                      </label>
                     </div>
+                  </div>
 
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-12">
-                      <div className="md:col-span-2">
-                        <label className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                          ẢNH SP
-                        </label>
-                        {activeProduct.image ? (
-                          <div className="group relative aspect-square overflow-hidden rounded-xl border border-outline-variant bg-gray-200">
-                            <img
-                              src={activeProduct.image}
-                              alt="Sản phẩm"
-                              className="h-full w-full object-cover"
-                            />
+                  {showTrustedSpecs && activeProduct && (
+                    <>
+                      <div className="rounded-lg border border-outline-variant bg-surface-container-low p-2">
+                        <div className="flex items-center justify-between gap-4">
+                          <button
+                            type="button"
+                            onClick={handleSupplyRemoveProduct}
+                            className="flex items-center gap-2 rounded-lg border border-error/20 bg-white px-4 py-1.5 text-sm font-medium text-error transition-all hover:bg-error/5"
+                          >
+                            <MaterialIcon name="remove" className="text-sm" />
+                            Giảm sản phẩm
+                          </button>
+                          <div className="flex items-center gap-4 text-sm font-semibold text-on-surface">
                             <button
                               type="button"
-                              onClick={() =>
-                                setSupplyProducts((prev) => {
-                                  const updated = [...prev];
-                                  updated[currentProductIndex] = {
-                                    ...updated[currentProductIndex],
-                                    image: null,
-                                  };
-                                  return updated;
-                                })
-                              }
-                              className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100"
+                              onClick={handleSupplyPrevProduct}
+                              className="material-symbols-outlined text-primary"
                             >
-                              <MaterialIcon name="close" className="text-[16px]" />
+                              chevron_left
+                            </button>
+                            <span>
+                              Sản phẩm {currentProductIndex + 1} / {supplyProducts.length}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={handleSupplyNextProduct}
+                              className="material-symbols-outlined text-primary"
+                            >
+                              chevron_right
                             </button>
                           </div>
-                        ) : (
-                          <label className="flex aspect-square cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-outline-variant bg-surface-bright text-slate-400 transition-all hover:border-primary hover:text-primary">
-                            <MaterialIcon name="add_a_photo" className="text-2xl" />
-                            <span className="mt-1 text-[10px] font-medium">Tải ảnh</span>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              className="hidden"
-                              onChange={(event) => {
-                                const file = event.target.files?.[0];
-                                if (!file) return;
+                          <button
+                            type="button"
+                            onClick={handleSupplyAddProduct}
+                            className="flex items-center gap-2 rounded-lg border border-primary px-4 py-1.5 text-sm font-medium text-primary transition-all hover:bg-primary/5"
+                          >
+                            <MaterialIcon name="add" className="text-sm" />
+                            Thêm sản phẩm
+                          </button>
+                        </div>
+                      </div>
 
-                                const reader = new FileReader();
-                                reader.onload = (readerEvent) => {
+                      <div className="grid grid-cols-1 gap-4 md:grid-cols-12">
+                        <div className="md:col-span-2">
+                          <label className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                            ẢNH SP
+                          </label>
+                          {activeProduct.image ? (
+                            <div className="group relative aspect-square overflow-hidden rounded-xl border border-outline-variant bg-gray-200">
+                              <img
+                                src={activeProduct.image}
+                                alt="Sản phẩm"
+                                className="h-full w-full object-cover"
+                              />
+                              <button
+                                type="button"
+                                onClick={() =>
                                   setSupplyProducts((prev) => {
                                     const updated = [...prev];
                                     updated[currentProductIndex] = {
                                       ...updated[currentProductIndex],
-                                      image: readerEvent.target?.result,
+                                      image: null,
                                     };
                                     return updated;
-                                  });
-                                };
-                                reader.readAsDataURL(file);
-                              }}
-                            />
-                          </label>
-                        )}
-                      </div>
-
-                      <div className="space-y-2 md:col-span-10">
-                        <label className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                          TIÊU ĐỀ SẢN PHẨM
-                        </label>
-                        <input
-                          className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
-                          placeholder="Nhập tên sản phẩm cụ thể..."
-                          type="text"
-                          value={activeProduct.title}
-                          onChange={(event) =>
-                            handleSupplyProductChange('title', event.target.value)
-                          }
-                        />
-                        <p className="text-[11px] text-on-surface-variant">
-                          Tên sản phẩm cụ thể giúp khách hàng dễ dàng tra cứu kỹ thuật.
-                        </p>
-                      </div>
-                    </div>
-
-                    {!isSupplyPost && (
-                      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                        <div className="space-y-2">
-                          <label className="text-sm font-medium text-on-surface">Giá sỉ (VNĐ)</label>
-                          <input
-                            className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
-                            type="text"
-                            value={productWholesalePrice}
-                            onChange={(event) => setProductWholesalePrice(event.target.value)}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="text-sm font-medium text-on-surface">Giá lẻ (VNĐ)</label>
-                          <input
-                            className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
-                            type="text"
-                            value={productRetailPrice}
-                            onChange={(event) => setProductRetailPrice(event.target.value)}
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-12 gap-4 px-2">
-                        <div className="col-span-5">
-                          <label className="block text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">
-                            Tên thông số
-                          </label>
-                        </div>
-                        <div className="col-span-6">
-                          <label className="block text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">
-                            Giá trị / Nội dung
-                          </label>
-                        </div>
-                        <div className="col-span-1" />
-                      </div>
-
-                      <div className="space-y-3">
-                        {activeProduct.specs.map((spec) => (
-                          <div key={spec.id} className="grid grid-cols-12 items-center gap-4">
-                            <div className="col-span-5">
-                              <input
-                                className="w-full rounded-lg border border-outline-variant bg-surface-bright px-4 py-2.5 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
-                                placeholder="Ví dụ: Độ phủ lý thuyết"
-                                type="text"
-                                value={spec.name}
-                                onChange={(event) =>
-                                  handleSupplySpecChange(spec.id, 'name', event.target.value)
+                                  })
                                 }
-                              />
-                            </div>
-                            <div className="col-span-6">
-                              <input
-                                className="w-full rounded-lg border border-outline-variant bg-surface-bright px-4 py-2.5 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
-                                placeholder="Ví dụ: 10-12 m²/lít"
-                                type="text"
-                                value={spec.value}
-                                onChange={(event) =>
-                                  handleSupplySpecChange(spec.id, 'value', event.target.value)
-                                }
-                              />
-                            </div>
-                            <div className="col-span-1 flex justify-center">
-                              <button
-                                type="button"
-                                onClick={() => handleSupplyRemoveSpec(spec.id)}
-                                className="text-slate-400 hover:text-error"
+                                className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100"
                               >
-                                <MaterialIcon name="delete" />
+                                <MaterialIcon name="close" className="text-[16px]" />
                               </button>
                             </div>
-                          </div>
-                        ))}
+                          ) : (
+                            <label className="flex aspect-square cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-outline-variant bg-surface-bright text-slate-400 transition-all hover:border-primary hover:text-primary">
+                              <MaterialIcon name="add_a_photo" className="text-2xl" />
+                              <span className="mt-1 text-[10px] font-medium">Tải ảnh</span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(event) => {
+                                  const file = event.target.files?.[0];
+                                  if (!file) return;
+
+                                  const reader = new FileReader();
+                                  reader.onload = (readerEvent) => {
+                                    setSupplyProducts((prev) => {
+                                      const updated = [...prev];
+                                      updated[currentProductIndex] = {
+                                        ...updated[currentProductIndex],
+                                        image: readerEvent.target?.result,
+                                      };
+                                      return updated;
+                                    });
+                                  };
+                                  reader.readAsDataURL(file);
+                                }}
+                              />
+                            </label>
+                          )}
+                        </div>
+
+                        <div className="space-y-2 md:col-span-10">
+                          <label className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                            TIÊU ĐỀ SẢN PHẨM
+                          </label>
+                          <input
+                            className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                            placeholder="Nhập tên sản phẩm cụ thể..."
+                            type="text"
+                            value={activeProduct.title}
+                            onChange={(event) =>
+                              handleSupplyProductChange('title', event.target.value)
+                            }
+                          />
+                          <p className="text-[11px] text-on-surface-variant">
+                            Tên sản phẩm cụ thể giúp khách hàng dễ dàng tra cứu kỹ thuật.
+                          </p>
+                        </div>
                       </div>
 
-                      <button
-                        type="button"
-                        onClick={handleSupplyAddSpec}
-                        className="mt-1 flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                      >
-                        <MaterialIcon name="add" className="text-[18px]" />
-                        Thêm thông số khác
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
+                      {!isSupplyPost && (
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                          <div className="space-y-2">
+                            <label className="text-sm font-medium text-on-surface">
+                              Giá sỉ (VNĐ)
+                            </label>
+                            <input
+                              className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                              type="text"
+                              value={productWholesalePrice}
+                              onChange={(event) => setProductWholesalePrice(event.target.value)}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-sm font-medium text-on-surface">
+                              Giá lẻ (VNĐ)
+                            </label>
+                            <input
+                              className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                              type="text"
+                              value={productRetailPrice}
+                              onChange={(event) => setProductRetailPrice(event.target.value)}
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-12 gap-4 px-2">
+                          <div className="col-span-5">
+                            <label className="block text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">
+                              Tên thông số
+                            </label>
+                          </div>
+                          <div className="col-span-6">
+                            <label className="block text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">
+                              Giá trị / Nội dung
+                            </label>
+                          </div>
+                          <div className="col-span-1" />
+                        </div>
+
+                        <div className="space-y-3">
+                          {activeProduct.specs.map((spec) => (
+                            <div key={spec.id} className="grid grid-cols-12 items-center gap-4">
+                              <div className="col-span-5">
+                                <input
+                                  className="w-full rounded-lg border border-outline-variant bg-surface-bright px-4 py-2.5 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                                  placeholder="Ví dụ: Độ phủ lý thuyết"
+                                  type="text"
+                                  value={spec.name}
+                                  onChange={(event) =>
+                                    handleSupplySpecChange(spec.id, 'name', event.target.value)
+                                  }
+                                />
+                              </div>
+                              <div className="col-span-6">
+                                <input
+                                  className="w-full rounded-lg border border-outline-variant bg-surface-bright px-4 py-2.5 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                                  placeholder="Ví dụ: 10-12 m²/lít"
+                                  type="text"
+                                  value={spec.value}
+                                  onChange={(event) =>
+                                    handleSupplySpecChange(spec.id, 'value', event.target.value)
+                                  }
+                                />
+                              </div>
+                              <div className="col-span-1 flex justify-center">
+                                <button
+                                  type="button"
+                                  onClick={() => handleSupplyRemoveSpec(spec.id)}
+                                  className="text-slate-400 hover:text-error"
+                                >
+                                  <MaterialIcon name="delete" />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={handleSupplyAddSpec}
+                          className="mt-1 flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                        >
+                          <MaterialIcon name="add" className="text-[18px]" />
+                          Thêm thông số khác
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
               )}
 
               <div className="flex flex-wrap items-center justify-end gap-3 pt-2">

@@ -422,7 +422,10 @@ export const PostDetail = ({ postId = 1 }) => {
           </section>
         </aside>
       </div>
-      <CreatePostModal isOpen={isCreatePostModalOpen} onClose={() => setIsCreatePostModalOpen(false)} />
+      <CreatePostModal
+        isOpen={isCreatePostModalOpen}
+        onClose={() => setIsCreatePostModalOpen(false)}
+      />
     </div>
   );
 };

@@ -63,7 +63,7 @@ const ForumNews = () => {
                       <button
                         key={option.id}
                         onClick={() => {}}
-                        className={`rounded-full px-6 py-2 text-sm font-semibold transition-all text-on-surface-variant hover:bg-surface-variant/50`}
+                        className={`rounded-full px-6 py-2 text-sm font-semibold text-on-surface-variant transition-all hover:bg-surface-variant/50`}
                       >
                         {option.label}
                       </button>

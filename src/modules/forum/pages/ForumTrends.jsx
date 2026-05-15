@@ -438,10 +438,10 @@ const ForumTrends = () => {
           </div>
         </main>
       </div>
-        <CreatePostModal
-          isOpen={isCreatePostModalOpen}
-          onClose={() => setIsCreatePostModalOpen(false)}
-        />
+      <CreatePostModal
+        isOpen={isCreatePostModalOpen}
+        onClose={() => setIsCreatePostModalOpen(false)}
+      />
     </div>
   );
 };

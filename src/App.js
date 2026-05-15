@@ -87,9 +87,9 @@ function App() {
             </Route>
 
             {/* INVENTORY */}
+            <Route path="/inventory" element={<Navigate to="/inventory/dashboard" replace />} />
+            <Route path="/inventory/dashboard" element={<InventoryDashboard />} />
             <Route element={<MainLayout />}>
-              <Route path="/inventory" element={<Navigate to="/inventory/dashboard" replace />} />
-              <Route path="/inventory/dashboard" element={<InventoryDashboard />} />
               <Route path="/inventory/products" element={<ProductManagement />} />
               <Route path="/inventory/import" element={<StockImport />} />
               <Route path="/inventory/export" element={<StockExport />} />
