@@ -58,7 +58,7 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
   const [postType, setPostType] = useState('trusted');
   const [newTag, setNewTag] = useState('');
   const [loading, setLoading] = useState(false);
-  
+
   // Form data chính
   const [formData, setFormData] = useState({
     title: TRUSTED_POST_PRESET.title,
@@ -135,7 +135,14 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
 
     const done = checkpoints.filter(Boolean).length;
     return Math.round((done / checkpoints.length) * 100);
-  }, [currentProductIndex, formData, postType, quoteOptions.attachProduct, showTrustedSpecs, supplyProducts]);
+  }, [
+    currentProductIndex,
+    formData,
+    postType,
+    quoteOptions.attachProduct,
+    showTrustedSpecs,
+    supplyProducts,
+  ]);
 
   const progressOffset = useMemo(() => {
     const circumference = 364.42;
@@ -234,7 +241,10 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
         index === currentProductIndex
           ? {
               ...product,
-              specs: product.specs.length > 1 ? product.specs.filter((spec) => spec.id !== specId) : product.specs,
+              specs:
+                product.specs.length > 1
+                  ? product.specs.filter((spec) => spec.id !== specId)
+                  : product.specs,
             }
           : product
       )
@@ -431,21 +441,31 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-on-surface">
-                    Nội dung bài viết
-                  </label>
+                  <label className="text-sm font-medium text-on-surface">Nội dung bài viết</label>
                   <div className="overflow-hidden rounded-xl border border-outline-variant">
                     <div className="flex gap-2 border-b border-outline-variant bg-slate-100 p-2">
-                      <button type="button" className="rounded p-1 text-on-surface-variant hover:bg-white">
+                      <button
+                        type="button"
+                        className="rounded p-1 text-on-surface-variant hover:bg-white"
+                      >
                         <MaterialIcon name="format_bold" className="text-[18px]" />
                       </button>
-                      <button type="button" className="rounded p-1 text-on-surface-variant hover:bg-white">
+                      <button
+                        type="button"
+                        className="rounded p-1 text-on-surface-variant hover:bg-white"
+                      >
                         <MaterialIcon name="format_italic" className="text-[18px]" />
                       </button>
-                      <button type="button" className="rounded p-1 text-on-surface-variant hover:bg-white">
+                      <button
+                        type="button"
+                        className="rounded p-1 text-on-surface-variant hover:bg-white"
+                      >
                         <MaterialIcon name="format_list_bulleted" className="text-[18px]" />
                       </button>
-                      <button type="button" className="rounded p-1 text-on-surface-variant hover:bg-white">
+                      <button
+                        type="button"
+                        className="rounded p-1 text-on-surface-variant hover:bg-white"
+                      >
                         <MaterialIcon name="link" className="text-[18px]" />
                       </button>
                     </div>
@@ -460,7 +480,9 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-on-surface">Gắn thẻ bài viết (Tags)</label>
+                  <label className="text-sm font-medium text-on-surface">
+                    Gắn thẻ bài viết (Tags)
+                  </label>
                   <div className="flex flex-wrap items-center gap-2 rounded-xl border border-outline-variant bg-surface-bright p-3">
                     {formData.tags.map((tag) => (
                       <span
@@ -496,18 +518,34 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                   <label className="text-sm font-medium text-on-surface">Ảnh sản phẩm</label>
                   <div className="flex gap-4">
                     <label className="flex h-32 w-32 flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-outline-variant bg-surface-bright transition-all hover:border-primary hover:bg-primary-container/5">
-                      <MaterialIcon name="add_a_photo" className="text-2xl text-on-surface-variant" />
+                      <MaterialIcon
+                        name="add_a_photo"
+                        className="text-2xl text-on-surface-variant"
+                      />
                       <span className="text-center text-xs font-medium text-on-surface-variant">
                         Tải ảnh
                       </span>
-                      <input type="file" multiple accept="image/*" className="hidden" onChange={handleImageChange} />
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleImageChange}
+                      />
                     </label>
 
                     {images.length > 0 && (
                       <div className="flex flex-1 gap-3 overflow-x-auto pb-2">
                         {images.map((image, index) => (
-                          <div key={image.id} className="group relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-xl bg-gray-200">
-                            <img src={image.url} alt={`Ảnh ${index + 1}`} className="h-full w-full object-cover" />
+                          <div
+                            key={image.id}
+                            className="group relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-xl bg-gray-200"
+                          >
+                            <img
+                              src={image.url}
+                              alt={`Ảnh ${index + 1}`}
+                              className="h-full w-full object-cover"
+                            />
                             <button
                               type="button"
                               onClick={() => handleRemoveImage(index)}
@@ -533,7 +571,9 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                     </h3>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-xs text-on-surface-variant">Gắn sản phẩm vào bài viết</span>
+                    <span className="text-xs text-on-surface-variant">
+                      Gắn sản phẩm vào bài viết
+                    </span>
                     <label className="relative inline-flex cursor-pointer items-center">
                       <input
                         className="peer sr-only"
@@ -554,7 +594,10 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                 {quoteOptions.attachProduct && activeProduct && (
                   <div className="space-y-4">
                     <div className="relative">
-                      <MaterialIcon name="search" className="absolute left-4 top-1/2 -translate-y-1/2 text-[18px] text-slate-400" />
+                      <MaterialIcon
+                        name="search"
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-[18px] text-slate-400"
+                      />
                       <input
                         className="w-full rounded-xl border border-outline-variant bg-surface-bright py-3 pl-12 pr-4 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
                         placeholder="Tìm sản phẩm trong kho..."
@@ -594,7 +637,9 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                                   placeholder="Nhập giá..."
                                   type="text"
                                   value={attachedWholesalePrice}
-                                  onChange={(event) => setAttachedWholesalePrice(event.target.value)}
+                                  onChange={(event) =>
+                                    setAttachedWholesalePrice(event.target.value)
+                                  }
                                 />
                               </div>
                               <div className="space-y-1.5">
@@ -636,7 +681,9 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                             </label>
                           </div>
                           <div className="flex items-center justify-between rounded-lg bg-slate-50 p-2">
-                            <span className="text-sm text-on-surface-variant">Hiển thị tồn kho</span>
+                            <span className="text-sm text-on-surface-variant">
+                              Hiển thị tồn kho
+                            </span>
                             <label className="relative inline-flex scale-75 cursor-pointer items-center">
                               <input
                                 className="peer sr-only"
@@ -653,7 +700,9 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                             </label>
                           </div>
                           <div className="flex items-center justify-between rounded-lg bg-slate-50 p-2">
-                            <span className="text-sm text-on-surface-variant">Hiển thị nhà cung cấp</span>
+                            <span className="text-sm text-on-surface-variant">
+                              Hiển thị nhà cung cấp
+                            </span>
                             <label className="relative inline-flex scale-75 cursor-pointer items-center">
                               <input
                                 className="peer sr-only"
@@ -697,7 +746,7 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
 
                 {showTrustedSpecs && activeProduct && (
                   <>
-                    <div className="bg-surface-container-low rounded-lg border border-outline-variant p-2">
+                    <div className="rounded-lg border border-outline-variant bg-surface-container-low p-2">
                       <div className="flex items-center justify-between gap-4">
                         <button
                           type="button"
@@ -708,11 +757,21 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                           Giảm sản phẩm
                         </button>
                         <div className="flex items-center gap-4 text-sm font-semibold text-on-surface">
-                          <button type="button" onClick={handleSupplyPrevProduct} className="material-symbols-outlined text-primary">
+                          <button
+                            type="button"
+                            onClick={handleSupplyPrevProduct}
+                            className="material-symbols-outlined text-primary"
+                          >
                             chevron_left
                           </button>
-                          <span>Sản phẩm {currentProductIndex + 1} / {supplyProducts.length}</span>
-                          <button type="button" onClick={handleSupplyNextProduct} className="material-symbols-outlined text-primary">
+                          <span>
+                            Sản phẩm {currentProductIndex + 1} / {supplyProducts.length}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={handleSupplyNextProduct}
+                            className="material-symbols-outlined text-primary"
+                          >
                             chevron_right
                           </button>
                         </div>
@@ -786,7 +845,7 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                         )}
                       </div>
 
-                      <div className="md:col-span-10 space-y-2">
+                      <div className="space-y-2 md:col-span-10">
                         <label className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-slate-400">
                           TIÊU ĐỀ SẢN PHẨM
                         </label>
@@ -795,7 +854,9 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                           placeholder="Nhập tên sản phẩm cụ thể..."
                           type="text"
                           value={activeProduct.title}
-                          onChange={(event) => handleSupplyProductChange('title', event.target.value)}
+                          onChange={(event) =>
+                            handleSupplyProductChange('title', event.target.value)
+                          }
                         />
                         <p className="text-[11px] text-on-surface-variant">
                           Tên sản phẩm cụ thể giúp khách hàng dễ dàng tra cứu kỹ thuật.
@@ -948,7 +1009,9 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                       />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-2xl font-bold text-on-surface">{completionPercent}%</span>
+                      <span className="text-2xl font-bold text-on-surface">
+                        {completionPercent}%
+                      </span>
                       <span className="text-[10px] font-medium uppercase tracking-wider text-on-surface-variant">
                         Hoàn thiện
                       </span>
@@ -966,19 +1029,28 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                   </div>
                   <ul className="space-y-4 text-left">
                     <li className="flex gap-3">
-                      <MaterialIcon name="radio_button_unchecked" className="text-[14px] text-[#005ea4]" />
+                      <MaterialIcon
+                        name="radio_button_unchecked"
+                        className="text-[14px] text-[#005ea4]"
+                      />
                       <p className="text-sm leading-5 text-[#123457]">
                         Tiêu đề chứa tên thương hiệu và địa phương giúp tăng 40% lượt xem.
                       </p>
                     </li>
                     <li className="flex gap-3">
-                      <MaterialIcon name="radio_button_unchecked" className="text-[14px] text-[#005ea4]" />
+                      <MaterialIcon
+                        name="radio_button_unchecked"
+                        className="text-[14px] text-[#005ea4]"
+                      />
                       <p className="text-sm leading-5 text-[#123457]">
                         Sử dụng hình ảnh thực tế từ kho bãi để tạo niềm tin với khách hàng B2B.
                       </p>
                     </li>
                     <li className="flex gap-3">
-                      <MaterialIcon name="radio_button_unchecked" className="text-[14px] text-[#005ea4]" />
+                      <MaterialIcon
+                        name="radio_button_unchecked"
+                        className="text-[14px] text-[#005ea4]"
+                      />
                       <p className="text-sm leading-5 text-[#123457]">
                         Mô tả chi tiết năng lực cung ứng (sản lượng/tháng) để thu hút đối tác lớn.
                       </p>
