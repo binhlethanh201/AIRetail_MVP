@@ -40,6 +40,15 @@ const quoteProduct = {
   supplier: 'Bosch Vietnam',
 };
 
+const TRUSTED_POST_PRESET = {
+  title: 'Cung cấp thép xây dựng Hòa Phát số lượng lớn tại TP.HCM',
+  category: CATEGORY_OPTIONS[0],
+  area: 'TP.HCM & Miền Tây',
+  content:
+    'Chúng tôi chuyên cung cấp các dòng thép cuộn, thép cây thương hiệu Hòa Phát với đầy đủ chứng chỉ CO/CQ. Năng lực cung ứng lên đến 1000 tấn/tháng...',
+  tags: ['kim_khi', 'son_chong_tham'],
+};
+
 export const CreatePost = () => {
   const navigate = useNavigate();
   const [postType, setPostType] = useState('trend');
@@ -171,6 +180,45 @@ export const CreatePost = () => {
   const isClearancePost = postType === 'trend';
   const isSupplyPost = postType === 'supply';
   const isTrustedPost = postType === 'trusted';
+
+  const handlePostTypeChange = (nextType) => {
+    setPostType(nextType);
+
+    if (nextType !== 'trusted') {
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      ...TRUSTED_POST_PRESET,
+    }));
+    setImages([{ id: 1, url: sampleImage, file: null }]);
+    setQuoteOptions({
+      attachProduct: true,
+      showPrice: false,
+      showStock: false,
+      showSupplier: false,
+    });
+    setAttachedWholesalePrice('1.250.000');
+    setAttachedRetailPrice('850.000');
+    setProductWholesalePrice('15.500.000');
+    setProductRetailPrice('Liên hệ');
+    setShowTrustedSpecs(true);
+    setSupplyProducts([
+      {
+        id: 1,
+        title: 'Thép cuộn CB300-V Hòa Phát',
+        image: quoteProduct.image,
+        specs: [
+          { id: 1, name: 'Độ phủ lý thuyết', value: '' },
+          { id: 2, name: 'Thời gian khô', value: '' },
+          { id: 3, name: 'Quy cách đóng gói', value: '' },
+        ],
+      },
+    ]);
+    setCurrentProductIndex(0);
+    setSpecRows(INITIAL_SPECS);
+  };
 
   // Xử lý sự kiện form Tìm nguồn hàng
   const handleSupplyProductChange = (field, value) => {
@@ -318,7 +366,7 @@ export const CreatePost = () => {
                         <button
                           key={item.key}
                           type="button"
-                          onClick={() => setPostType(item.key)}
+                          onClick={() => handlePostTypeChange(item.key)}
                           className={`group flex min-h-24 flex-col items-center justify-center rounded-xl border p-3 text-center transition-all ${
                             active
                               ? 'border-2 border-primary-container bg-surface-container-low text-primary'

@@ -9,7 +9,11 @@ const MaterialIcon = ({ name, className = '', fill = false }) => (
   </span>
 );
 
-const ForumHeader = () => {
+/**
+ * ForumHeader - Header của Forum module
+ * @param {Function} onCreatePostClick - Callback khi bấm nút đăng bài
+ */
+const ForumHeader = ({ onCreatePostClick = () => {} }) => {
   const navigate = useNavigate();
 
   return (
@@ -37,7 +41,7 @@ const ForumHeader = () => {
         <div className="flex items-center gap-3">
           <button
             type="button"
-            onClick={() => navigate('/forum/create')}
+            onClick={onCreatePostClick}
             className="rounded-full bg-[#1E6BB8] px-4 py-1.5 text-[13px] font-medium text-white transition-all hover:opacity-90 active:scale-[0.98]"
           >
             + Đăng bài viết

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ForumHeader from '../components/ForumHeader';
 import ForumLeftSidebar from '../components/ForumLeftSidebar';
+import CreatePostModal from '../components/CreatePostModal';
 
 const iconStyle = (fill = false) => ({
   fontVariationSettings: `'FILL' ${fill ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 20`,
@@ -118,6 +119,7 @@ const ForumHome = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('Nổi bật');
+  const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
 
   const filteredPosts = useMemo(() => {
     const keyword = searchTerm.trim().toLowerCase();
@@ -137,7 +139,7 @@ const ForumHome = () => {
 
   return (
     <div className="min-h-screen bg-[#f8f9ff] font-['Be_Vietnam_Pro','Inter',sans-serif] text-[#0b1c30]">
-      <ForumHeader />
+      <ForumHeader onCreatePostClick={() => setIsCreatePostModalOpen(true)} />
 
       <div className="relative mx-auto flex max-w-[1200px] gap-4">
         <ForumLeftSidebar activeKey="home" />
@@ -331,6 +333,12 @@ const ForumHome = () => {
           </div>
         </aside>
       </div>
+
+      {/* Modal đăng bài */}
+      <CreatePostModal
+        isOpen={isCreatePostModalOpen}
+        onClose={() => setIsCreatePostModalOpen(false)}
+      />
     </div>
   );
 };
