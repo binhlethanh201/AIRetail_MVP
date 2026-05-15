@@ -37,6 +37,7 @@ const ForumCategory = lazy(() => import('./modules/forum/pages/ForumCategory'));
 const ForumNews = lazy(() => import('./modules/forum/pages/ForumNews'));
 const ForumTrends = lazy(() => import('./modules/forum/pages/ForumTrends'));
 const ForumSupply = lazy(() => import('./modules/forum/pages/ForumSupply'));
+const ForumDiscussion = lazy(() => import('./modules/forum/pages/ForumDiscussion'));
 
 // Admin
 const AdminDashboard = lazy(() => import('./modules/admin/pages/AdminDashboard'));
@@ -80,6 +81,7 @@ function App() {
               <Route path="create" element={<CreatePost />} />
               <Route path="category/:id" element={<ForumCategory />} />
               <Route path="news" element={<ForumNews />} />
+              <Route path="discussion" element={<ForumDiscussion />} />
               <Route path="trends" element={<ForumTrends />} />
               <Route path="source" element={<ForumSupply />} />
             </Route>

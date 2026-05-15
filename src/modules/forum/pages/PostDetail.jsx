@@ -5,6 +5,7 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ForumHeader from '../components/ForumHeader';
+import CreatePostModal from '../components/CreatePostModal';
 import ForumLeftSidebar from '../components/ForumLeftSidebar';
 import postDetailMockData from '../data/postDetailMockData';
 
@@ -73,6 +74,7 @@ export const PostDetail = ({ postId = 1 }) => {
 
   const relatedPosts = postDetailMockData.relatedPosts;
   const trends = postDetailMockData.trends;
+  const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
 
   const handleAddComment = () => {
     if (commentText.trim()) {
@@ -99,7 +101,7 @@ export const PostDetail = ({ postId = 1 }) => {
 
   return (
     <div className="min-h-screen bg-background font-sans text-on-surface antialiased">
-      <ForumHeader />
+      <ForumHeader onCreatePostClick={() => setIsCreatePostModalOpen(true)} />
 
       <div className="relative mx-auto flex max-w-[1200px] gap-4 pt-0">
         <ForumLeftSidebar activeKey="detail" />
@@ -420,6 +422,7 @@ export const PostDetail = ({ postId = 1 }) => {
           </section>
         </aside>
       </div>
+      <CreatePostModal isOpen={isCreatePostModalOpen} onClose={() => setIsCreatePostModalOpen(false)} />
     </div>
   );
 };

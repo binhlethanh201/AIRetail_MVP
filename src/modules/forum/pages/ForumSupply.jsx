@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import ForumHeader from '../components/ForumHeader';
 import ForumLeftSidebar from '../components/ForumLeftSidebar';
+import CreatePostModal from '../components/CreatePostModal';
 
 const MaterialIcon = ({ name, className = '', fill = false }) => (
   <span
@@ -101,6 +102,7 @@ const ForumSupply = () => {
   const [activeTab, setActiveTab] = useState('all');
   const [category, setCategory] = useState(categoryOptions[0]);
   const [region, setRegion] = useState(regionOptions[0]);
+  const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
 
   const visiblePosts = useMemo(() => {
     if (activeTab === 'all') {
@@ -122,7 +124,7 @@ const ForumSupply = () => {
 
   return (
     <div className="min-h-screen bg-background font-sans text-on-surface antialiased">
-      <ForumHeader />
+      <ForumHeader onCreatePostClick={() => setIsCreatePostModalOpen(true)} />
 
       <div className="relative mx-auto flex max-w-[1200px] gap-4">
         <ForumLeftSidebar activeKey="source" />
@@ -504,6 +506,11 @@ const ForumSupply = () => {
           <span className="text-[10px] font-medium">Cá nhân</span>
         </button>
       </nav>
+
+      <CreatePostModal
+        isOpen={isCreatePostModalOpen}
+        onClose={() => setIsCreatePostModalOpen(false)}
+      />
     </div>
   );
 };

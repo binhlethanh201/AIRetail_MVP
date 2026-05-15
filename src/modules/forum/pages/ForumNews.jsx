@@ -7,6 +7,7 @@ import { useState } from 'react';
 import ForumHeader from '../components/ForumHeader';
 import ForumLeftSidebar from '../components/ForumLeftSidebar';
 import { NewsCard } from '../components/NewsCard';
+import CreatePostModal from '../components/CreatePostModal';
 import {
   mockIndustryNews,
   mockAISummary,
@@ -23,19 +24,19 @@ const MaterialIcon = ({ name, className = '', fill = false }) => (
   </span>
 );
 
-const ForumNews = () => {
-  const [activeTab, setActiveTab] = useState('newest');
-  const [news] = useState(mockIndustryNews);
+const filterOptions = [
+  { id: 'newest', label: 'Mới nhất' },
+  { id: 'important', label: 'Quan trọng' },
+  { id: 'trending', label: 'Được quan tâm' },
+];
 
-  const filterOptions = [
-    { id: 'newest', label: 'Mới nhất' },
-    { id: 'important', label: 'Quan trọng' },
-    { id: 'trending', label: 'Được quan tâm' },
-  ];
+const ForumNews = () => {
+  const [news] = useState(mockIndustryNews);
+  const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background font-sans text-on-surface antialiased">
-      <ForumHeader />
+      <ForumHeader onCreatePostClick={() => setIsCreatePostModalOpen(true)} />
 
       <div className="relative mx-auto flex max-w-[1200px] gap-4">
         <ForumLeftSidebar activeKey="news" />
@@ -61,12 +62,8 @@ const ForumNews = () => {
                     {filterOptions.map((option) => (
                       <button
                         key={option.id}
-                        onClick={() => setActiveTab(option.id)}
-                        className={`rounded-full px-6 py-2 text-sm font-semibold transition-all ${
-                          activeTab === option.id
-                            ? 'bg-primary text-white shadow-sm'
-                            : 'text-on-surface-variant hover:bg-surface-variant/50'
-                        }`}
+                        onClick={() => {}}
+                        className={`rounded-full px-6 py-2 text-sm font-semibold transition-all text-on-surface-variant hover:bg-surface-variant/50`}
                       >
                         {option.label}
                       </button>
@@ -163,6 +160,11 @@ const ForumNews = () => {
           </div>
         </main>
       </div>
+
+      <CreatePostModal
+        isOpen={isCreatePostModalOpen}
+        onClose={() => setIsCreatePostModalOpen(false)}
+      />
     </div>
   );
 };

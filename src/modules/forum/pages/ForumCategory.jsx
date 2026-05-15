@@ -4,6 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import ForumHeader from '../components/ForumHeader';
+import CreatePostModal from '../components/CreatePostModal';
 import ForumLeftSidebar from '../components/ForumLeftSidebar';
 import { Card } from '../../../shared/components/Card';
 import { Button } from '../../../shared/components/Button';
@@ -14,6 +15,7 @@ import { mockCategories, mockPosts, mockSuggestions } from '../data/forumMockDat
 export const ForumCategory = ({ categoryId = 1 }) => {
   const category = mockCategories.find((c) => c.id === categoryId);
   const [posts, setPosts] = useState([]);
+  const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
 
   useEffect(() => {
     // Lọc bài viết theo tin tức ngành
@@ -45,7 +47,7 @@ export const ForumCategory = ({ categoryId = 1 }) => {
             {/* Header */}
             <div className="flex items-center justify-between">
               <div>
-                <div className="mb-2 flex items-center gap-3">
+                  <div className="mb-2 flex items-center gap-3">
                   <span className="text-5xl">{category.icon}</span>
                   <div>
                     <h1 className="text-3xl font-bold text-gray-900">{category.name}</h1>
@@ -53,7 +55,7 @@ export const ForumCategory = ({ categoryId = 1 }) => {
                   </div>
                 </div>
               </div>
-              <Button variant="primary">+ Đăng bài</Button>
+              <Button variant="primary" onClick={() => setIsCreatePostModalOpen(true)}>+ Đăng bài</Button>
             </div>
 
             {/* Description */}
@@ -84,7 +86,7 @@ export const ForumCategory = ({ categoryId = 1 }) => {
                     <p className="text-lg text-gray-500">
                       Chưa có bài viết trong tin tức ngành này
                     </p>
-                    <Button variant="primary" className="mt-4">
+                    <Button variant="primary" className="mt-4" onClick={() => setIsCreatePostModalOpen(true)}>
                       Đăng bài đầu tiên
                     </Button>
                   </div>

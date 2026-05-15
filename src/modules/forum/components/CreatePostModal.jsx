@@ -26,11 +26,6 @@ const POST_TYPES = [
 
 const CATEGORY_OPTIONS = ['Vật liệu xây dựng', 'Thiết bị điện', 'Kim khí', 'Máy móc công nghiệp'];
 
-const INITIAL_SPECS = [
-  { id: 1, name: 'Độ phủ lý thuyết', value: '' },
-  { id: 2, name: 'Thời gian khô', value: '' },
-  { id: 3, name: 'Quy cách đóng gói', value: '' },
-];
 
 const sampleImage =
   'https://lh3.googleusercontent.com/aida-public/AB6AXuAVGxDaomtTUeAkSwJJr9wuZJaUKXCYvUplrHvbQVvfUcLNpkFdXbP7ik9P83z9pr3LRQYDkpBF9qAfxiSF5a64K2dn1ofuPHmpybpIR_sMMyyupGxN8iKxYCFPU4DBIU6_HDe4PvQJIBlFS9Bu5XOSiW_G-Dba0QA-polMr4uIiNEw2_fGY720PpxBiwFw7Y0mgQxDuTuF7MrzilniYC0m2Am_d8g8nqNt1lAjVuDhh_W7_RMDti4e-fzKytKWAsBVjzgRkYMY8gR6';
@@ -56,6 +51,16 @@ const TRUSTED_POST_PRESET = {
 export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
   // State chính
   const [postType, setPostType] = useState('trusted');
+  const postTypeLabel = POST_TYPES.find((p) => p.key === postType)?.label || '';
+  const modalTitleMap = {
+    wholesale: 'Đăng bán sỉ',
+    supply: 'Tìm nguồn hàng',
+    quote: 'Hỏi giá',
+    trend: 'Thanh lý kho',
+    trusted: 'Đăng Mua chung',
+  };
+  const modalTitle = modalTitleMap[postType] || postTypeLabel || 'Đăng bài';
+  const publishLabel = postTypeLabel.replace(/^Đăng\s*/i, '') || 'bài';
   const [newTag, setNewTag] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -76,13 +81,13 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
     stockStatus: 'in-stock',
   });
 
-  // State cho thông số kỹ thuật
-  const [specRows, setSpecRows] = useState(INITIAL_SPECS);
+  // State cho thông số kỹ thuật (đang không sử dụng)
   const [images, setImages] = useState([{ id: 1, url: sampleImage, file: null }]);
 
   // State cho gắn sản phẩm
+  // Mặc định tắt attachProduct để phần "Gắn sản phẩm" luôn ẩn cho đến khi user bật
   const [quoteOptions, setQuoteOptions] = useState({
-    attachProduct: true,
+    attachProduct: false,
     showPrice: false,
     showStock: false,
     showSupplier: false,
@@ -94,7 +99,8 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
   const [attachedRetailPrice, setAttachedRetailPrice] = useState('850.000');
   const [productWholesalePrice, setProductWholesalePrice] = useState('15.500.000');
   const [productRetailPrice, setProductRetailPrice] = useState('Liên hệ');
-  const [showTrustedSpecs, setShowTrustedSpecs] = useState(true);
+  // Mặc định tắt hiển thị thông số để phần thông tin luôn ẩn cho đến khi user bật
+  const [showTrustedSpecs, setShowTrustedSpecs] = useState(false);
 
   // State cho supply products
   const [supplyProducts, setSupplyProducts] = useState([
@@ -172,18 +178,7 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
     }));
   };
 
-  const handleSpecChange = (id, field, value) => {
-    setSpecRows((prev) => prev.map((row) => (row.id === id ? { ...row, [field]: value } : row)));
-  };
-
-  const handleAddSpec = () => {
-    const nextId = Date.now();
-    setSpecRows((prev) => [...prev, { id: nextId, name: '', value: '' }]);
-  };
-
-  const handleRemoveSpec = (id) => {
-    setSpecRows((prev) => (prev.length > 1 ? prev.filter((row) => row.id !== id) : prev));
-  };
+  // (spec handlers removed because not used in this component)
 
   // Xử lý upload ảnh (preview)
   const handleImageChange = (event) => {
@@ -291,28 +286,26 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
   const handlePostTypeChange = (nextType) => {
     setPostType(nextType);
 
+    // Khi đổi loại bài, giữ các toggle chi tiết ở trạng thái tắt mặc định.
+    setQuoteOptions({ attachProduct: false, showPrice: false, showStock: false, showSupplier: false });
+    setShowTrustedSpecs(false);
+
     if (nextType !== 'trusted') {
       return;
     }
 
+    // Nếu là 'trusted', vẫn áp preset cho form nhưng không tự động bật các toggle.
     setFormData((prev) => ({
       ...prev,
       ...TRUSTED_POST_PRESET,
     }));
     setImages([{ id: 1, url: sampleImage, file: null }]);
-    setQuoteOptions({
-      attachProduct: true,
-      showPrice: false,
-      showStock: false,
-      showSupplier: false,
-    });
     setRetailPrice('1.250.000');
     setClearancePrice('850.000');
     setAttachedWholesalePrice('1.250.000');
     setAttachedRetailPrice('850.000');
     setProductWholesalePrice('15.500.000');
     setProductRetailPrice('Liên hệ');
-    setShowTrustedSpecs(true);
     setSupplyProducts([
       {
         id: 1,
@@ -326,7 +319,6 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
       },
     ]);
     setCurrentProductIndex(0);
-    setSpecRows(INITIAL_SPECS);
   };
 
   const handlePublish = async () => {
@@ -356,12 +348,12 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
   const activeProduct = supplyProducts[currentProductIndex];
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Đăng Mua chung" size="7xl">
+    <Modal isOpen={isOpen} onClose={onClose} title={modalTitle} size="7xl">
       <div className="max-h-[85vh] overflow-y-auto px-1 pb-2 pt-1 md:px-2">
         <div className="space-y-6 px-2 md:px-4">
           <header className="space-y-2">
             <h1 className="text-3xl font-bold leading-tight text-on-surface md:text-4xl">
-              Đăng Mua chung
+              {modalTitle}
             </h1>
             <p className="text-sm text-on-surface-variant md:text-base">
               Điền đầy đủ thông tin để thu hút đối tác và khách hàng B2B tiềm năng.
@@ -514,54 +506,57 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                   </p>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-on-surface">Ảnh sản phẩm</label>
-                  <div className="flex gap-4">
-                    <label className="flex h-32 w-32 flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-outline-variant bg-surface-bright transition-all hover:border-primary hover:bg-primary-container/5">
-                      <MaterialIcon
-                        name="add_a_photo"
-                        className="text-2xl text-on-surface-variant"
-                      />
-                      <span className="text-center text-xs font-medium text-on-surface-variant">
-                        Tải ảnh
-                      </span>
-                      <input
-                        type="file"
-                        multiple
-                        accept="image/*"
-                        className="hidden"
-                        onChange={handleImageChange}
-                      />
-                    </label>
+                {!isSupplyPost && (
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-on-surface">Ảnh sản phẩm</label>
+                    <div className="flex gap-4">
+                      <label className="flex h-32 w-32 flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-outline-variant bg-surface-bright transition-all hover:border-primary hover:bg-primary-container/5">
+                        <MaterialIcon
+                          name="add_a_photo"
+                          className="text-2xl text-on-surface-variant"
+                        />
+                        <span className="text-center text-xs font-medium text-on-surface-variant">
+                          Tải ảnh
+                        </span>
+                        <input
+                          type="file"
+                          multiple
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleImageChange}
+                        />
+                      </label>
 
-                    {images.length > 0 && (
-                      <div className="flex flex-1 gap-3 overflow-x-auto pb-2">
-                        {images.map((image, index) => (
-                          <div
-                            key={image.id}
-                            className="group relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-xl bg-gray-200"
-                          >
-                            <img
-                              src={image.url}
-                              alt={`Ảnh ${index + 1}`}
-                              className="h-full w-full object-cover"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveImage(index)}
-                              className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100"
-                              aria-label={`Xóa ảnh ${index + 1}`}
+                      {images.length > 0 && (
+                        <div className="flex flex-1 gap-3 overflow-x-auto pb-2">
+                          {images.map((image, index) => (
+                            <div
+                              key={image.id}
+                              className="group relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-xl bg-gray-200"
                             >
-                              <MaterialIcon name="close" className="text-[16px]" />
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                              <img
+                                src={image.url}
+                                alt={`Ảnh ${index + 1}`}
+                                className="h-full w-full object-cover"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveImage(index)}
+                                className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100"
+                                aria-label={`Xóa ảnh ${index + 1}`}
+                              >
+                                <MaterialIcon name="close" className="text-[16px]" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
+                  )}
               </div>
 
+              {postType !== 'wholesale' && (
               <div className="space-y-5 rounded-xl border border-outline-variant bg-white p-4 md:p-6">
                 <div className="mb-1 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-2">
@@ -627,34 +622,68 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                               <span>SKU: {quoteProduct.sku}</span>
                               <span>NSX: {quoteProduct.supplier}</span>
                             </div>
-                            <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                              <div className="space-y-1.5">
-                                <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
-                                  Giá sỉ (VNĐ)
-                                </label>
-                                <input
-                                  className="w-full rounded-lg border border-outline-variant bg-surface-bright px-3 py-2 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
-                                  placeholder="Nhập giá..."
-                                  type="text"
-                                  value={attachedWholesalePrice}
-                                  onChange={(event) =>
-                                    setAttachedWholesalePrice(event.target.value)
-                                  }
-                                />
+                            {!isSupplyPost && !isQuotePost && !isClearancePost && (
+                              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                <div className="space-y-1.5">
+                                  <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
+                                    Giá sỉ (VNĐ)
+                                  </label>
+                                  <input
+                                    className="w-full rounded-lg border border-outline-variant bg-surface-bright px-3 py-2 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                                    placeholder="Nhập giá..."
+                                    type="text"
+                                    value={attachedWholesalePrice}
+                                    onChange={(event) =>
+                                      setAttachedWholesalePrice(event.target.value)
+                                    }
+                                  />
+                                </div>
+                                <div className="space-y-1.5">
+                                  <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
+                                    Giá lẻ (VNĐ)
+                                  </label>
+                                  <input
+                                    className="w-full rounded-lg border border-outline-variant bg-surface-bright px-3 py-2 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                                    placeholder="Liên hệ"
+                                    type="text"
+                                    value={attachedRetailPrice}
+                                    onChange={(event) => setAttachedRetailPrice(event.target.value)}
+                                  />
+                                </div>
                               </div>
-                              <div className="space-y-1.5">
-                                <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
-                                  Giá lẻ (VNĐ)
-                                </label>
-                                <input
-                                  className="w-full rounded-lg border border-outline-variant bg-surface-bright px-3 py-2 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
-                                  placeholder="Liên hệ"
-                                  type="text"
-                                  value={attachedRetailPrice}
-                                  onChange={(event) => setAttachedRetailPrice(event.target.value)}
-                                />
+                            )}
+
+                            {isClearancePost && (
+                              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                <div className="space-y-1.5">
+                                  <label className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
+                                    Giá bán lẻ (VNĐ)
+                                  </label>
+                                  <input
+                                    className="w-full rounded-lg border border-outline-variant bg-surface-bright px-3 py-2 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                                    placeholder="Nhập giá..."
+                                    type="text"
+                                    value={retailPrice}
+                                    onChange={(event) =>
+                                      setRetailPrice(event.target.value)
+                                    }
+                                  />
+                                </div>
+                                <div className="space-y-1.5">
+                                  <label className="text-[11px] font-bold uppercase tracking-wider text-red-600">
+                                    Giá thanh lý (VNĐ)
+                                  </label>
+                                  <input
+                                    className="w-full rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600 outline-none transition-all focus:ring-2 focus:ring-red-300"
+                                    placeholder="Liên hệ"
+                                    type="text"
+                                    value={clearancePrice}
+                                    onChange={(event) => setClearancePrice(event.target.value)}
+                                  />
+                                </div>
                               </div>
-                            </div>
+                            )}
+
                           </div>
                           <button type="button" className="flex flex-col items-center text-error">
                             <MaterialIcon name="delete" />
@@ -724,7 +753,9 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                   </div>
                 )}
               </div>
+              )}
 
+              {!isQuotePost && !isClearancePost && (
               <div className="space-y-5 rounded-xl border border-outline-variant bg-white p-4 md:p-6">
                 <div className="flex items-center justify-between gap-4">
                   <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
@@ -864,26 +895,28 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-on-surface">Giá sỉ (VNĐ)</label>
-                        <input
-                          className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
-                          type="text"
-                          value={productWholesalePrice}
-                          onChange={(event) => setProductWholesalePrice(event.target.value)}
-                        />
+                    {!isSupplyPost && (
+                      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-on-surface">Giá sỉ (VNĐ)</label>
+                          <input
+                            className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                            type="text"
+                            value={productWholesalePrice}
+                            onChange={(event) => setProductWholesalePrice(event.target.value)}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-on-surface">Giá lẻ (VNĐ)</label>
+                          <input
+                            className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
+                            type="text"
+                            value={productRetailPrice}
+                            onChange={(event) => setProductRetailPrice(event.target.value)}
+                          />
+                        </div>
                       </div>
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-on-surface">Giá lẻ (VNĐ)</label>
-                        <input
-                          className="w-full rounded-xl border border-outline-variant bg-surface-bright px-4 py-3 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-container"
-                          type="text"
-                          value={productRetailPrice}
-                          onChange={(event) => setProductRetailPrice(event.target.value)}
-                        />
-                      </div>
-                    </div>
+                    )}
 
                     <div className="space-y-4">
                       <div className="grid grid-cols-12 gap-4 px-2">
@@ -950,6 +983,7 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                   </>
                 )}
               </div>
+              )}
 
               <div className="flex flex-wrap items-center justify-end gap-3 pt-2">
                 <button
@@ -973,7 +1007,7 @@ export const CreatePostModal = ({ isOpen = false, onClose = () => {} }) => {
                   onClick={handlePublish}
                   className="rounded-full bg-primary px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-container disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {loading ? 'Đang đăng...' : 'Đăng bài mua chung'}
+                  {loading ? 'Đang đăng...' : `Đăng bài ${publishLabel}`}
                 </button>
               </div>
             </section>

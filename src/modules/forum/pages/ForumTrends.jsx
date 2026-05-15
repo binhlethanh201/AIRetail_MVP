@@ -1,4 +1,6 @@
 import ForumHeader from '../components/ForumHeader';
+import { useState } from 'react';
+import CreatePostModal from '../components/CreatePostModal';
 import ForumLeftSidebar from '../components/ForumLeftSidebar';
 
 const MaterialIcon = ({ name, className = '', fill = false }) => (
@@ -78,9 +80,11 @@ const trendToneStyles = {
 };
 
 const ForumTrends = () => {
+  const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-background font-sans text-on-surface antialiased">
-      <ForumHeader />
+      <ForumHeader onCreatePostClick={() => setIsCreatePostModalOpen(true)} />
 
       <div className="relative mx-auto flex max-w-[1200px] gap-4">
         <ForumLeftSidebar activeKey="trend" />
@@ -434,6 +438,10 @@ const ForumTrends = () => {
           </div>
         </main>
       </div>
+        <CreatePostModal
+          isOpen={isCreatePostModalOpen}
+          onClose={() => setIsCreatePostModalOpen(false)}
+        />
     </div>
   );
 };
