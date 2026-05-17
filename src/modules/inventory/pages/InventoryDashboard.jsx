@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import MaterialIcon from '../components/MaterialIcon';
 import {
   cashSummary,
@@ -12,10 +12,11 @@ import {
 } from '../data/inventoryMockData';
 
 const sidebarItems = [
-  { label: 'Tổng quan', icon: 'dashboard', active: true, path: '/inventory/dashboard' },
+  { label: 'Tổng quan', icon: 'dashboard', path: '/inventory/dashboard' },
+  { label: 'Hàng hóa', icon: 'inventory_2', path: '/inventory/products' },
   { label: 'Diễn đàn', icon: 'forum', path: '/forum' },
   { label: 'Báo cáo', icon: 'analytics', path: '/inventory/reports' },
-  { label: 'Quản lý nhân viên', icon: 'badge' },
+  { label: 'Quản lý nhân viên', icon: 'badge', path: '/admin' },
 ];
 
 const horizontalNav = [
@@ -114,6 +115,7 @@ const transactionToneClass = {
 
 const InventoryDashboard = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [activeHubKey, setActiveHubKey] = useState(null);
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
   const [assistantInput, setAssistantInput] = useState('');
@@ -156,6 +158,16 @@ const InventoryDashboard = () => {
     setActiveHubKey(null);
   };
 
+  const isSidebarActive = (path) => {
+    if (!path) return false;
+    if (path === '/inventory/dashboard') return location.pathname.startsWith('/inventory/dashboard');
+    if (path === '/inventory/products') return location.pathname.startsWith('/inventory/products');
+    if (path === '/inventory/reports') return location.pathname.startsWith('/inventory/reports');
+    if (path === '/forum') return location.pathname.startsWith('/forum');
+    if (path === '/admin') return location.pathname.startsWith('/admin');
+    return location.pathname === path;
+  };
+
   const handleAssistantSend = () => {
     const value = assistantInput.trim();
     if (!value) return;
@@ -191,7 +203,9 @@ const InventoryDashboard = () => {
     <div className="min-h-screen bg-background text-on-surface antialiased">
       <div
         className={`fixed inset-0 z-[100] flex items-center justify-center bg-primary/40 backdrop-blur-md transition-opacity duration-300 ${
-          isHubOpen ? 'visible opacity-100 pointer-events-auto' : 'invisible opacity-0 pointer-events-none'
+          isHubOpen
+            ? 'pointer-events-auto visible opacity-100'
+            : 'pointer-events-none invisible opacity-0'
         }`}
       >
         <div className="relative flex h-full w-full items-center justify-center">
@@ -222,9 +236,11 @@ const InventoryDashboard = () => {
               <div
                 key={action.id}
                 className={`absolute left-1/2 top-1/2 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-                  isHubOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+                  isHubOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
                 }`}
-                style={{ transform: `translate(-50%, -50%) translate(${position.x}px, ${position.y}px)` }}
+                style={{
+                  transform: `translate(-50%, -50%) translate(${position.x}px, ${position.y}px)`,
+                }}
               >
                 <div className="flex flex-col items-center gap-2">
                   <button
@@ -279,7 +295,9 @@ const InventoryDashboard = () => {
                   type="button"
                   onClick={() => handleNavigate(item.path)}
                   className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-colors ${
-                    item.active ? 'bg-blue-50 font-semibold text-blue-900' : 'text-slate-600 hover:bg-slate-100'
+                    isSidebarActive(item.path)
+                      ? 'bg-blue-50 font-semibold text-blue-900'
+                      : 'text-slate-600 hover:bg-slate-100'
                   }`}
                 >
                   <MaterialIcon name={item.icon} />
@@ -303,7 +321,7 @@ const InventoryDashboard = () => {
       </aside>
 
       <header className="fixed left-0 right-0 top-0 z-30 flex flex-col border-b border-slate-200 bg-white lg:left-[260px]">
-        <div className="flex min-h-16 flex-col gap-3 px-4 py-4 lg:h-16 lg:flex-row lg:items-center lg:justify-between lg:px-6 lg:py-0">
+        <div className="flex h-16 items-center justify-between gap-4 px-6">
           <div className="flex flex-1 items-center rounded-lg border border-slate-200 bg-slate-50 px-4 py-2">
             <MaterialIcon name="search" className="mr-2 text-slate-400" />
             <input
@@ -313,8 +331,8 @@ const InventoryDashboard = () => {
             />
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 lg:gap-4">
-            <div className="flex items-center gap-2 border-r-0 pr-0 lg:border-r lg:border-slate-200 lg:pr-4">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 border-r border-slate-200 pr-4">
               <button
                 type="button"
                 onClick={() => navigate('/inventory/export')}
@@ -333,7 +351,10 @@ const InventoryDashboard = () => {
             </div>
 
             <div className="flex items-center gap-3">
-              <button type="button" className="relative rounded-lg p-2 text-slate-500 hover:bg-slate-100">
+              <button
+                type="button"
+                className="relative rounded-lg p-2 text-slate-500 hover:bg-slate-100"
+              >
                 <MaterialIcon name="notifications" />
                 <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-error" />
               </button>
@@ -348,23 +369,25 @@ const InventoryDashboard = () => {
           </div>
         </div>
 
-        <nav className="flex h-12 items-center gap-8 overflow-x-auto border-t border-slate-100 px-4 no-scrollbar lg:px-6">
-          {horizontalNav.map((item) => (
-            <button
-              key={item.label}
-              type="button"
-              onClick={() => handleNavigate(item.path, item.key)}
-              className="group relative flex h-full items-center gap-2 px-2 text-slate-600 transition-colors hover:text-primary"
-            >
-              <MaterialIcon name={item.icon} className="text-[20px]" />
-              <span className="whitespace-nowrap text-sm font-medium">{item.label}</span>
-              <span className="absolute bottom-0 left-2 right-2 h-0.5 scale-x-0 bg-primary transition-transform duration-200 group-hover:scale-x-100" />
-            </button>
-          ))}
-        </nav>
+        <div className="flex h-12 items-center bg-[#faf9fc] px-6">
+          <nav className="no-scrollbar flex h-10 w-full items-center gap-8 overflow-x-auto rounded-lg border border-slate-200 bg-white px-3 shadow-sm">
+            {horizontalNav.map((item) => (
+              <button
+                key={item.label}
+                type="button"
+                onClick={() => handleNavigate(item.path, item.key)}
+                className="group relative flex h-full items-center gap-2 px-2 text-slate-600 transition-colors hover:text-primary"
+              >
+                <MaterialIcon name={item.icon} className="text-[20px]" />
+                <span className="whitespace-nowrap text-sm font-medium">{item.label}</span>
+                <span className="absolute bottom-0 left-2 right-2 h-0.5 scale-x-0 bg-primary transition-transform duration-200 group-hover:scale-x-100" />
+              </button>
+            ))}
+          </nav>
+        </div>
       </header>
 
-      <main className="ml-0 pt-[144px] lg:ml-[260px] lg:pt-[124px]">
+      <main className="ml-0 pt-[128px] lg:ml-[260px]">
         <div className="mx-auto max-w-[1600px] space-y-6 px-4 pb-8 lg:px-6">
           <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
             {dashboardKpis.map((kpi) => (
@@ -373,7 +396,9 @@ const InventoryDashboard = () => {
                 className="group rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition-colors hover:border-[#004785]"
               >
                 <div className="mb-4 flex items-start justify-between">
-                  <div className={`rounded-lg p-2 ${primaryToneClass[kpi.tone] || primaryToneClass.navy}`}>
+                  <div
+                    className={`rounded-lg p-2 ${primaryToneClass[kpi.tone] || primaryToneClass.navy}`}
+                  >
                     <MaterialIcon name={kpi.icon} />
                   </div>
                   {kpi.change ? (
@@ -403,19 +428,30 @@ const InventoryDashboard = () => {
             ))}
 
             {financeKpis.map((metric) => (
-              <article key={metric.id} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+              <article
+                key={metric.id}
+                className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
+              >
                 <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.05em] text-slate-500">
                   {metric.label}
                 </p>
-                <h2 className={`text-xl font-extrabold ${metric.tone === 'green' ? 'text-green-600' : 'text-blue-900'}`}>
-                  {metric.value} {metric.unit ? <span className="text-sm font-medium">{metric.unit}</span> : null}
+                <h2
+                  className={`text-xl font-extrabold ${metric.tone === 'green' ? 'text-green-600' : 'text-blue-900'}`}
+                >
+                  {metric.value}{' '}
+                  {metric.unit ? <span className="text-sm font-medium">{metric.unit}</span> : null}
                 </h2>
                 {typeof metric.progress === 'number' ? (
                   <div className="mt-4 h-1 w-full overflow-hidden rounded-full bg-slate-100">
-                    <div className={`h-full ${progressToneClass[metric.tone] || 'bg-[#004785]'}`} style={{ width: `${metric.progress}%` }} />
+                    <div
+                      className={`h-full ${progressToneClass[metric.tone] || 'bg-[#004785]'}`}
+                      style={{ width: `${metric.progress}%` }}
+                    />
                   </div>
                 ) : null}
-                {metric.subtitle ? <p className="mt-2 text-sm text-blue-600">{metric.subtitle}</p> : null}
+                {metric.subtitle ? (
+                  <p className="mt-2 text-sm text-blue-600">{metric.subtitle}</p>
+                ) : null}
               </article>
             ))}
           </section>
@@ -449,8 +485,18 @@ const InventoryDashboard = () => {
                 </h4>
                 <div className="relative h-48 overflow-hidden">
                   <svg className="h-full w-full" viewBox="0 0 400 150" aria-hidden="true">
-                    <path d="M0,120 Q50,80 100,100 T200,60 T300,90 T400,30" fill="none" stroke="#22C55E" strokeWidth="2" />
-                    <path d="M0,100 Q50,130 100,70 T200,110 T300,50 T400,80" fill="none" stroke="#F59E0B" strokeWidth="2" />
+                    <path
+                      d="M0,120 Q50,80 100,100 T200,60 T300,90 T400,30"
+                      fill="none"
+                      stroke="#22C55E"
+                      strokeWidth="2"
+                    />
+                    <path
+                      d="M0,100 Q50,130 100,70 T200,110 T300,50 T400,80"
+                      fill="none"
+                      stroke="#F59E0B"
+                      strokeWidth="2"
+                    />
                   </svg>
                   <div className="absolute bottom-2 right-2 flex gap-3">
                     <div className="flex items-center gap-1">
@@ -482,10 +528,19 @@ const InventoryDashboard = () => {
                   <div className="space-y-4">
                     {forumProducts.map((product) => (
                       <div key={product.id} className="flex items-center gap-4">
-                        <img alt={product.alt} className="h-12 w-12 rounded-xl object-cover" src={product.image} />
+                        <img
+                          alt={product.alt}
+                          className="h-12 w-12 rounded-xl object-cover"
+                          src={product.image}
+                        />
                         <div className="flex-1">
-                          <p className="text-sm font-bold leading-snug text-slate-900">{product.name}</p>
-                          <button type="button" className="text-xs font-bold text-primary hover:underline">
+                          <p className="text-sm font-bold leading-snug text-slate-900">
+                            {product.name}
+                          </p>
+                          <button
+                            type="button"
+                            className="text-xs font-bold text-primary hover:underline"
+                          >
                             Xem chi tiết
                           </button>
                         </div>
@@ -509,14 +564,18 @@ const InventoryDashboard = () => {
                         }`}
                       >
                         <div className="flex-1">
-                          <h5 className={`text-sm font-bold ${report.tone === 'red' ? 'text-primary' : 'text-green-900'}`}>
+                          <h5
+                            className={`text-sm font-bold ${report.tone === 'red' ? 'text-primary' : 'text-green-900'}`}
+                          >
                             {report.title}
                           </h5>
                           <p className="mt-1 text-[11px] text-slate-500">{report.desc}</p>
                         </div>
                         <span
                           className={`rounded-full px-2 py-0.5 text-[9px] font-black uppercase ${
-                            report.tone === 'red' ? 'bg-red-100 text-red-600' : 'bg-green-200 text-green-800'
+                            report.tone === 'red'
+                              ? 'bg-red-100 text-red-600'
+                              : 'bg-green-200 text-green-800'
                           }`}
                         >
                           {report.level}
@@ -540,7 +599,10 @@ const InventoryDashboard = () => {
                     GIAO DỊCH GẦN ĐÂY
                   </h4>
                 </div>
-                <button type="button" className="rounded-lg border border-blue-100 px-4 py-2 text-xs font-bold text-primary hover:bg-blue-50">
+                <button
+                  type="button"
+                  className="rounded-lg border border-blue-100 px-4 py-2 text-xs font-bold text-primary hover:bg-blue-50"
+                >
                   Xem báo cáo
                 </button>
               </div>
@@ -569,11 +631,18 @@ const InventoryDashboard = () => {
                         <td className="px-6 py-4">
                           <div
                             className={`flex h-8 w-8 items-center justify-center rounded-full ${
-                              transactionToneClass[transaction.type] || transactionToneClass.transfer
+                              transactionToneClass[transaction.type] ||
+                              transactionToneClass.transfer
                             }`}
                           >
                             <MaterialIcon
-                              name={transaction.type === 'import' ? 'check' : transaction.type === 'transfer' ? 'swap_horiz' : 'north_east'}
+                              name={
+                                transaction.type === 'import'
+                                  ? 'check'
+                                  : transaction.type === 'transfer'
+                                    ? 'swap_horiz'
+                                    : 'north_east'
+                              }
                               className="text-sm"
                             />
                           </div>
@@ -582,7 +651,9 @@ const InventoryDashboard = () => {
                           <p className="text-sm font-bold text-slate-900">{transaction.partner}</p>
                           <p className="text-[10px] text-slate-500">{transaction.location}</p>
                         </td>
-                        <td className="px-6 py-4 text-xs font-medium text-slate-500">{transaction.time}</td>
+                        <td className="px-6 py-4 text-xs font-medium text-slate-500">
+                          {transaction.time}
+                        </td>
                         <td className="px-6 py-4 text-right text-sm font-black text-slate-900">
                           {transaction.amount}
                         </td>
@@ -620,7 +691,9 @@ const InventoryDashboard = () => {
 
       <div
         className={`fixed bottom-24 right-4 z-[60] w-[calc(100vw-2rem)] max-w-[380px] rounded-2xl border border-slate-200 bg-white shadow-2xl transition-all duration-200 lg:right-8 ${
-          isAssistantOpen ? 'visible translate-y-0 opacity-100' : 'invisible translate-y-4 opacity-0'
+          isAssistantOpen
+            ? 'visible translate-y-0 opacity-100'
+            : 'invisible translate-y-4 opacity-0'
         }`}
       >
         <div className="flex items-center justify-between rounded-t-2xl bg-primary px-4 py-3 text-white">

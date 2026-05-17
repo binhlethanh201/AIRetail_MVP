@@ -2,32 +2,34 @@
  * Sidebar Component - Điều hướng chính theo UI Figma
  */
 
+import { useLocation, useNavigate } from 'react-router-dom';
+
 const navSections = [
   {
-    title: 'QUAN LY VAN HANH',
+    title: 'HỆ THỐNG',
     items: [
-      { icon: 'dashboard', label: 'Tong quan', path: '/inventory/dashboard', active: true },
-      { icon: 'inventory_2', label: 'Hang hoa', path: '/inventory/products' },
-      { icon: 'move_to_inbox', label: 'Nhap kho', path: '/inventory/import' },
-      { icon: 'outbox', label: 'Xuat kho', path: '/inventory/export' },
-      { icon: 'location_on', label: 'Vi tri kho', path: '/inventory/reports' },
+      { icon: 'dashboard', label: 'Tổng quan', path: '/inventory/dashboard' },
+      { icon: 'inventory_2', label: 'Hàng hóa', path: '/inventory/products' },
+      { icon: 'forum', label: 'Diễn đàn', path: '/forum' },
+      { icon: 'analytics', label: 'Báo cáo', path: '/inventory/reports' },
+      { icon: 'badge', label: 'Quản lý nhân viên', path: '/admin' },
     ],
-  },
-  {
-    title: 'KINH DOANH',
-    items: [
-      { icon: 'payments', label: 'Tai chinh', path: '/inventory/reports' },
-      { icon: 'shopping_cart', label: 'Don hang', path: '/pos/orders' },
-      { icon: 'groups', label: 'Nha cung cap', path: '/forum' },
-    ],
-  },
-  {
-    title: 'KET NOI & DU LIEU',
-    items: [{ icon: 'forum', label: 'Dien dan B2B', path: '/forum' }],
   },
 ];
 
-export const Sidebar = ({ onNavigate = () => {} }) => {
+export const Sidebar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isActivePath = (path) => {
+    if (path === '/inventory/products') return location.pathname === path;
+    if (path === '/inventory/dashboard') return location.pathname.startsWith('/inventory/dashboard');
+    if (path === '/inventory/reports') return location.pathname.startsWith('/inventory/reports');
+    if (path === '/forum') return location.pathname.startsWith('/forum');
+    if (path === '/admin') return location.pathname.startsWith('/admin');
+    return location.pathname === path;
+  };
+
   return (
     <aside className="fixed left-0 top-0 z-40 flex h-full w-[260px] flex-col border-r border-slate-200 bg-white p-4">
       <div className="mb-8 flex items-center gap-3 px-2">
@@ -54,9 +56,9 @@ export const Sidebar = ({ onNavigate = () => {} }) => {
               {section.items.map((item) => (
                 <button
                   key={item.label}
-                  onClick={() => onNavigate(item.path)}
+                  onClick={() => navigate(item.path)}
                   className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors duration-200 ${
-                    item.active
+                    isActivePath(item.path)
                       ? 'bg-blue-50 font-semibold text-blue-900'
                       : 'text-slate-600 hover:bg-slate-100'
                   }`}

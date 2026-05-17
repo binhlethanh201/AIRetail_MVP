@@ -7,10 +7,10 @@ export const MainLayout = ({ onNavigate = () => {} }) => {
   return (
     <div className="flex h-screen bg-gray-50">
       <Sidebar onNavigate={onNavigate} />
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="ml-[260px] flex flex-1 flex-col overflow-hidden">
         <Header />
-        <main className="flex-1 overflow-auto">
-          <div className="mx-auto max-w-7xl px-6 py-8">
+        <main className="flex-1 overflow-auto pt-16">
+          <div className="w-full px-6 py-8">
             <Suspense
               fallback={
                 <div className="flex h-96 items-center justify-center">
