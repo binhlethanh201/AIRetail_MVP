@@ -160,7 +160,8 @@ const InventoryDashboard = () => {
 
   const isSidebarActive = (path) => {
     if (!path) return false;
-    if (path === '/inventory/dashboard') return location.pathname.startsWith('/inventory/dashboard');
+    if (path === '/inventory/dashboard')
+      return location.pathname.startsWith('/inventory/dashboard');
     if (path === '/inventory/products') return location.pathname.startsWith('/inventory/products');
     if (path === '/inventory/reports') return location.pathname.startsWith('/inventory/reports');
     if (path === '/forum') return location.pathname.startsWith('/forum');

@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import MaterialIcon from '../components/MaterialIcon';
+import EditProductModal from '../components/EditProductModal';
 
 const topTabs = [
   { key: 'inventory', label: 'Kho hàng', icon: 'inventory_2' },
@@ -233,7 +234,13 @@ const createdQuickRanges = [
   },
   {
     title: 'Theo tháng',
-    options: ['Tháng này', 'Tháng trước', 'Tháng này (âm lịch)', 'Tháng trước (âm lịch)', '30 ngày qua'],
+    options: [
+      'Tháng này',
+      'Tháng trước',
+      'Tháng này (âm lịch)',
+      'Tháng trước (âm lịch)',
+      '30 ngày qua',
+    ],
   },
   {
     title: 'Theo quý',
@@ -261,7 +268,8 @@ const parseDateTime = (value) => {
 };
 
 const startOfDay = (date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
-const endOfDay = (date) => new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
+const endOfDay = (date) =>
+  new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
 const addDays = (date, days) => {
   const result = new Date(date);
   result.setDate(result.getDate() + days);
@@ -326,6 +334,9 @@ export const ProductManagement = () => {
   const [activeDetailTab, setActiveDetailTab] = useState('info');
   const [isFilterCollapsed, setIsFilterCollapsed] = useState(false);
   const [expandedId, setExpandedId] = useState('SP34405804');
+  const [products, setProducts] = useState(inventoryRows);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [productToEdit, setProductToEdit] = useState(null);
   const [search, setSearch] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: 'stock', direction: 'desc' });
   const [groupKeyword, setGroupKeyword] = useState('');
@@ -380,18 +391,21 @@ export const ProductManagement = () => {
   }, []);
 
   const displayedRows = useMemo(() => {
-    const filtered = inventoryRows.filter((row) => {
+    const filtered = products.filter((row) => {
       const q = search.trim().toLowerCase();
-      const isSearchMatched = !q || row.id.toLowerCase().includes(q) || row.name.toLowerCase().includes(q);
+      const isSearchMatched =
+        !q || row.id.toLowerCase().includes(q) || row.name.toLowerCase().includes(q);
 
       const groupQuery = groupKeyword.trim().toLowerCase();
       const isGroupMatched = !groupQuery || row.group.toLowerCase().includes(groupQuery);
 
       const supplierQuery = supplierKeyword.trim().toLowerCase();
-      const isSupplierMatched = !supplierQuery || row.supplier.toLowerCase().includes(supplierQuery);
+      const isSupplierMatched =
+        !supplierQuery || row.supplier.toLowerCase().includes(supplierQuery);
 
       const locationQuery = locationKeyword.trim().toLowerCase();
-      const isLocationMatched = !locationQuery || row.location.toLowerCase().includes(locationQuery);
+      const isLocationMatched =
+        !locationQuery || row.location.toLowerCase().includes(locationQuery);
 
       const typeQuery = itemTypeKeyword.trim().toLowerCase();
       const isTypeMatched = !typeQuery || row.itemType.toLowerCase().includes(typeQuery);
@@ -425,7 +439,9 @@ export const ProductManagement = () => {
       const isEstimatedMatched =
         estimatedStockOutFilter !== 'custom' ||
         !estimatedRange ||
-        (estimatedDate && estimatedDate >= estimatedRange.start && estimatedDate <= estimatedRange.end);
+        (estimatedDate &&
+          estimatedDate >= estimatedRange.start &&
+          estimatedDate <= estimatedRange.end);
 
       return (
         isSearchMatched &&
@@ -470,6 +486,12 @@ export const ProductManagement = () => {
     estimatedRange,
   ]);
 
+  const handleSaveProduct = (updated) => {
+    setProducts((prev) => prev.map((p) => (p.id === updated.id ? { ...p, ...updated } : p)));
+    setEditModalOpen(false);
+    setProductToEdit(null);
+  };
+
   const toggleSort = (key) => {
     setSortConfig((prev) => {
       if (prev.key === key) {
@@ -495,11 +517,17 @@ export const ProductManagement = () => {
         <div className="mt-4 grid grid-cols-2 gap-4">
           <div>
             <div className="mb-3 flex items-center justify-between border-b border-slate-200 pb-2">
-              <button type="button" className="rounded-lg border border-slate-300 p-1 text-slate-500">
+              <button
+                type="button"
+                className="rounded-lg border border-slate-300 p-1 text-slate-500"
+              >
                 <MaterialIcon name="chevron_left" className="text-[16px]" />
               </button>
               <p className="text-lg text-slate-700">Tháng 5 2026</p>
-              <button type="button" className="rounded-lg border border-slate-300 p-1 text-slate-500">
+              <button
+                type="button"
+                className="rounded-lg border border-slate-300 p-1 text-slate-500"
+              >
                 <MaterialIcon name="chevron_right" className="text-[16px]" />
               </button>
             </div>
@@ -507,11 +535,16 @@ export const ProductManagement = () => {
               {['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'].map((day) => (
                 <span key={`left-week-${day}`}>{day}</span>
               ))}
-              {[27, 28, 29, 30, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((day) => (
-                <span key={`left-day-${day}`} className={day < 4 ? 'text-slate-300' : 'text-slate-700'}>
-                  {day}
-                </span>
-              ))}
+              {[27, 28, 29, 30, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map(
+                (day) => (
+                  <span
+                    key={`left-day-${day}`}
+                    className={day < 4 ? 'text-slate-300' : 'text-slate-700'}
+                  >
+                    {day}
+                  </span>
+                )
+              )}
               <span className="flex h-10 w-10 items-center justify-center justify-self-center rounded-full bg-blue-600 font-bold text-white">
                 17
               </span>
@@ -520,11 +553,17 @@ export const ProductManagement = () => {
 
           <div>
             <div className="mb-3 flex items-center justify-between border-b border-slate-200 pb-2">
-              <button type="button" className="rounded-lg border border-slate-300 p-1 text-slate-500">
+              <button
+                type="button"
+                className="rounded-lg border border-slate-300 p-1 text-slate-500"
+              >
                 <MaterialIcon name="chevron_left" className="text-[16px]" />
               </button>
               <p className="text-lg text-slate-700">Tháng 5 2026</p>
-              <button type="button" className="rounded-lg border border-slate-300 p-1 text-slate-500">
+              <button
+                type="button"
+                className="rounded-lg border border-slate-300 p-1 text-slate-500"
+              >
                 <MaterialIcon name="chevron_right" className="text-[16px]" />
               </button>
             </div>
@@ -532,11 +571,16 @@ export const ProductManagement = () => {
               {['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'].map((day) => (
                 <span key={`right-week-${day}`}>{day}</span>
               ))}
-              {[18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 1, 2, 3, 4, 5, 6, 7].map((day) => (
-                <span key={`right-day-${day}`} className={day < 8 ? 'text-slate-700' : 'text-slate-400'}>
-                  {day}
-                </span>
-              ))}
+              {[18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 1, 2, 3, 4, 5, 6, 7].map(
+                (day) => (
+                  <span
+                    key={`right-day-${day}`}
+                    className={day < 8 ? 'text-slate-700' : 'text-slate-400'}
+                  >
+                    {day}
+                  </span>
+                )
+              )}
               <span className="flex h-10 w-10 items-center justify-center justify-self-end rounded-full bg-blue-600 font-bold text-white">
                 17
               </span>
@@ -618,7 +662,7 @@ export const ProductManagement = () => {
                   >
                     <MaterialIcon name={action.icon} className="text-2xl" />
                   </button>
-                  <div className="rounded bg-white/90 px-3 py-1 text-[11px] font-bold uppercase text-primary shadow-sm backdrop-blur whitespace-nowrap">
+                  <div className="whitespace-nowrap rounded bg-white/90 px-3 py-1 text-[11px] font-bold uppercase text-primary shadow-sm backdrop-blur">
                     {action.label}
                   </div>
                 </div>
@@ -635,7 +679,9 @@ export const ProductManagement = () => {
               key={tab.key}
               type="button"
               className={`group relative flex h-full items-center gap-2 px-2 transition-colors ${
-                activeTab === tab.key ? 'font-semibold text-primary' : 'text-slate-600 hover:text-primary'
+                activeTab === tab.key
+                  ? 'font-semibold text-primary'
+                  : 'text-slate-600 hover:text-primary'
               }`}
               onClick={() => {
                 setActiveTab(tab.key);
@@ -706,10 +752,14 @@ export const ProductManagement = () => {
             </div>
 
             <div className="relative mb-6 space-y-2" ref={estimatedRef}>
-              <p className="text-sm font-bold uppercase tracking-tight text-slate-700">Dự kiến hết hàng</p>
+              <p className="text-sm font-bold uppercase tracking-tight text-slate-700">
+                Dự kiến hết hàng
+              </p>
               <label
                 className={`flex cursor-pointer items-center gap-3 rounded-lg bg-white p-2 ${
-                  estimatedStockOutFilter === 'allTime' ? 'border border-blue-900' : 'border border-slate-200'
+                  estimatedStockOutFilter === 'allTime'
+                    ? 'border border-blue-900'
+                    : 'border border-slate-200'
                 }`}
               >
                 <input
@@ -731,7 +781,9 @@ export const ProductManagement = () => {
               </label>
               <label
                 className={`flex cursor-pointer items-center gap-3 rounded-lg bg-white p-2 ${
-                  estimatedStockOutFilter === 'custom' ? 'border border-blue-900' : 'border border-slate-200'
+                  estimatedStockOutFilter === 'custom'
+                    ? 'border border-blue-900'
+                    : 'border border-slate-200'
                 }`}
               >
                 <input
@@ -811,12 +863,16 @@ export const ProductManagement = () => {
 
             <div className="relative mb-6 space-y-2" ref={createdRef}>
               <div className="flex items-center gap-1.5">
-                <p className="text-sm font-bold uppercase tracking-tight text-slate-700">Thời gian tạo</p>
+                <p className="text-sm font-bold uppercase tracking-tight text-slate-700">
+                  Thời gian tạo
+                </p>
                 <div className="h-2 w-2 rounded-full bg-blue-600" />
               </div>
               <label
                 className={`flex cursor-pointer items-center gap-3 rounded-lg bg-white p-2 ${
-                  createdTimeFilter === 'allTime' ? 'border border-blue-900' : 'border border-slate-200'
+                  createdTimeFilter === 'allTime'
+                    ? 'border border-blue-900'
+                    : 'border border-slate-200'
                 }`}
               >
                 <input
@@ -838,7 +894,9 @@ export const ProductManagement = () => {
               </label>
               <label
                 className={`flex cursor-pointer items-center gap-3 rounded-lg bg-white p-2 ${
-                  createdTimeFilter === 'custom' ? 'border border-blue-900' : 'border border-slate-200'
+                  createdTimeFilter === 'custom'
+                    ? 'border border-blue-900'
+                    : 'border border-slate-200'
                 }`}
               >
                 <input
@@ -853,7 +911,9 @@ export const ProductManagement = () => {
                   className="h-4 w-4 text-blue-900 focus:ring-blue-900"
                 />
                 <span className="flex w-full items-center justify-between text-sm font-medium text-slate-800">
-                  {createdSelectedLabel === 'Toàn thời gian' ? '17/05/2026 - 17/05/2026' : createdSelectedLabel}
+                  {createdSelectedLabel === 'Toàn thời gian'
+                    ? '17/05/2026 - 17/05/2026'
+                    : createdSelectedLabel}
                   <MaterialIcon name="calendar_today" className="text-sm text-slate-400" />
                 </span>
               </label>
@@ -917,7 +977,9 @@ export const ProductManagement = () => {
             </div>
 
             <div className="mb-6 space-y-2">
-              <p className="text-sm font-bold uppercase tracking-tight text-slate-700">Nhà cung cấp</p>
+              <p className="text-sm font-bold uppercase tracking-tight text-slate-700">
+                Nhà cung cấp
+              </p>
               <input
                 className="w-full rounded-lg border-slate-200 px-3 py-2 text-sm"
                 placeholder="Chọn nhà cung cấp"
@@ -947,12 +1009,16 @@ export const ProductManagement = () => {
             </div>
 
             <div className="mb-6 space-y-2">
-              <p className="text-sm font-bold uppercase tracking-tight text-slate-700">Bán trực tiếp</p>
+              <p className="text-sm font-bold uppercase tracking-tight text-slate-700">
+                Bán trực tiếp
+              </p>
               <div className="flex rounded-lg border border-slate-200 bg-slate-50 p-1">
                 <button
                   type="button"
                   className={`flex-1 rounded-lg py-1.5 text-sm font-medium ${
-                    directSaleFilter === 'all' ? 'bg-blue-600 font-bold text-white' : 'text-slate-600'
+                    directSaleFilter === 'all'
+                      ? 'bg-blue-600 font-bold text-white'
+                      : 'text-slate-600'
                   }`}
                   onClick={() => setDirectSaleFilter('all')}
                 >
@@ -961,7 +1027,9 @@ export const ProductManagement = () => {
                 <button
                   type="button"
                   className={`flex-1 rounded-lg py-1.5 text-sm font-medium ${
-                    directSaleFilter === 'yes' ? 'bg-blue-600 font-bold text-white' : 'text-slate-600'
+                    directSaleFilter === 'yes'
+                      ? 'bg-blue-600 font-bold text-white'
+                      : 'text-slate-600'
                   }`}
                   onClick={() => setDirectSaleFilter('yes')}
                 >
@@ -970,7 +1038,9 @@ export const ProductManagement = () => {
                 <button
                   type="button"
                   className={`flex-1 rounded-lg py-1.5 text-sm font-medium ${
-                    directSaleFilter === 'no' ? 'bg-blue-600 font-bold text-white' : 'text-slate-600'
+                    directSaleFilter === 'no'
+                      ? 'bg-blue-600 font-bold text-white'
+                      : 'text-slate-600'
                   }`}
                   onClick={() => setDirectSaleFilter('no')}
                 >
@@ -980,12 +1050,16 @@ export const ProductManagement = () => {
             </div>
 
             <div className="mb-6 space-y-2">
-              <p className="text-sm font-bold uppercase tracking-tight text-slate-700">Liên kết kênh bán</p>
+              <p className="text-sm font-bold uppercase tracking-tight text-slate-700">
+                Liên kết kênh bán
+              </p>
               <div className="flex rounded-lg border border-slate-200 bg-slate-50 p-1">
                 <button
                   type="button"
                   className={`flex-1 rounded-lg py-1.5 text-sm font-medium ${
-                    salesChannelFilter === 'all' ? 'bg-blue-600 font-bold text-white' : 'text-slate-600'
+                    salesChannelFilter === 'all'
+                      ? 'bg-blue-600 font-bold text-white'
+                      : 'text-slate-600'
                   }`}
                   onClick={() => setSalesChannelFilter('all')}
                 >
@@ -994,7 +1068,9 @@ export const ProductManagement = () => {
                 <button
                   type="button"
                   className={`flex-1 rounded-lg py-1.5 text-sm font-medium ${
-                    salesChannelFilter === 'yes' ? 'bg-blue-600 font-bold text-white' : 'text-slate-600'
+                    salesChannelFilter === 'yes'
+                      ? 'bg-blue-600 font-bold text-white'
+                      : 'text-slate-600'
                   }`}
                   onClick={() => setSalesChannelFilter('yes')}
                 >
@@ -1003,7 +1079,9 @@ export const ProductManagement = () => {
                 <button
                   type="button"
                   className={`flex-1 rounded-lg py-1.5 text-sm font-medium ${
-                    salesChannelFilter === 'no' ? 'bg-blue-600 font-bold text-white' : 'text-slate-600'
+                    salesChannelFilter === 'no'
+                      ? 'bg-blue-600 font-bold text-white'
+                      : 'text-slate-600'
                   }`}
                   onClick={() => setSalesChannelFilter('no')}
                 >
@@ -1013,14 +1091,21 @@ export const ProductManagement = () => {
             </div>
 
             <div className="relative space-y-2" ref={statusDropdownRef}>
-              <p className="text-sm font-bold uppercase tracking-tight text-slate-700">Trạng thái hàng hóa</p>
+              <p className="text-sm font-bold uppercase tracking-tight text-slate-700">
+                Trạng thái hàng hóa
+              </p>
               <button
                 type="button"
                 className="flex w-full items-center justify-between rounded-lg border border-slate-300 px-3 py-2 text-left text-sm text-slate-800"
                 onClick={() => setStatusDropdownOpen((prev) => !prev)}
               >
-                <span>{statusOptions.find((option) => option.value === productStatusFilter)?.label}</span>
-                <MaterialIcon name={statusDropdownOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'} className="text-[18px]" />
+                <span>
+                  {statusOptions.find((option) => option.value === productStatusFilter)?.label}
+                </span>
+                <MaterialIcon
+                  name={statusDropdownOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
+                  className="text-[18px]"
+                />
               </button>
 
               {statusDropdownOpen && (
@@ -1088,11 +1173,14 @@ export const ProductManagement = () => {
 
           <div className="flex flex-1 flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
             <div className="overflow-x-auto">
-              <table className="min-w-[1150px] w-full border-collapse text-left">
+              <table className="w-full min-w-[1150px] border-collapse text-left">
                 <thead className="border-b border-slate-200 bg-[#e8f0fe]">
                   <tr className="text-[11px] font-bold uppercase text-slate-600">
                     <th className="w-10 px-4 py-3 text-center">
-                      <input type="checkbox" className="rounded border-slate-300 text-primary focus:ring-primary" />
+                      <input
+                        type="checkbox"
+                        className="rounded border-slate-300 text-primary focus:ring-primary"
+                      />
                     </th>
                     <th className="w-8 px-2 py-3">
                       <MaterialIcon name="star_outline" className="text-sm" />
@@ -1111,14 +1199,20 @@ export const ProductManagement = () => {
                     </th>
                     <th className="px-4 py-3">Đơn vị</th>
                     <th className="px-4 py-3">Thương hiệu</th>
-                    <th className="cursor-pointer px-4 py-3 text-right" onClick={() => toggleSort('salePrice')}>
+                    <th
+                      className="cursor-pointer px-4 py-3 text-right"
+                      onClick={() => toggleSort('salePrice')}
+                    >
                       <div className="flex items-center justify-end gap-1">
                         <span>Giá bán</span>
                         <MaterialIcon name={getSortIcon('salePrice')} className="text-[16px]" />
                       </div>
                     </th>
                     <th className="px-4 py-3 text-right">Giá vốn</th>
-                    <th className="cursor-pointer px-4 py-3 text-right" onClick={() => toggleSort('stock')}>
+                    <th
+                      className="cursor-pointer px-4 py-3 text-right"
+                      onClick={() => toggleSort('stock')}
+                    >
                       <div className="flex items-center justify-end gap-1">
                         <span>Tồn kho</span>
                         <MaterialIcon name={getSortIcon('stock')} className="text-[16px]" />
@@ -1168,9 +1262,15 @@ export const ProductManagement = () => {
                           <td className="px-4 py-3 text-slate-700">{row.name}</td>
                           <td className="px-4 py-3">{row.unit}</td>
                           <td className="px-4 py-3">{row.brand}</td>
-                          <td className="px-4 py-3 text-right font-medium">{formatMoney(row.salePrice)}</td>
-                          <td className="px-4 py-3 text-right text-slate-500">{formatMoney(row.costPrice)}</td>
-                          <td className="px-4 py-3 text-right font-bold text-slate-900">{row.stock}</td>
+                          <td className="px-4 py-3 text-right font-medium">
+                            {formatMoney(row.salePrice)}
+                          </td>
+                          <td className="px-4 py-3 text-right text-slate-500">
+                            {formatMoney(row.costPrice)}
+                          </td>
+                          <td className="px-4 py-3 text-right font-bold text-slate-900">
+                            {row.stock}
+                          </td>
                           <td className="px-4 py-3">{row.location}</td>
                           <td className="px-4 py-3">
                             <span
@@ -1246,14 +1346,25 @@ export const ProductManagement = () => {
                                     />
                                   </div>
                                   <div className="flex-1">
-                                    <h3 className="mb-1 text-xl font-bold text-slate-900">{row.name}</h3>
+                                    <h3 className="mb-1 text-xl font-bold text-slate-900">
+                                      {row.name}
+                                    </h3>
                                     <p className="mb-3 text-xs text-slate-500">
-                                      Nhóm hàng: <span className="font-bold uppercase text-slate-700">{row.group}</span>
+                                      Nhóm hàng:{' '}
+                                      <span className="font-bold uppercase text-slate-700">
+                                        {row.group}
+                                      </span>
                                     </p>
                                     <div className="flex flex-wrap gap-2">
-                                      <span className="rounded bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-600">Hàng hóa thường</span>
-                                      <span className="rounded bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-600">Bán trực tiếp</span>
-                                      <span className="rounded border border-orange-100 bg-orange-50 px-2 py-1 text-[10px] font-bold text-orange-600">Không tích điểm</span>
+                                      <span className="rounded bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-600">
+                                        Hàng hóa thường
+                                      </span>
+                                      <span className="rounded bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-600">
+                                        Bán trực tiếp
+                                      </span>
+                                      <span className="rounded border border-orange-100 bg-orange-50 px-2 py-1 text-[10px] font-bold text-orange-600">
+                                        Không tích điểm
+                                      </span>
                                     </div>
                                   </div>
                                 </div>
@@ -1261,64 +1372,104 @@ export const ProductManagement = () => {
                                 <div className="mb-8 grid grid-cols-1 gap-x-12 gap-y-6 xl:grid-cols-4">
                                   <div className="space-y-2">
                                     <div className="space-y-1">
-                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">Mã hàng</p>
+                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">
+                                        Mã hàng
+                                      </p>
                                       <p className="text-sm font-bold text-slate-800">{row.id}</p>
                                     </div>
                                     <div className="space-y-1">
-                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">Giá vốn</p>
-                                      <p className="text-sm font-bold text-slate-800">{formatMoney(row.costPrice)}</p>
+                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">
+                                        Giá vốn
+                                      </p>
+                                      <p className="text-sm font-bold text-slate-800">
+                                        {formatMoney(row.costPrice)}
+                                      </p>
                                     </div>
                                     <div className="space-y-1">
-                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">Trọng lượng</p>
-                                      <p className="text-sm text-slate-800">{row.weight || 'Chưa có'}</p>
+                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">
+                                        Trọng lượng
+                                      </p>
+                                      <p className="text-sm text-slate-800">
+                                        {row.weight || 'Chưa có'}
+                                      </p>
                                     </div>
                                   </div>
 
                                   <div className="space-y-2">
                                     <div className="space-y-1">
-                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">Mã vạch</p>
+                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">
+                                        Mã vạch
+                                      </p>
                                       <p className="text-sm text-slate-400">{row.barcode}</p>
                                     </div>
                                     <div className="space-y-1">
-                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">Giá bán</p>
-                                      <p className="text-sm font-bold text-slate-800">{formatMoney(row.salePrice)}</p>
+                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">
+                                        Giá bán
+                                      </p>
+                                      <p className="text-sm font-bold text-slate-800">
+                                        {formatMoney(row.salePrice)}
+                                      </p>
                                     </div>
                                     <div className="space-y-1">
-                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">Kích thước</p>
-                                      <p className="text-sm text-slate-400">{row.dimension || 'Chưa có'}</p>
-                                    </div>
-                                  </div>
-
-                                  <div className="space-y-2">
-                                    <div className="space-y-1">
-                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">Tồn kho</p>
-                                      <p className="text-sm font-bold text-slate-800">{row.stock}</p>
-                                    </div>
-                                    <div className="space-y-1">
-                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">Thương hiệu</p>
-                                      <p className="text-sm text-slate-800">{row.brand || 'Chưa có'}</p>
+                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">
+                                        Kích thước
+                                      </p>
+                                      <p className="text-sm text-slate-400">
+                                        {row.dimension || 'Chưa có'}
+                                      </p>
                                     </div>
                                   </div>
 
                                   <div className="space-y-2">
                                     <div className="space-y-1">
-                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">Định mức tồn</p>
+                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">
+                                        Tồn kho
+                                      </p>
+                                      <p className="text-sm font-bold text-slate-800">
+                                        {row.stock}
+                                      </p>
+                                    </div>
+                                    <div className="space-y-1">
+                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">
+                                        Thương hiệu
+                                      </p>
+                                      <p className="text-sm text-slate-800">
+                                        {row.brand || 'Chưa có'}
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  <div className="space-y-2">
+                                    <div className="space-y-1">
+                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">
+                                        Định mức tồn
+                                      </p>
                                       <p className="text-sm text-slate-800">{row.stockLevel}</p>
                                     </div>
                                     <div className="space-y-1">
-                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">Vị trí</p>
-                                      <p className="text-sm text-slate-800">{row.location || 'Chưa có'}</p>
+                                      <p className="text-[11px] font-bold uppercase tracking-tighter text-slate-400">
+                                        Vị trí
+                                      </p>
+                                      <p className="text-sm text-slate-800">
+                                        {row.location || 'Chưa có'}
+                                      </p>
                                     </div>
                                   </div>
                                 </div>
 
                                 <div className="flex flex-wrap items-center justify-between border-t border-slate-200 pt-6">
                                   <div className="flex gap-4">
-                                    <button type="button" className="flex items-center gap-1.5 text-sm font-bold text-slate-600 hover:text-red-600">
+                                    <button
+                                      type="button"
+                                      className="flex items-center gap-1.5 text-sm font-bold text-slate-600 hover:text-red-600"
+                                    >
                                       <MaterialIcon name="delete" className="text-[18px]" />
                                       Xóa
                                     </button>
-                                    <button type="button" className="flex items-center gap-1.5 text-sm font-bold text-slate-600 hover:text-blue-600">
+                                    <button
+                                      type="button"
+                                      className="flex items-center gap-1.5 text-sm font-bold text-slate-600 hover:text-blue-600"
+                                    >
                                       <MaterialIcon name="content_copy" className="text-[18px]" />
                                       Sao chép
                                     </button>
@@ -1327,6 +1478,11 @@ export const ProductManagement = () => {
                                   <div className="flex items-center gap-2">
                                     <button
                                       type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setProductToEdit(row);
+                                        setEditModalOpen(true);
+                                      }}
                                       className="flex items-center gap-1.5 rounded-lg bg-blue-600 px-6 py-2 text-sm font-bold text-white hover:bg-blue-700"
                                     >
                                       <MaterialIcon name="edit" className="text-[18px]" />
@@ -1336,7 +1492,10 @@ export const ProductManagement = () => {
                                       type="button"
                                       className="flex items-center gap-1.5 rounded-lg border border-slate-300 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50"
                                     >
-                                      <MaterialIcon name="barcode_scanner" className="text-[18px]" />
+                                      <MaterialIcon
+                                        name="barcode_scanner"
+                                        className="text-[18px]"
+                                      />
                                       In tem mã
                                     </button>
                                     <button
@@ -1374,6 +1533,17 @@ export const ProductManagement = () => {
           </div>
         </div>
       </div>
+      {productToEdit && (
+        <EditProductModal
+          open={editModalOpen}
+          onClose={() => {
+            setEditModalOpen(false);
+            setProductToEdit(null);
+          }}
+          product={productToEdit}
+          onSave={handleSaveProduct}
+        />
+      )}
     </div>
   );
 };

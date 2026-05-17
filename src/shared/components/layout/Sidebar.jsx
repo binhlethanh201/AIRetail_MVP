@@ -23,7 +23,8 @@ export const Sidebar = () => {
 
   const isActivePath = (path) => {
     if (path === '/inventory/products') return location.pathname === path;
-    if (path === '/inventory/dashboard') return location.pathname.startsWith('/inventory/dashboard');
+    if (path === '/inventory/dashboard')
+      return location.pathname.startsWith('/inventory/dashboard');
     if (path === '/inventory/reports') return location.pathname.startsWith('/inventory/reports');
     if (path === '/forum') return location.pathname.startsWith('/forum');
     if (path === '/admin') return location.pathname.startsWith('/admin');
